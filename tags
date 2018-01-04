@@ -1,0 +1,51 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+.DEFAULT_GOAL	Makefile	/^.DEFAULT_GOAL := all$/;"	m
+ALL	Makefile	/^ALL=$(wildcard src\/**\/*.cpp)$/;"	m
+BINDIR	Makefile	/^BINDIR=bin$/;"	m
+CC	Makefile	/^CC=g++$/;"	m
+CFLAGS	Makefile	/^CFLAGS=-std=c++14 -Wall$/;"	m
+INCLUDE	Makefile	/^INCLUDE=-Iinclude$/;"	m
+LINKS	Makefile	/^LINKS=-lSDL2 -lSDL2main -lSDL2_ttf$/;"	m
+MAIN	Makefile	/^MAIN=$(wildcard src\/*.cpp)$/;"	m
+OBJ	Makefile	/^OBJ=bin\/obj$/;"	m
+OBJECTS	Makefile	/^OBJECTS=$(addprefix $(OBJ)\/, $(patsubst %.cpp, %.o, $(SRC)))$/;"	m
+RDEFAULT_PATH	include/gui/renderer.h	8;"	d
+RDEFAULT_SIZE	include/gui/renderer.h	7;"	d
+Renderer	include/gui/renderer.h	/^class Renderer {$/;"	c
+Renderer	src/gui/renderer.cpp	/^Renderer::Renderer(SDL_Renderer* renderer, unsigned int width, unsigned int height):$/;"	f	class:Renderer
+SRC	Makefile	/^SRC=$(MAIN) $(ALL)$/;"	m
+SRCDIR	Makefile	/^SRCDIR=src$/;"	m
+TARGET	Makefile	/^TARGET=bin\/debug$/;"	m
+Window	include/gui/window.h	/^class Window {$/;"	c
+Window	src/gui/window.cpp	/^Window::Window(): Window(400, 400, "New File") {}$/;"	f	class:Window
+Window	src/gui/window.cpp	/^Window::Window(unsigned int width, unsigned int height,$/;"	f	class:Window
+_color	include/gui/renderer.h	/^    SDL_Color _color;$/;"	m	class:Renderer
+_font	include/gui/renderer.h	/^    TTF_Font* _font;$/;"	m	class:Renderer
+_height	include/gui/renderer.h	/^    unsigned int _width, _height;$/;"	m	class:Renderer
+_height	include/gui/window.h	/^    unsigned int _width, _height;$/;"	m	class:Window
+_path	include/gui/renderer.h	/^    std::string _path;$/;"	m	class:Renderer
+_renderer	include/gui/renderer.h	/^    SDL_Renderer* _renderer;$/;"	m	class:Renderer
+_renderer	include/gui/window.h	/^    SDL_Renderer* _renderer;$/;"	m	class:Window
+_running	include/gui/window.h	/^    bool _running;$/;"	m	class:Window
+_size	include/gui/renderer.h	/^    unsigned int _size;$/;"	m	class:Renderer
+_title	include/gui/window.h	/^    const char* _title;$/;"	m	class:Window
+_width	include/gui/renderer.h	/^    unsigned int _width, _height;$/;"	m	class:Renderer
+_width	include/gui/window.h	/^    unsigned int _width, _height;$/;"	m	class:Window
+_window	include/gui/window.h	/^    SDL_Window* _window;$/;"	m	class:Window
+clear	src/gui/window.cpp	/^void Window::clear()$/;"	f	class:Window
+close	src/gui/window.cpp	/^void Window::close()$/;"	f	class:Window
+main	src/main.cpp	/^int main() {$/;"	f
+poll	src/gui/window.cpp	/^void Window::poll()$/;"	f	class:Window
+render	src/gui/renderer.cpp	/^void Renderer::render(const char* string)$/;"	f	class:Renderer
+renderer	include/gui/window.h	/^    inline SDL_Renderer* renderer() { return _renderer; };$/;"	f	class:Window
+running	include/gui/window.h	/^    inline bool running() const { return _running; };$/;"	f	class:Window
+setColor	src/gui/renderer.cpp	/^void Renderer::setColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a)$/;"	f	class:Renderer
+setFont	src/gui/renderer.cpp	/^void Renderer::setFont(const char* path, unsigned int size)$/;"	f	class:Renderer
+update	src/gui/window.cpp	/^void Window::update()$/;"	f	class:Window
+~Renderer	src/gui/renderer.cpp	/^Renderer::~Renderer()$/;"	f	class:Renderer
+~Window	src/gui/window.cpp	/^Window::~Window()$/;"	f	class:Window
