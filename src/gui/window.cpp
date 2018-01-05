@@ -27,6 +27,7 @@ Window::Window(unsigned int width, unsigned int height,
         {
             SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
             _running = true;
+            _input = Input();
             std::cout << "Window created successfully!" << std::endl;
         }
     }
@@ -51,18 +52,34 @@ void Window::clear()
 
 void Window::poll()
 {
-    if(SDL_QuitRequested() == SDL_TRUE)
+    SDL_Event event;
+    unsigned int type;
+
+    while(SDL_PollEvent(&event)) 
     {
-        close();
-        return;
-    }
-    else
-    {
-        SDL_Event event;
-        while(SDL_PollEvent(&event)) 
+        type = event.type;
+
+        if(type == SDL_KEYDOWN || type == SDL_KEYUP)
         {
-            //std::cout << "Event!" << std::endl;
+            _input.onKey(event.key);
         }
+        else if(type == SDL_MOUSEMOTION)
+        {
+            _input.onMouseMotion(event.motion);
+        }
+        else if(type == SDL_MOUSEBUTTONUP|| type == SDL_MOUSEBUTTONDOWN)
+        {
+            _input.onMouseButton(event.button);
+        }
+        else if(type == SDL_MOUSEWHEEL)
+        {
+            _input.onMouseWheel(event.wheel);
+        }
+        else if(type == SDL_QUIT)
+        {
+            close();
+        }
+
     }
 }
 

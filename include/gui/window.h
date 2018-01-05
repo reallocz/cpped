@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL2/SDL.h>
+#include "core/input.h"
 
 class Window {
 public:
@@ -22,4 +23,5 @@ private:
     SDL_Renderer* _renderer;
 
     bool _running;
+    Input _input;
 };
