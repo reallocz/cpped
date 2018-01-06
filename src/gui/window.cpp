@@ -2,11 +2,10 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-Window::Window(): Window(400, 400, "New File") {}
 
 Window::Window(unsigned int width, unsigned int height,
-        const char* title):
-    _width(width), _height(height), _title(title) 
+        const char* title, Input input):
+    _width(width), _height(height), _title(title), _input(input)
 {
     SDL_Init(SDL_INIT_VIDEO);
     _window = SDL_CreateWindow(_title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, _width, _height, SDL_WINDOW_RESIZABLE);
@@ -27,7 +26,6 @@ Window::Window(unsigned int width, unsigned int height,
         {
             SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
             _running = true;
-            _input = Input();
             std::cout << "Window created successfully!" << std::endl;
         }
     }

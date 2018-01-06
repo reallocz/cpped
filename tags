@@ -13,7 +13,7 @@ Document	include/core/document.h	/^class Document {$/;"	c
 Document	src/core/document.cpp	/^Document::Document()$/;"	f	class:Document
 INCLUDE	Makefile	/^INCLUDE=-Iinclude$/;"	m
 Input	include/core/input.h	/^class Input$/;"	c
-Input	src/core/input.cpp	/^Input::Input() {}$/;"	f	class:Input
+Input	src/core/input.cpp	/^Input::Input(KEYCB cb):$/;"	f	class:Input
 LINKS	Makefile	/^LINKS=-lSDL2 -lSDL2main -lSDL2_ttf$/;"	m
 MAIN	Makefile	/^MAIN=$(wildcard src\/*.cpp)$/;"	m
 OBJ	Makefile	/^OBJ=bin\/obj$/;"	m
@@ -26,7 +26,6 @@ SRC	Makefile	/^SRC=$(MAIN) $(ALL)$/;"	m
 SRCDIR	Makefile	/^SRCDIR=src$/;"	m
 TARGET	Makefile	/^TARGET=bin\/debug$/;"	m
 Window	include/gui/window.h	/^class Window {$/;"	c
-Window	src/gui/window.cpp	/^Window::Window(): Window(400, 400, "New File") {}$/;"	f	class:Window
 Window	src/gui/window.cpp	/^Window::Window(unsigned int width, unsigned int height,$/;"	f	class:Window
 _color	include/gui/renderer.h	/^    SDL_Color _color;$/;"	m	class:Renderer
 _curcol	include/core/document.h	/^    unsigned int _curcol;   \/\/ Curosor column$/;"	m	class:Document
@@ -49,11 +48,13 @@ _window	include/gui/window.h	/^    SDL_Window* _window;$/;"	m	class:Window
 clear	src/gui/window.cpp	/^void Window::clear()$/;"	f	class:Window
 close	src/gui/window.cpp	/^void Window::close()$/;"	f	class:Window
 insert	src/core/document.cpp	/^void Document::insert(char c)$/;"	f	class:Document
+keyCb	include/core/input.h	/^    KEYCB keyCb;$/;"	m	class:Input
 log	src/core/document.cpp	/^void Document::log() const$/;"	f	class:Document
 main	src/main.cpp	/^int main() {$/;"	f
 moveLeft	src/core/document.cpp	/^void Document::moveLeft()$/;"	f	class:Document
 moveRight	src/core/document.cpp	/^void Document::moveRight()$/;"	f	class:Document
 onKey	src/core/input.cpp	/^void Input::onKey(SDL_KeyboardEvent &event)$/;"	f	class:Input
+onKey	src/main.cpp	/^void onKey(const char* key) {$/;"	f
 onMouseButton	src/core/input.cpp	/^void Input::onMouseButton(SDL_MouseButtonEvent &event)$/;"	f	class:Input
 onMouseMotion	src/core/input.cpp	/^void Input::onMouseMotion(SDL_MouseMotionEvent &event)$/;"	f	class:Input
 onMouseWheel	src/core/input.cpp	/^void Input::onMouseWheel(SDL_MouseWheelEvent &event)$/;"	f	class:Input

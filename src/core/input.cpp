@@ -1,14 +1,16 @@
 #include "core/input.h"
 #include <iostream>
 
-Input::Input() {}
+Input::Input(KEYCB cb):
+    keyCb(cb)
+{}
 
 Input::~Input() {}
 
 
 void Input::onKey(SDL_KeyboardEvent &event)
 {
-    std::cout << event.keysym.scancode << std::endl;
+    keyCb(SDL_GetScancodeName(event.keysym.scancode));
 }
 
 void Input::onMouseMotion(SDL_MouseMotionEvent &event)

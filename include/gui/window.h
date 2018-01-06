@@ -4,8 +4,7 @@
 
 class Window {
 public:
-    Window();
-    Window(unsigned int width, unsigned int height, const char* title);
+    Window(unsigned int width, unsigned int height, const char* title, Input input);
     virtual ~Window();
 
     void update();
