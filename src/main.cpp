@@ -17,7 +17,7 @@ int main() {
     {
         w.clear();
 
-        r.render(w.getCanvas(), "Yolo");
+        r.render(w.getCanvas(), d);
 
         w.update();
 
@@ -30,4 +30,6 @@ int main() {
 
 void onKey(const char* key) {
     std::cout << key << std::endl;
+    d.insert('a'); 
+    std::cout << d;
 }

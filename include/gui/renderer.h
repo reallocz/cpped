@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include "gui/canvas.h"
+#include "core/document.h"
 
 #define RDEFAULT_SIZE 120
 #define RDEFAULT_PATH "fonts/DejaVuSans.ttf"
@@ -17,7 +18,7 @@ public:
     void setColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
     
 
-    void render(Canvas canvas, const char* string);
+    void render(Canvas canvas, Document& d);
 
 private:
     TTF_Font* _font;

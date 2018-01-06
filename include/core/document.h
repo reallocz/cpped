@@ -9,8 +9,11 @@ public:
     void insert(char c);
     void moveRight();
     void moveLeft();
-    void log() const;
     void print() const;
+    std::vector<std::string> lines() { return _lines; };
+
+    friend std::ostream& operator<<(std::ostream& o, const Document& d);
+
 
 private:
     std::string _filename;

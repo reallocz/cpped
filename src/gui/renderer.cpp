@@ -37,11 +37,12 @@ void Renderer::setColor(unsigned char r, unsigned char g, unsigned char b, unsig
     _color = {r, g, b, a};
 }
 
-void Renderer::render(Canvas canvas, const char* string)
+// Draws the document to canvas
+void Renderer::render(Canvas canvas, Document& d)
 {
-    SDL_Surface* surf = TTF_RenderText_Solid(_font, string, _color);
-    SDL_Texture* tex = SDL_CreateTextureFromSurface(canvas.r, surf);
-    SDL_RenderCopy(canvas.r, tex, NULL, NULL);
-    SDL_FreeSurface(surf);
+    //SDL_Surface* surf = TTF_RenderText_Solid(_font, string, _color);
+    //SDL_Texture* tex = SDL_CreateTextureFromSurface(canvas.r, surf);
+    //SDL_RenderCopy(canvas.r, tex, NULL, NULL);
+    //SDL_FreeSurface(surf);
 }
 

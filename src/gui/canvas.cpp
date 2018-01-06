@@ -12,3 +12,9 @@ Canvas::~Canvas()
 {
 }
 
+
+std::ostream& operator<<(std::ostream& o, const Canvas& c)
+{
+    o << "Canvas<" << c.w << ", " << c.h << ">" << std::endl;
+    return o;
+}

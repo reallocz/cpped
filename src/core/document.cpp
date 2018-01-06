@@ -7,32 +7,33 @@ Document::Document()
     _lines = std::vector<std::string>();
     _curline = 0;
     _curcol = 0;
+    _lines.push_back("");
 }
-
 
 Document::~Document()
 {
     std::cout << "Document closed" << std::endl;
 }
 
-
 void Document::insert(char c)
 {
-    _lines[_curline][_curcol] = c;
+    std::string& str = _lines[_curline];
+    str.insert(_curcol, 1, c);
     moveRight();
+    print();
 }
 
 void Document::moveRight()
 {
     ++_curcol;
-    log();
+    std::cout << *this;
 }
 
 void Document::moveLeft()
 {
     if(_curcol > 0)
         --_curcol;
-    log();
+    std::cout << this;
 }
 
 void Document::print() const
@@ -43,7 +44,13 @@ void Document::print() const
     }
 }
 
-void Document::log() const
+
+
+std::ostream& operator<<(std::ostream& o, const Document& d)
 {
-    std::cout << "Cursor<" << _curline << ", " << _curcol << ">" << std::endl;
+    o << "Cursor<" << d._curline << ", " << d._curcol << ">" << std::endl;
+    return o;
 }
+
+
+
