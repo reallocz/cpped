@@ -2,8 +2,12 @@
 #include <SDL2/SDL.h>
 #include <functional>
 
+struct Key
+{
+    char c;
+};
 
-using KEYCB = std::function<void(const char*)>;
+using KEYCB = std::function<void(Key)>;
 
 class Input
 {
@@ -17,7 +21,9 @@ public:
     void onMouseButton(SDL_MouseButtonEvent &event);
     void onMouseWheel(SDL_MouseWheelEvent &event);
 
+    char codeToChar(int code, int mod);
 
 private:
     KEYCB keyCb;
 };
+

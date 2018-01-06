@@ -3,7 +3,7 @@
 #include "gui/renderer.h"
 #include "core/document.h"
 
-void onKey(const char* key);
+void onKey(Key key);
 
 Document d;
 
@@ -28,8 +28,6 @@ int main() {
 }
 
 
-void onKey(const char* key) {
-    std::cout << key << std::endl;
-    d.insert('a'); 
-    std::cout << d;
+void onKey(Key key) {
+    std::cout << key.c << std::endl;
 }
