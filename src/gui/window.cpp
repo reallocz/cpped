@@ -4,30 +4,27 @@
 
 
 Window::Window(unsigned int width, unsigned int height,
-        const char* title, Input input):
-    _width(width), _height(height), _title(title), _input(input)
+        const char* title, Input input)
 {
+    _width = width;
+    _height = height;
+    _title = title;
+    _input = input;
+
     SDL_Init(SDL_INIT_VIDEO);
     _window = SDL_CreateWindow(_title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, _width, _height, SDL_WINDOW_RESIZABLE);
-    if(_window == NULL)
+    _renderer = SDL_CreateRenderer(_window, -1, 0);
+
+    if(_window != NULL && _renderer != NULL)
     {
-        std::cerr << "SDL window couldn't be created!" << std::endl;
-        close();
+        SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
+        _running = true;
+        std::cout << "Window created successfully!" << std::endl;
     }
     else
     {
-        _renderer = SDL_CreateRenderer(_window, -1, 0);
-        if(_renderer == NULL)
-        {
-            std::cerr << "Failed to create renderer!" << std::endl;
-            close();
-        }
-        else
-        {
-            SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
-            _running = true;
-            std::cout << "Window created successfully!" << std::endl;
-        }
+        std::cerr << "SDL window/renderer couldn't be created!" << std::endl;
+        close();
     }
 }
 
@@ -46,6 +43,7 @@ void Window::update()
 void Window::clear()
 {
     SDL_RenderClear(_renderer);
+    SDL_GetWindowSize(_window, (int*)&_width, (int*)&_height); // SDL uses int and not uint
 }
 
 void Window::poll()
@@ -84,4 +82,10 @@ void Window::poll()
 void Window::close()
 {
     _running = false;
+}
+
+
+Canvas Window::getCanvas() const
+{
+    return Canvas(_renderer, _width, _height);
 }

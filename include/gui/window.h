@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include "core/input.h"
+#include "gui/canvas.h"
 
 class Window {
 public:
@@ -12,7 +13,7 @@ public:
     void poll();
     void close();
     inline bool running() const { return _running; };
-    inline SDL_Renderer* renderer() { return _renderer; };
+    Canvas getCanvas() const;
 
 private:
     unsigned int _width, _height;

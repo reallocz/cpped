@@ -5,18 +5,22 @@
 
 void onKey(const char* key);
 
+Document d;
+
 int main() {
     std::cout << "Hello, Editor!" << std::endl;
     Input i(onKey);
+    Renderer r;
     Window w(400, 700, "New File", i);
-    Renderer r(w.renderer(), 400, 400);
-    Document d;
 
     while(w.running())
     {
         w.clear();
-        r.render("Yolo");
+
+        r.render(w.getCanvas(), "Yolo");
+
         w.update();
+
         w.poll();
     }
 

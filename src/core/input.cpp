@@ -1,6 +1,8 @@
 #include "core/input.h"
 #include <iostream>
 
+Input::Input() {}
+
 Input::Input(KEYCB cb):
     keyCb(cb)
 {}
