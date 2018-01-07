@@ -1,13 +1,45 @@
 #include "core/input.h"
 #include <iostream>
 
-Input::Input() {}
 
-Input::Input(KEYCB cb):
-    keyCb(cb)
+Input::Input(Window& window, KEYCB cb):
+    _window(window), keyCb(cb)
 {}
 
 Input::~Input() {}
+
+void Input::poll()
+{
+    SDL_Event event;
+    unsigned int type;
+
+    while(SDL_PollEvent(&event))
+    {
+        type = event.type;
+
+        if(type == SDL_KEYDOWN || type == SDL_KEYUP)
+        {
+            onKey(event.key);
+        }
+        else if(type == SDL_MOUSEMOTION)
+        {
+            onMouseMotion(event.motion);
+        }
+        else if(type == SDL_MOUSEBUTTONUP|| type == SDL_MOUSEBUTTONDOWN)
+        {
+            onMouseButton(event.button);
+        }
+        else if(type == SDL_MOUSEWHEEL)
+        {
+            onMouseWheel(event.wheel);
+        }
+        else if(type == SDL_QUIT)
+        {
+            onClose();
+        }
+    }
+
+}
 
 
 void Input::onKey(SDL_KeyboardEvent &event)
@@ -17,7 +49,7 @@ void Input::onKey(SDL_KeyboardEvent &event)
     int mod = event.keysym.mod;
 
     //std::cout << mod << " , " << code << ", " << sym << "-> " << codeToChar(sym, mod) << std::endl;
-    
+
     Keytype type;
     char c;
 
@@ -43,6 +75,12 @@ void Input::onMouseButton(SDL_MouseButtonEvent &event)
 
 void Input::onMouseWheel(SDL_MouseWheelEvent &event)
 {
+}
+
+void Input::onClose()
+{
+    std::cout << "Close requested" << std::endl;
+    _window.close();
 }
 
 char Input::codeToChar(int code, int mod)

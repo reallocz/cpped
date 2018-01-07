@@ -2,6 +2,7 @@
 #include "gui/window.h"
 #include "gui/renderer.h"
 #include "core/document.h"
+#include "core/input.h"
 
 void onKey(Key key);
 
@@ -9,9 +10,9 @@ Document d;
 
 int main() {
     std::cout << "Hello, Editor!" << std::endl;
-    Input i(onKey);
     Renderer r;
-    Window w(400, 700, "New File", i);
+    Window w;
+    Input input(w, onKey);
 
     while(w.running())
     {
@@ -21,7 +22,7 @@ int main() {
 
         w.update();
 
-        w.poll();
+        input.poll();
     }
 
     return 0;

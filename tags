@@ -16,8 +16,7 @@ Document	src/core/document.cpp	/^Document::Document()$/;"	f	class:Document
 Edit	include/core/input.h	/^    Edit,       \/\/ Backspace, enter, delete$/;"	m	class:Keytype
 INCLUDE	Makefile	/^INCLUDE=-Iinclude$/;"	m
 Input	include/core/input.h	/^class Input$/;"	c
-Input	src/core/input.cpp	/^Input::Input() {}$/;"	f	class:Input
-Input	src/core/input.cpp	/^Input::Input(KEYCB cb):$/;"	f	class:Input
+Input	src/core/input.cpp	/^Input::Input(Window& window, KEYCB cb):$/;"	f	class:Input
 Insert	include/core/input.h	/^    Insert,     \/\/ Alphanumeric, spacebar$/;"	m	class:Keytype
 Key	include/core/input.h	/^struct Key$/;"	s
 Keytype	include/core/input.h	/^enum class Keytype {$/;"	c
@@ -36,7 +35,11 @@ Renderer	src/gui/renderer.cpp	/^Renderer::Renderer() $/;"	f	class:Renderer
 SRC	Makefile	/^SRC=$(MAIN) $(ALL)$/;"	m
 SRCDIR	Makefile	/^SRCDIR=src$/;"	m
 TARGET	Makefile	/^TARGET=bin\/debug$/;"	m
+WDEF_HEIGHT	include/gui/window.h	6;"	d
+WDEF_TITLE	include/gui/window.h	7;"	d
+WDEF_WIDTH	include/gui/window.h	5;"	d
 Window	include/gui/window.h	/^class Window {$/;"	c
+Window	src/gui/window.cpp	/^Window::Window():$/;"	f	class:Window
 Window	src/gui/window.cpp	/^Window::Window(unsigned int width, unsigned int height,$/;"	f	class:Window
 _color	include/gui/renderer.h	/^    SDL_Color _color;$/;"	m	class:Renderer
 _cur	include/core/line.h	/^    unsigned int _cur;  \/\/ Cursor position$/;"	m	class:Line
@@ -45,7 +48,6 @@ _data	include/core/line.h	/^    char* _data;$/;"	m	class:Line
 _filename	include/core/document.h	/^    std::string _filename;$/;"	m	class:Document
 _font	include/gui/renderer.h	/^    TTF_Font* _font;$/;"	m	class:Renderer
 _height	include/gui/window.h	/^    unsigned int _width, _height;$/;"	m	class:Window
-_input	include/gui/window.h	/^    Input _input;$/;"	m	class:Window
 _len	include/core/line.h	/^    unsigned int _len;  \/\/ Length$/;"	m	class:Line
 _lines	include/core/document.h	/^    Line _lines[4];$/;"	m	class:Document
 _path	include/gui/renderer.h	/^    std::string _path;$/;"	m	class:Renderer
@@ -55,6 +57,7 @@ _size	include/core/line.h	/^    unsigned int _size; \/\/ Max length$/;"	m	class:
 _size	include/gui/renderer.h	/^    unsigned int _size;$/;"	m	class:Renderer
 _title	include/gui/window.h	/^    const char* _title;$/;"	m	class:Window
 _width	include/gui/window.h	/^    unsigned int _width, _height;$/;"	m	class:Window
+_window	include/core/input.h	/^    Window &_window;$/;"	m	class:Input
 _window	include/gui/window.h	/^    SDL_Window* _window;$/;"	m	class:Window
 c	include/core/input.h	/^    char c;$/;"	m	struct:Key
 clear	src/gui/window.cpp	/^void Window::clear()$/;"	f	class:Window
@@ -69,6 +72,7 @@ insert	src/core/document.cpp	/^void Document::insert(char c)$/;"	f	class:Documen
 insert	src/core/line.cpp	/^void Line::insert(char c)$/;"	f	class:Line
 keyCb	include/core/input.h	/^    KEYCB keyCb;$/;"	m	class:Input
 main	src/main.cpp	/^int main() {$/;"	f
+onClose	src/core/input.cpp	/^void Input::onClose()$/;"	f	class:Input
 onKey	src/core/input.cpp	/^void Input::onKey(SDL_KeyboardEvent &event)$/;"	f	class:Input
 onKey	src/main.cpp	/^void onKey(Key key) {$/;"	f
 onMouseButton	src/core/input.cpp	/^void Input::onMouseButton(SDL_MouseButtonEvent &event)$/;"	f	class:Input
@@ -76,7 +80,7 @@ onMouseMotion	src/core/input.cpp	/^void Input::onMouseMotion(SDL_MouseMotionEven
 onMouseWheel	src/core/input.cpp	/^void Input::onMouseWheel(SDL_MouseWheelEvent &event)$/;"	f	class:Input
 operator <<	src/core/document.cpp	/^std::ostream& operator<<(std::ostream& o, const Document& d)$/;"	f
 operator <<	src/gui/canvas.cpp	/^std::ostream& operator<<(std::ostream& o, const Canvas& c)$/;"	f
-poll	src/gui/window.cpp	/^void Window::poll()$/;"	f	class:Window
+poll	src/core/input.cpp	/^void Input::poll()$/;"	f	class:Input
 print	src/core/line.cpp	/^void Line::print() const$/;"	f	class:Line
 r	include/gui/canvas.h	/^    SDL_Renderer* r;$/;"	m	struct:Canvas
 render	src/gui/renderer.cpp	/^void Renderer::render(Canvas canvas, Document& d)$/;"	f	class:Renderer

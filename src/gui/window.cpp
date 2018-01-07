@@ -2,14 +2,15 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
+Window::Window():
+    Window(WDEF_WIDTH, WDEF_HEIGHT, WDEF_TITLE)
+{
+}
 
 Window::Window(unsigned int width, unsigned int height,
-        const char* title, Input input)
+        const char* title):
+    _width(width), _height(height), _title(title)
 {
-    _width = width;
-    _height = height;
-    _title = title;
-    _input = input;
 
     SDL_Init(SDL_INIT_VIDEO);
     _window = SDL_CreateWindow(_title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, _width, _height, SDL_WINDOW_RESIZABLE);
@@ -46,38 +47,6 @@ void Window::clear()
     SDL_GetWindowSize(_window, (int*)&_width, (int*)&_height); // SDL uses int and not uint
 }
 
-void Window::poll()
-{
-    SDL_Event event;
-    unsigned int type;
-
-    while(SDL_PollEvent(&event)) 
-    {
-        type = event.type;
-
-        if(type == SDL_KEYDOWN || type == SDL_KEYUP)
-        {
-            _input.onKey(event.key);
-        }
-        else if(type == SDL_MOUSEMOTION)
-        {
-            _input.onMouseMotion(event.motion);
-        }
-        else if(type == SDL_MOUSEBUTTONUP|| type == SDL_MOUSEBUTTONDOWN)
-        {
-            _input.onMouseButton(event.button);
-        }
-        else if(type == SDL_MOUSEWHEEL)
-        {
-            _input.onMouseWheel(event.wheel);
-        }
-        else if(type == SDL_QUIT)
-        {
-            close();
-        }
-
-    }
-}
 
 void Window::close()
 {
