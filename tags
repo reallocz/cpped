@@ -13,16 +13,20 @@ Canvas	include/gui/canvas.h	/^struct Canvas$/;"	s
 Canvas	src/gui/canvas.cpp	/^Canvas::Canvas(SDL_Renderer* renderer, unsigned int width, unsigned int height)$/;"	f	class:Canvas
 Document	include/core/document.h	/^class Document {$/;"	c
 Document	src/core/document.cpp	/^Document::Document()$/;"	f	class:Document
+Edit	include/core/input.h	/^    Edit,       \/\/ Backspace, enter, delete$/;"	m	class:Keytype
 INCLUDE	Makefile	/^INCLUDE=-Iinclude$/;"	m
 Input	include/core/input.h	/^class Input$/;"	c
 Input	src/core/input.cpp	/^Input::Input() {}$/;"	f	class:Input
 Input	src/core/input.cpp	/^Input::Input(KEYCB cb):$/;"	f	class:Input
+Insert	include/core/input.h	/^    Insert,     \/\/ Alphanumeric, spacebar$/;"	m	class:Keytype
 Key	include/core/input.h	/^struct Key$/;"	s
+Keytype	include/core/input.h	/^enum class Keytype {$/;"	c
 LDEFAULT_SIZE	include/core/line.h	3;"	d
 LINKS	Makefile	/^LINKS=-lSDL2 -lSDL2main -lSDL2_ttf$/;"	m
 Line	include/core/line.h	/^class Line$/;"	c
 Line	src/core/line.cpp	/^Line::Line()$/;"	f	class:Line
 MAIN	Makefile	/^MAIN=$(wildcard src\/*.cpp)$/;"	m
+Movement	include/core/input.h	/^    Movement,   \/\/ Arrows and home\/pgup etc$/;"	m	class:Keytype
 OBJ	Makefile	/^OBJ=bin\/obj$/;"	m
 OBJECTS	Makefile	/^OBJECTS=$(addprefix $(OBJ)\/, $(patsubst %.cpp, %.o, $(SRC)))$/;"	m
 RDEFAULT_PATH	include/gui/renderer.h	10;"	d
@@ -59,6 +63,7 @@ codeToChar	src/core/input.cpp	/^char Input::codeToChar(int code, int mod)$/;"	f	
 d	src/main.cpp	/^Document d;$/;"	v
 doubleSize	src/core/line.cpp	/^void Line::doubleSize()$/;"	f	class:Line
 getCanvas	src/gui/window.cpp	/^Canvas Window::getCanvas() const$/;"	f	class:Window
+getType	src/core/input.cpp	/^Keytype Input::getType(int code, int mod)$/;"	f	class:Input
 h	include/gui/canvas.h	/^    unsigned int w, h;$/;"	m	struct:Canvas
 insert	src/core/document.cpp	/^void Document::insert(char c)$/;"	f	class:Document
 insert	src/core/line.cpp	/^void Line::insert(char c)$/;"	f	class:Line
@@ -78,6 +83,7 @@ render	src/gui/renderer.cpp	/^void Renderer::render(Canvas canvas, Document& d)$
 running	include/gui/window.h	/^    inline bool running() const { return _running; };$/;"	f	class:Window
 setColor	src/gui/renderer.cpp	/^void Renderer::setColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a)$/;"	f	class:Renderer
 setFont	src/gui/renderer.cpp	/^void Renderer::setFont(const char* path, unsigned int size)$/;"	f	class:Renderer
+type	include/core/input.h	/^    Keytype type;$/;"	m	struct:Key
 update	src/gui/window.cpp	/^void Window::update()$/;"	f	class:Window
 w	include/gui/canvas.h	/^    unsigned int w, h;$/;"	m	struct:Canvas
 ~Canvas	src/gui/canvas.cpp	/^Canvas::~Canvas()$/;"	f	class:Canvas

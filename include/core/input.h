@@ -2,8 +2,16 @@
 #include <SDL2/SDL.h>
 #include <functional>
 
+enum class Keytype {
+    Insert,     // Alphanumeric, spacebar
+    Edit,       // Backspace, enter, delete
+    Movement,   // Arrows and home/pgup etc
+    Nop         // No operation
+};
+
 struct Key
 {
+    Keytype type;
     char c;
 };
 
@@ -22,6 +30,7 @@ public:
     void onMouseWheel(SDL_MouseWheelEvent &event);
 
     char codeToChar(int code, int mod);
+    Keytype getType(int code, int mod);
 
 private:
     KEYCB keyCb;
