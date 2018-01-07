@@ -18,27 +18,29 @@ String::~String()
 
 void String::print() const
 {
-    std::cout << _data <<  "; " << std::endl;
+    std::cout << _data << "\n" << std::endl;
 }
 
 void String::append(char c)
 {
-    std::cout << "\n" << c << "-"  << _len << "/" << _size << std::endl;
     if(_len >= _size)
         doubleSize();
 
+    std::cout << c << "-"  << _len << "/" << _size-1 << std::endl;
     _data[_len] = c;
     ++_len;
+    print();
 }
 
 void String::doubleSize()
 {
-    std::cout << "Doubling " << _size << " -> " << _size * 2 << std::endl;
+    std::cout << "\nDoubling " << _size << " -> " << _size * 2 << std::endl;
 
     _size *= 2;
     char* newdata = new char[_size];
     memset(newdata, 0, getSizeBytes());
-    memcpy(newdata, _data, getSizeBytes() / 2);
+
+    memcpy(newdata, _data, getLengthBytes());
 
     delete[] _data;
     _data = newdata;
@@ -48,3 +50,10 @@ unsigned int String::getSizeBytes() const
 {
     return _size * sizeof(char);
 }
+
+unsigned int String::getLengthBytes() const
+{
+    return _len * sizeof(char);
+}
+
+

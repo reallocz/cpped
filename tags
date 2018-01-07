@@ -66,6 +66,7 @@ codeToChar	src/core/input.cpp	/^char Input::codeToChar(int code, int mod)$/;"	f	
 d	src/main.cpp	/^Document d;$/;"	v
 doubleSize	src/core/string.cpp	/^void String::doubleSize()$/;"	f	class:String
 getCanvas	src/gui/window.cpp	/^Canvas Window::getCanvas() const$/;"	f	class:Window
+getLengthBytes	src/core/string.cpp	/^unsigned int String::getLengthBytes() const$/;"	f	class:String
 getSizeBytes	src/core/string.cpp	/^unsigned int String::getSizeBytes() const$/;"	f	class:String
 getType	src/core/input.cpp	/^Keytype Input::getType(int code, int mod)$/;"	f	class:Input
 h	include/gui/canvas.h	/^    unsigned int w, h;$/;"	m	struct:Canvas

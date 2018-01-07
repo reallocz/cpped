@@ -16,13 +16,13 @@ int main() {
 
     while(w.running())
     {
+        input.poll();
         w.clear();
 
         r.render(w.getCanvas(), d);
 
         w.update();
 
-        input.poll();
     }
 
     return 0;

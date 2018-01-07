@@ -1,0 +1,2 @@
+String.h:
+    - Bad memory just before doubling size

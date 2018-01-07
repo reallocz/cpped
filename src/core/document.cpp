@@ -16,7 +16,6 @@ void Document::insert(char c)
 {
     String& st = _lines[_curline];
     st.append(c);
-    st.print();
 }
 
 std::ostream& operator<<(std::ostream& o, const Document& d)
