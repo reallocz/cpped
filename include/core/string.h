@@ -2,12 +2,16 @@
 
 #define LDEFAULT_SIZE 8
 
-class Line
+class String
 {
 public:
-    Line();
-    ~Line();
-    void insert(char c); // Insert a char at the cur pos
+    String();
+    ~String();
+
+    void append(char c); // Insert a char at the end
+
+    inline unsigned int length() const { return _len; }
+    unsigned int getSizeBytes() const;
     void print() const;
 
 private:
@@ -15,7 +19,6 @@ private:
 
 private:
     unsigned int _len;  // Length
-    unsigned int _cur;  // Cursor position
     unsigned int _size; // Max length
     char* _data;
 };

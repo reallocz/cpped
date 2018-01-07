@@ -20,10 +20,8 @@ Input	src/core/input.cpp	/^Input::Input(Window& window, KEYCB cb):$/;"	f	class:I
 Insert	include/core/input.h	/^    Insert,     \/\/ Alphanumeric, spacebar$/;"	m	class:Keytype
 Key	include/core/input.h	/^struct Key$/;"	s
 Keytype	include/core/input.h	/^enum class Keytype {$/;"	c
-LDEFAULT_SIZE	include/core/line.h	3;"	d
+LDEFAULT_SIZE	include/core/string.h	3;"	d
 LINKS	Makefile	/^LINKS=-lSDL2 -lSDL2main -lSDL2_ttf$/;"	m
-Line	include/core/line.h	/^class Line$/;"	c
-Line	src/core/line.cpp	/^Line::Line()$/;"	f	class:Line
 MAIN	Makefile	/^MAIN=$(wildcard src\/*.cpp)$/;"	m
 Movement	include/core/input.h	/^    Movement,   \/\/ Arrows and home\/pgup etc$/;"	m	class:Keytype
 OBJ	Makefile	/^OBJ=bin\/obj$/;"	m
@@ -34,6 +32,8 @@ Renderer	include/gui/renderer.h	/^class Renderer $/;"	c
 Renderer	src/gui/renderer.cpp	/^Renderer::Renderer() $/;"	f	class:Renderer
 SRC	Makefile	/^SRC=$(MAIN) $(ALL)$/;"	m
 SRCDIR	Makefile	/^SRCDIR=src$/;"	m
+String	include/core/string.h	/^class String$/;"	c
+String	src/core/string.cpp	/^String::String()$/;"	f	class:String
 TARGET	Makefile	/^TARGET=bin\/debug$/;"	m
 WDEF_HEIGHT	include/gui/window.h	6;"	d
 WDEF_TITLE	include/gui/window.h	7;"	d
@@ -42,35 +42,36 @@ Window	include/gui/window.h	/^class Window {$/;"	c
 Window	src/gui/window.cpp	/^Window::Window():$/;"	f	class:Window
 Window	src/gui/window.cpp	/^Window::Window(unsigned int width, unsigned int height,$/;"	f	class:Window
 _color	include/gui/renderer.h	/^    SDL_Color _color;$/;"	m	class:Renderer
-_cur	include/core/line.h	/^    unsigned int _cur;  \/\/ Cursor position$/;"	m	class:Line
 _curline	include/core/document.h	/^    unsigned int _curline;  \/\/ Cursor line$/;"	m	class:Document
-_data	include/core/line.h	/^    char* _data;$/;"	m	class:Line
+_data	include/core/string.h	/^    char* _data;$/;"	m	class:String
 _filename	include/core/document.h	/^    std::string _filename;$/;"	m	class:Document
 _font	include/gui/renderer.h	/^    TTF_Font* _font;$/;"	m	class:Renderer
 _height	include/gui/window.h	/^    unsigned int _width, _height;$/;"	m	class:Window
-_len	include/core/line.h	/^    unsigned int _len;  \/\/ Length$/;"	m	class:Line
-_lines	include/core/document.h	/^    Line _lines[4];$/;"	m	class:Document
+_len	include/core/string.h	/^    unsigned int _len;  \/\/ Length$/;"	m	class:String
+_lines	include/core/document.h	/^    String _lines[4];$/;"	m	class:Document
 _path	include/gui/renderer.h	/^    std::string _path;$/;"	m	class:Renderer
 _renderer	include/gui/window.h	/^    SDL_Renderer* _renderer;$/;"	m	class:Window
 _running	include/gui/window.h	/^    bool _running;$/;"	m	class:Window
-_size	include/core/line.h	/^    unsigned int _size; \/\/ Max length$/;"	m	class:Line
+_size	include/core/string.h	/^    unsigned int _size; \/\/ Max length$/;"	m	class:String
 _size	include/gui/renderer.h	/^    unsigned int _size;$/;"	m	class:Renderer
 _title	include/gui/window.h	/^    const char* _title;$/;"	m	class:Window
 _width	include/gui/window.h	/^    unsigned int _width, _height;$/;"	m	class:Window
 _window	include/core/input.h	/^    Window &_window;$/;"	m	class:Input
 _window	include/gui/window.h	/^    SDL_Window* _window;$/;"	m	class:Window
+append	src/core/string.cpp	/^void String::append(char c)$/;"	f	class:String
 c	include/core/input.h	/^    char c;$/;"	m	struct:Key
 clear	src/gui/window.cpp	/^void Window::clear()$/;"	f	class:Window
 close	src/gui/window.cpp	/^void Window::close()$/;"	f	class:Window
 codeToChar	src/core/input.cpp	/^char Input::codeToChar(int code, int mod)$/;"	f	class:Input
 d	src/main.cpp	/^Document d;$/;"	v
-doubleSize	src/core/line.cpp	/^void Line::doubleSize()$/;"	f	class:Line
+doubleSize	src/core/string.cpp	/^void String::doubleSize()$/;"	f	class:String
 getCanvas	src/gui/window.cpp	/^Canvas Window::getCanvas() const$/;"	f	class:Window
+getSizeBytes	src/core/string.cpp	/^unsigned int String::getSizeBytes() const$/;"	f	class:String
 getType	src/core/input.cpp	/^Keytype Input::getType(int code, int mod)$/;"	f	class:Input
 h	include/gui/canvas.h	/^    unsigned int w, h;$/;"	m	struct:Canvas
 insert	src/core/document.cpp	/^void Document::insert(char c)$/;"	f	class:Document
-insert	src/core/line.cpp	/^void Line::insert(char c)$/;"	f	class:Line
 keyCb	include/core/input.h	/^    KEYCB keyCb;$/;"	m	class:Input
+length	include/core/string.h	/^    inline unsigned int length() const { return _len; }$/;"	f	class:String
 main	src/main.cpp	/^int main() {$/;"	f
 onClose	src/core/input.cpp	/^void Input::onClose()$/;"	f	class:Input
 onKey	src/core/input.cpp	/^void Input::onKey(SDL_KeyboardEvent &event)$/;"	f	class:Input
@@ -81,7 +82,7 @@ onMouseWheel	src/core/input.cpp	/^void Input::onMouseWheel(SDL_MouseWheelEvent &
 operator <<	src/core/document.cpp	/^std::ostream& operator<<(std::ostream& o, const Document& d)$/;"	f
 operator <<	src/gui/canvas.cpp	/^std::ostream& operator<<(std::ostream& o, const Canvas& c)$/;"	f
 poll	src/core/input.cpp	/^void Input::poll()$/;"	f	class:Input
-print	src/core/line.cpp	/^void Line::print() const$/;"	f	class:Line
+print	src/core/string.cpp	/^void String::print() const$/;"	f	class:String
 r	include/gui/canvas.h	/^    SDL_Renderer* r;$/;"	m	struct:Canvas
 render	src/gui/renderer.cpp	/^void Renderer::render(Canvas canvas, Document& d)$/;"	f	class:Renderer
 running	include/gui/window.h	/^    inline bool running() const { return _running; };$/;"	f	class:Window
@@ -93,6 +94,6 @@ w	include/gui/canvas.h	/^    unsigned int w, h;$/;"	m	struct:Canvas
 ~Canvas	src/gui/canvas.cpp	/^Canvas::~Canvas()$/;"	f	class:Canvas
 ~Document	src/core/document.cpp	/^Document::~Document()$/;"	f	class:Document
 ~Input	src/core/input.cpp	/^Input::~Input() {}$/;"	f	class:Input
-~Line	src/core/line.cpp	/^Line::~Line() $/;"	f	class:Line
 ~Renderer	src/gui/renderer.cpp	/^Renderer::~Renderer()$/;"	f	class:Renderer
+~String	src/core/string.cpp	/^String::~String() $/;"	f	class:String
 ~Window	src/gui/window.cpp	/^Window::~Window()$/;"	f	class:Window

@@ -14,9 +14,9 @@ Document::~Document()
 
 void Document::insert(char c)
 {
-    Line& line = _lines[_curline];
-    line.insert(c);
-    line.print();
+    String& st = _lines[_curline];
+    st.append(c);
+    st.print();
 }
 
 std::ostream& operator<<(std::ostream& o, const Document& d)

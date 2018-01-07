@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "core/line.h"
+#include "core/string.h"
 
 class Document {
 
@@ -15,5 +15,5 @@ public:
 private:
     std::string _filename;
     unsigned int _curline;  // Cursor line
-    Line _lines[4];
+    String _lines[4];
 };
