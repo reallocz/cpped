@@ -11,15 +11,26 @@ String::String()
     memset(_data, 0, getSizeBytes());
 }
 
+String::String(const char* str)
+    :String()
+{
+    unsigned int len = strlen(str);
+    while(_size < len)
+        doubleSize();
+    strcpy(_data, str); 
+}
+
 String::~String() 
 {
     delete[] _data;
 }
 
+
 void String::print() const
 {
     std::cout << _data << "\n" << std::endl;
 }
+
 
 void String::append(char c)
 {
@@ -31,6 +42,7 @@ void String::append(char c)
     ++_len;
     print();
 }
+
 
 void String::doubleSize()
 {
@@ -46,10 +58,12 @@ void String::doubleSize()
     _data = newdata;
 }
 
+
 unsigned int String::getSizeBytes() const
 {
     return _size * sizeof(char);
 }
+
 
 unsigned int String::getLengthBytes() const
 {
@@ -57,3 +71,21 @@ unsigned int String::getLengthBytes() const
 }
 
 
+char String::operator[](unsigned int pos) const
+{
+    if(pos > _len)
+    {
+        std::cerr <<  "String out of bound access" << std::endl;
+        throw;
+    }
+    else
+        return _data[pos];
+}
+
+void String::operator=(const char* str)
+{
+    unsigned int len = strlen(str);
+    while(_size < len)
+        doubleSize();
+    strcpy(_data, str); 
+}

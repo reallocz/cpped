@@ -3,6 +3,7 @@
 #include "gui/renderer.h"
 #include "core/document.h"
 #include "core/input.h"
+#include "core/string.h"
 
 void onKey(Key key);
 
@@ -34,4 +35,6 @@ void onKey(Key key) {
     {
         d.insert(key.c);
     }
+
+    String s = "yolo";
 }

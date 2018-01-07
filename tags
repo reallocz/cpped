@@ -34,6 +34,7 @@ SRC	Makefile	/^SRC=$(MAIN) $(ALL)$/;"	m
 SRCDIR	Makefile	/^SRCDIR=src$/;"	m
 String	include/core/string.h	/^class String$/;"	c
 String	src/core/string.cpp	/^String::String()$/;"	f	class:String
+String	src/core/string.cpp	/^String::String(const char* str)$/;"	f	class:String
 TARGET	Makefile	/^TARGET=bin\/debug$/;"	m
 WDEF_HEIGHT	include/gui/window.h	6;"	d
 WDEF_TITLE	include/gui/window.h	7;"	d
@@ -82,6 +83,8 @@ onMouseMotion	src/core/input.cpp	/^void Input::onMouseMotion(SDL_MouseMotionEven
 onMouseWheel	src/core/input.cpp	/^void Input::onMouseWheel(SDL_MouseWheelEvent &event)$/;"	f	class:Input
 operator <<	src/core/document.cpp	/^std::ostream& operator<<(std::ostream& o, const Document& d)$/;"	f
 operator <<	src/gui/canvas.cpp	/^std::ostream& operator<<(std::ostream& o, const Canvas& c)$/;"	f
+operator =	src/core/string.cpp	/^void String::operator=(const char* str)$/;"	f	class:String
+operator []	src/core/string.cpp	/^char String::operator[](unsigned int pos) const$/;"	f	class:String
 poll	src/core/input.cpp	/^void Input::poll()$/;"	f	class:Input
 print	src/core/string.cpp	/^void String::print() const$/;"	f	class:String
 r	include/gui/canvas.h	/^    SDL_Renderer* r;$/;"	m	struct:Canvas
