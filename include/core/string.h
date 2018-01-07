@@ -1,6 +1,6 @@
 #pragma once
 
-#define LDEFAULT_SIZE 8
+#define SDEF_SIZE 8
 
 class String
 {

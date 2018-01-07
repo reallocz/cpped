@@ -20,7 +20,6 @@ Input	src/core/input.cpp	/^Input::Input(Window& window, KEYCB cb):$/;"	f	class:I
 Insert	include/core/input.h	/^    Insert,     \/\/ Alphanumeric, spacebar$/;"	m	class:Keytype
 Key	include/core/input.h	/^struct Key$/;"	s
 Keytype	include/core/input.h	/^enum class Keytype {$/;"	c
-LDEFAULT_SIZE	include/core/string.h	3;"	d
 LINKS	Makefile	/^LINKS=-lSDL2 -lSDL2main -lSDL2_ttf$/;"	m
 MAIN	Makefile	/^MAIN=$(wildcard src\/*.cpp)$/;"	m
 Movement	include/core/input.h	/^    Movement,   \/\/ Arrows and home\/pgup etc$/;"	m	class:Keytype
@@ -30,6 +29,7 @@ RDEFAULT_PATH	include/gui/renderer.h	10;"	d
 RDEFAULT_SIZE	include/gui/renderer.h	9;"	d
 Renderer	include/gui/renderer.h	/^class Renderer $/;"	c
 Renderer	src/gui/renderer.cpp	/^Renderer::Renderer() $/;"	f	class:Renderer
+SDEF_SIZE	include/core/string.h	3;"	d
 SRC	Makefile	/^SRC=$(MAIN) $(ALL)$/;"	m
 SRCDIR	Makefile	/^SRCDIR=src$/;"	m
 String	include/core/string.h	/^class String$/;"	c

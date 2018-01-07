@@ -17,7 +17,7 @@ void Input::poll()
     {
         type = event.type;
 
-        if(type == SDL_KEYDOWN || type == SDL_KEYUP)
+        if(type == SDL_KEYUP)   // Skip KEYDOWN
         {
             onKey(event.key);
         }

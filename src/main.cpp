@@ -30,5 +30,8 @@ int main() {
 
 
 void onKey(Key key) {
-    std::cout << key.c << std::endl;
+    if(key.type == Keytype::Insert)
+    {
+        d.insert(key.c);
+    }
 }
