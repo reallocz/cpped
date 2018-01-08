@@ -1,19 +1,26 @@
 #pragma once
 #include <string>
-#include "core/string.h"
+#include "core/line.h"
+#include "core/doccmd.h"
 
-class Document {
+#define DDEF_FILENAME "document.txt"
+
+// All communication's with a Document are done through a command
+class Document
+{
 
 public:
     Document();
     virtual ~Document();
-    void insert(char c);
+    void exec(Doccmd cmd);
 
     friend std::ostream& operator<<(std::ostream& o, const Document& d);
 
+private:
+    void save();
 
 private:
     std::string _filename;
     unsigned int _curline;  // Cursor line
-    String _lines[4];
+    unsigned int _curcol;   // Cursor col
 };

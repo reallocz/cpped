@@ -11,17 +11,28 @@ CC	Makefile	/^CC=g++$/;"	m
 CFLAGS	Makefile	/^CFLAGS=-std=c++14 -Wall$/;"	m
 Canvas	include/gui/canvas.h	/^struct Canvas$/;"	s
 Canvas	src/gui/canvas.cpp	/^Canvas::Canvas(SDL_Renderer* renderer, unsigned int width, unsigned int height)$/;"	f	class:Canvas
-Document	include/core/document.h	/^class Document {$/;"	c
+Command	include/core/doccmd.h	/^    union Command {$/;"	u	class:Doccmd
+DDEF_FILENAME	include/core/document.h	6;"	d
+Doccmd	include/core/doccmd.h	/^class Doccmd$/;"	c
+Document	include/core/document.h	/^class Document $/;"	c
 Document	src/core/document.cpp	/^Document::Document()$/;"	f	class:Document
+Edit	include/core/doccmd.h	/^        Edit,$/;"	m	class:Doccmd::Type
+Edit	include/core/doccmd.h	/^    struct Edit {$/;"	s	class:Doccmd
 Edit	include/core/input.h	/^    Edit,       \/\/ Backspace, enter, delete$/;"	m	class:Keytype
 INCLUDE	Makefile	/^INCLUDE=-Iinclude$/;"	m
 Input	include/core/input.h	/^class Input$/;"	c
 Input	src/core/input.cpp	/^Input::Input(Window& window, KEYCB cb):$/;"	f	class:Input
 Insert	include/core/input.h	/^    Insert,     \/\/ Alphanumeric, spacebar$/;"	m	class:Keytype
+Insertchar	include/core/doccmd.h	/^        Insertchar,$/;"	m	class:Doccmd::Type
+Insertchar	include/core/doccmd.h	/^    struct Insertchar {$/;"	s	class:Doccmd
 Key	include/core/input.h	/^struct Key$/;"	s
 Keytype	include/core/input.h	/^enum class Keytype {$/;"	c
 LINKS	Makefile	/^LINKS=-lSDL2 -lSDL2main -lSDL2_ttf$/;"	m
+Line	include/core/line.h	/^class Line$/;"	c
+Line	src/core/line.cpp	/^Line::Line(unsigned int number):$/;"	f	class:Line
 MAIN	Makefile	/^MAIN=$(wildcard src\/*.cpp)$/;"	m
+Move	include/core/doccmd.h	/^        Move,$/;"	m	class:Doccmd::Type
+Move	include/core/doccmd.h	/^    struct Move {$/;"	s	class:Doccmd
 Movement	include/core/input.h	/^    Movement,   \/\/ Arrows and home\/pgup etc$/;"	m	class:Keytype
 OBJ	Makefile	/^OBJ=bin\/obj$/;"	m
 OBJECTS	Makefile	/^OBJECTS=$(addprefix $(OBJ)\/, $(patsubst %.cpp, %.o, $(SRC)))$/;"	m
@@ -32,10 +43,15 @@ Renderer	src/gui/renderer.cpp	/^Renderer::Renderer() $/;"	f	class:Renderer
 SDEF_SIZE	include/core/string.h	3;"	d
 SRC	Makefile	/^SRC=$(MAIN) $(ALL)$/;"	m
 SRCDIR	Makefile	/^SRCDIR=src$/;"	m
+Save	include/core/doccmd.h	/^        Save,$/;"	m	class:Doccmd::Type
+Save	include/core/doccmd.h	/^    struct Save {$/;"	s	class:Doccmd
 String	include/core/string.h	/^class String$/;"	c
 String	src/core/string.cpp	/^String::String()$/;"	f	class:String
 String	src/core/string.cpp	/^String::String(const char* str)$/;"	f	class:String
 TARGET	Makefile	/^TARGET=bin\/debug$/;"	m
+Type	include/core/doccmd.h	/^        enum Type {$/;"	g	struct:Doccmd::Edit
+Type	include/core/doccmd.h	/^        enum Type {$/;"	g	struct:Doccmd::Move
+Type	include/core/doccmd.h	/^    enum class Type {$/;"	c	class:Doccmd
 WDEF_HEIGHT	include/gui/window.h	6;"	d
 WDEF_TITLE	include/gui/window.h	7;"	d
 WDEF_WIDTH	include/gui/window.h	5;"	d
@@ -43,38 +59,54 @@ Window	include/gui/window.h	/^class Window {$/;"	c
 Window	src/gui/window.cpp	/^Window::Window():$/;"	f	class:Window
 Window	src/gui/window.cpp	/^Window::Window(unsigned int width, unsigned int height,$/;"	f	class:Window
 _color	include/gui/renderer.h	/^    SDL_Color _color;$/;"	m	class:Renderer
+_cur	include/core/line.h	/^    unsigned int _cur;$/;"	m	class:Line
+_curcol	include/core/document.h	/^    unsigned int _curcol;   \/\/ Cursor col$/;"	m	class:Document
 _curline	include/core/document.h	/^    unsigned int _curline;  \/\/ Cursor line$/;"	m	class:Document
 _data	include/core/string.h	/^    char* _data;$/;"	m	class:String
 _filename	include/core/document.h	/^    std::string _filename;$/;"	m	class:Document
 _font	include/gui/renderer.h	/^    TTF_Font* _font;$/;"	m	class:Renderer
 _height	include/gui/window.h	/^    unsigned int _width, _height;$/;"	m	class:Window
 _len	include/core/string.h	/^    unsigned int _len;  \/\/ Length$/;"	m	class:String
-_lines	include/core/document.h	/^    String _lines[4];$/;"	m	class:Document
+_num	include/core/line.h	/^    unsigned int _num;$/;"	m	class:Line
 _path	include/gui/renderer.h	/^    std::string _path;$/;"	m	class:Renderer
 _renderer	include/gui/window.h	/^    SDL_Renderer* _renderer;$/;"	m	class:Window
 _running	include/gui/window.h	/^    bool _running;$/;"	m	class:Window
 _size	include/core/string.h	/^    unsigned int _size; \/\/ Max length$/;"	m	class:String
 _size	include/gui/renderer.h	/^    unsigned int _size;$/;"	m	class:Renderer
+_str	include/core/line.h	/^    String _str;$/;"	m	class:Line
 _title	include/gui/window.h	/^    const char* _title;$/;"	m	class:Window
 _width	include/gui/window.h	/^    unsigned int _width, _height;$/;"	m	class:Window
 _window	include/core/input.h	/^    Window &_window;$/;"	m	class:Input
 _window	include/gui/window.h	/^    SDL_Window* _window;$/;"	m	class:Window
 append	src/core/string.cpp	/^void String::append(char c)$/;"	f	class:String
+c	include/core/doccmd.h	/^        char c;$/;"	m	struct:Doccmd::Insertchar
 c	include/core/input.h	/^    char c;$/;"	m	struct:Key
 clear	src/gui/window.cpp	/^void Window::clear()$/;"	f	class:Window
 close	src/gui/window.cpp	/^void Window::close()$/;"	f	class:Window
+cmd	include/core/doccmd.h	/^    Command cmd;$/;"	m	class:Doccmd
 codeToChar	src/core/input.cpp	/^char Input::codeToChar(int code, int mod)$/;"	f	class:Input
-d	src/main.cpp	/^Document d;$/;"	v
+count	include/core/doccmd.h	/^        int count;$/;"	m	struct:Doccmd::Move
+curpos	include/core/line.h	/^    unsigned int curpos() const { return _cur; }$/;"	f	class:Line
+deleteChar	src/core/line.cpp	/^void Line::deleteChar(unsigned int curpos)$/;"	f	class:Line
+deletechar	include/core/doccmd.h	/^            deletechar,$/;"	e	enum:Doccmd::Edit::Type
+doc	src/main.cpp	/^Document doc;$/;"	v
 doubleSize	src/core/string.cpp	/^void String::doubleSize()$/;"	f	class:String
+down	include/core/doccmd.h	/^            down,$/;"	e	enum:Doccmd::Move::Type
+edit	include/core/doccmd.h	/^        Edit edit;$/;"	m	union:Doccmd::Command
+exec	src/core/document.cpp	/^void Document::exec(Doccmd cmd)$/;"	f	class:Document
 getCanvas	src/gui/window.cpp	/^Canvas Window::getCanvas() const$/;"	f	class:Window
 getLengthBytes	src/core/string.cpp	/^unsigned int String::getLengthBytes() const$/;"	f	class:String
 getSizeBytes	src/core/string.cpp	/^unsigned int String::getSizeBytes() const$/;"	f	class:String
 getType	src/core/input.cpp	/^Keytype Input::getType(int code, int mod)$/;"	f	class:Input
 h	include/gui/canvas.h	/^    unsigned int w, h;$/;"	m	struct:Canvas
-insert	src/core/document.cpp	/^void Document::insert(char c)$/;"	f	class:Document
+insertChar	src/core/line.cpp	/^void Line::insertChar(char a, unsigned int curpos)$/;"	f	class:Line
+insertchar	include/core/doccmd.h	/^        Insertchar insertchar;$/;"	m	union:Doccmd::Command
 keyCb	include/core/input.h	/^    KEYCB keyCb;$/;"	m	class:Input
+left	include/core/doccmd.h	/^            left,$/;"	e	enum:Doccmd::Move::Type
 length	include/core/string.h	/^    inline unsigned int length() const { return _len; }$/;"	f	class:String
 main	src/main.cpp	/^int main() {$/;"	f
+move	include/core/doccmd.h	/^        Move move;$/;"	m	union:Doccmd::Command
+newline	include/core/doccmd.h	/^            newline,$/;"	e	enum:Doccmd::Edit::Type
 onClose	src/core/input.cpp	/^void Input::onClose()$/;"	f	class:Input
 onKey	src/core/input.cpp	/^void Input::onKey(SDL_KeyboardEvent &event)$/;"	f	class:Input
 onKey	src/main.cpp	/^void onKey(Key key) {$/;"	f
@@ -92,15 +124,23 @@ r	include/gui/canvas.h	/^    SDL_Renderer* r;$/;"	m	struct:Canvas
 render	src/gui/renderer.cpp	/^void Renderer::render(Canvas canvas, Document& d)$/;"	f	class:Renderer
 replace	src/core/string.cpp	/^void String::replace(const char* str)$/;"	f	class:String
 resize	src/core/string.cpp	/^void String::resize()$/;"	f	class:String
+right	include/core/doccmd.h	/^            right,$/;"	e	enum:Doccmd::Move::Type
 running	include/gui/window.h	/^    inline bool running() const { return _running; };$/;"	f	class:Window
+save	include/core/doccmd.h	/^        Save save;$/;"	m	union:Doccmd::Command
+saveas	include/core/doccmd.h	/^        bool saveas;$/;"	m	struct:Doccmd::Save
 setColor	src/gui/renderer.cpp	/^void Renderer::setColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a)$/;"	f	class:Renderer
 setFont	src/gui/renderer.cpp	/^void Renderer::setFont(const char* path, unsigned int size)$/;"	f	class:Renderer
+type	include/core/doccmd.h	/^        Type type;$/;"	m	struct:Doccmd::Edit
+type	include/core/doccmd.h	/^        Type type;$/;"	m	struct:Doccmd::Move
+type	include/core/doccmd.h	/^    Type type;$/;"	m	class:Doccmd
 type	include/core/input.h	/^    Keytype type;$/;"	m	struct:Key
+up	include/core/doccmd.h	/^            up$/;"	e	enum:Doccmd::Move::Type
 update	src/gui/window.cpp	/^void Window::update()$/;"	f	class:Window
 w	include/gui/canvas.h	/^    unsigned int w, h;$/;"	m	struct:Canvas
 ~Canvas	src/gui/canvas.cpp	/^Canvas::~Canvas()$/;"	f	class:Canvas
 ~Document	src/core/document.cpp	/^Document::~Document()$/;"	f	class:Document
 ~Input	src/core/input.cpp	/^Input::~Input() {}$/;"	f	class:Input
+~Line	src/core/line.cpp	/^Line::~Line()$/;"	f	class:Line
 ~Renderer	src/gui/renderer.cpp	/^Renderer::~Renderer()$/;"	f	class:Renderer
 ~String	src/core/string.cpp	/^String::~String() $/;"	f	class:String
 ~Window	src/gui/window.cpp	/^Window::~Window()$/;"	f	class:Window

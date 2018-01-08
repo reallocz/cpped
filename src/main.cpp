@@ -3,14 +3,13 @@
 #include "gui/renderer.h"
 #include "core/document.h"
 #include "core/input.h"
-#include "core/string.h"
+#include "core/doccmd.h"
 
 void onKey(Key key);
 
-Document d;
+Document doc;
 
 int main() {
-    std::cout << "Hello, Editor!" << std::endl;
     Renderer r;
     Window w;
     Input input(w, onKey);
@@ -20,7 +19,7 @@ int main() {
         input.poll();
         w.clear();
 
-        r.render(w.getCanvas(), d);
+        r.render(w.getCanvas(), doc);
 
         w.update();
 
@@ -33,8 +32,10 @@ int main() {
 void onKey(Key key) {
     if(key.type == Keytype::Insert)
     {
-        d.insert(key.c);
+        Doccmd cmd {
+            Doccmd::Type::Insertchar,
+            Doccmd::Insertchar {key.c}
+        };
+        doc.exec(cmd);
     }
-
-    String s = "yolo";
 }
