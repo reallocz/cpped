@@ -85,10 +85,13 @@ operator <<	src/core/document.cpp	/^std::ostream& operator<<(std::ostream& o, co
 operator <<	src/gui/canvas.cpp	/^std::ostream& operator<<(std::ostream& o, const Canvas& c)$/;"	f
 operator =	src/core/string.cpp	/^void String::operator=(const char* str)$/;"	f	class:String
 operator []	src/core/string.cpp	/^char String::operator[](unsigned int pos) const$/;"	f	class:String
+optimize	src/core/string.cpp	/^void String::optimize()$/;"	f	class:String
 poll	src/core/input.cpp	/^void Input::poll()$/;"	f	class:Input
 print	src/core/string.cpp	/^void String::print() const$/;"	f	class:String
 r	include/gui/canvas.h	/^    SDL_Renderer* r;$/;"	m	struct:Canvas
 render	src/gui/renderer.cpp	/^void Renderer::render(Canvas canvas, Document& d)$/;"	f	class:Renderer
+replace	src/core/string.cpp	/^void String::replace(const char* str)$/;"	f	class:String
+resize	src/core/string.cpp	/^void String::resize()$/;"	f	class:String
 running	include/gui/window.h	/^    inline bool running() const { return _running; };$/;"	f	class:Window
 setColor	src/gui/renderer.cpp	/^void Renderer::setColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a)$/;"	f	class:Renderer
 setFont	src/gui/renderer.cpp	/^void Renderer::setFont(const char* path, unsigned int size)$/;"	f	class:Renderer

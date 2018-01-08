@@ -10,6 +10,7 @@ public:
     ~String();
 
     void append(char c); // Insert a char at the end
+    void optimize();
 
     inline unsigned int length() const { return _len; }
     unsigned int getSizeBytes() const;
@@ -21,6 +22,8 @@ public:
 
 private:
     void doubleSize();
+    void resize();
+    void replace(const char* str);
 
 private:
     unsigned int _len;  // Length
