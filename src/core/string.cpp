@@ -2,6 +2,7 @@
 #include <iostream>
 #include <memory.h>
 
+
 String::String()
 {
     _len = 0;
@@ -10,6 +11,7 @@ String::String()
     _data = new char[_size];
     memset(_data, 0, getSizeBytes());
 }
+
 
 String::String(const char* str)
     :String()
@@ -40,6 +42,7 @@ void String::append(char c)
     print();
 }
 
+
 // Replace the current contents with the new one
 void String::replace(const char* str)
 {
@@ -51,7 +54,6 @@ void String::replace(const char* str)
 }
 
 
-
 void String::doubleSize()
 {
     std::cout << "\nDoubling " << _size << " -> " << _size * 2 << std::endl;
@@ -59,7 +61,9 @@ void String::doubleSize()
     resize();
 }
 
+
 // Reduce size if possible
+// NOTE: The length doesn't change!
 void String::optimize()
 {
     int safezone = 4;
@@ -118,5 +122,11 @@ char String::operator[](unsigned int pos) const
 void String::operator=(const char* str)
 {
     replace(str);
+}
+
+
+const char* String::data() const
+{
+    return _data;
 }
 

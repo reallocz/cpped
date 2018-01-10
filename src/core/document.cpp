@@ -5,8 +5,8 @@
 Document::Document()
 {
     _filename = DDEF_FILENAME;
-    _curline = 0;
     _numlines = DDEF_NUMLINES;
+    _curline = 0;
 
     _lines = new Line[_numlines];
 }
@@ -17,6 +17,25 @@ Document::~Document()
     std::cout << "Document closed" << std::endl;
     delete[] _lines;
 }
+
+unsigned int Document::numlines() const
+{
+    return _numlines;
+}
+
+
+const Line& Document::operator[](unsigned int index) const
+{
+    if(index >= _numlines)
+    {
+        std::cout << "OUTOFBOUND line access in document: "
+            << index << "/" << _numlines << std::endl;
+        exit(1);
+    }
+    else
+        return _lines[index];
+}
+
 
 void Document::doubleLines()
 {
@@ -36,6 +55,18 @@ void Document::resize()
     _lines = newlines;
 }
 
+Line& Document::currentLine()
+{
+    Line& curline = _lines[_curline];
+    curline.setactive(true);
+    return curline;
+}
+
+void Document::setCurrentLine(unsigned int lineno)
+{
+    currentLine().setactive(false);
+    _curline = lineno;
+}
 
 void Document::exec(Doccmd dcmd)
 {
@@ -62,7 +93,9 @@ void Document::exec(Doccmd dcmd)
 
 void Document::execInsertchar(Doccmd::Insertchar cmd)
 {
-    std::cout << cmd.c << std::endl;
+    //std::cout << cmd.c << std::endl;
+    Line& line = currentLine();
+    line.insertChar(cmd.c);
 }
 
 

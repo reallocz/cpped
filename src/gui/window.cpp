@@ -10,13 +10,14 @@ Window::Window():
 Window::Window(unsigned int width, unsigned int height,
         const char* title)
 {
-    _width = width;
-    _height = height;
     _title = title;
+
     SDL_Init(SDL_INIT_VIDEO);
-    _window = SDL_CreateWindow(_title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, _width, _height, SDL_WINDOW_RESIZABLE);
+    _window = SDL_CreateWindow(_title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_RESIZABLE);
+
     _renderer = SDL_CreateRenderer(_window, -1, 0);
-    _canvas = Canvas(_renderer, _width, _height);
+
+    _canvas = Canvas(_renderer, width, height);
 
     if(_window != NULL && _renderer != NULL)
     {
@@ -46,7 +47,10 @@ void Window::update()
 void Window::clear()
 {
     SDL_RenderClear(_renderer);
-    SDL_GetWindowSize(_window, (int*)&_width, (int*)&_height); // SDL uses int and not uint
+    int width, height;
+    SDL_GetWindowSize(_window, (int*)&width, (int*)&height); // SDL uses int and not uint
+    _canvas.setWidth(width);
+    _canvas.setHeight(height);
 }
 
 
@@ -56,10 +60,11 @@ void Window::close()
 }
 
 
-const Canvas& Window::getCanvas() const
+Canvas& Window::getCanvas()
 {
     return _canvas;
 }
+
 
 void Window::setTitle(const char* title)
 {

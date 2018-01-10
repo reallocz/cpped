@@ -16,12 +16,15 @@ public:
 
     inline unsigned int length() const { return _len; }
 
+
     unsigned int getSizeBytes() const;
     unsigned int getLengthBytes() const;
     void print() const;
 
     char operator[](unsigned int pos) const;
     void operator=(const char* str);
+
+    const char* data() const;
 
 private:
     void doubleSize();

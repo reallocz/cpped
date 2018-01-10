@@ -38,8 +38,34 @@ void Line::setactive(bool value)
     _isactive = value;
 }
 
-bool Line::isactive()
+
+bool Line::isactive() const
 {
     return _isactive;
+}
+
+
+bool Line::isempty() const
+{
+    return _str.length() == 0;
+}
+
+
+unsigned int Line::number() const
+{
+    return _num;
+}
+
+
+void Line::print() const
+{
+    std::cout << "Line[" << _num << "] - ";
+    _str.print();
+}
+
+
+const char* Line::data() const
+{
+    return _str.data();
 }
 

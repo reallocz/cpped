@@ -38,11 +38,50 @@ void Renderer::setColor(unsigned char r, unsigned char g, unsigned char b, unsig
 
 
 // Draws the document to canvas
-void Renderer::render(const Canvas& canvas, const Document& d)
+void Renderer::renderdoc(Canvas& canvas, const Document& d)
 {
-    //SDL_Surface* surf = TTF_RenderText_Solid(_font, string, _color);
-    //SDL_Texture* tex = SDL_CreateTextureFromSurface(canvas.r, surf);
-    //SDL_RenderCopy(canvas.r, tex, NULL, NULL);
-    //SDL_FreeSurface(surf);
+    unsigned int numlines = d.numlines();
+    for(unsigned int i = 0; i < numlines; ++i)
+    {
+        const Line& line = d[i];
+        if(!line.isempty())
+        {
+            renderLine(canvas, line);
+        }
+    }
+
+}
+
+
+void Renderer::renderLine(Canvas& canvas, const Line& line)
+{
+    int lwidth = (int) calcWidth(line.data());
+
+    std::cout << "Rendering: ";
+    line.print();
+    std::cout << "Width: " << lwidth << std::endl;
+
+    if(lwidth >= canvas.width())
+    {
+        std::cout << "Width exceeded!" << std::endl;
+    }
+
+    else
+    {
+        SDL_Surface* surf = TTF_RenderText_Solid(_font, line.data(), _color);
+        SDL_Texture* tex = SDL_CreateTextureFromSurface(canvas.renderer(), surf);
+        SDL_Rect dst = {0, 0, lwidth, 72};
+        SDL_RenderCopy(canvas.renderer(), tex, NULL, &dst);
+        SDL_FreeSurface(surf);
+    }
+
+}
+
+
+unsigned int Renderer::calcWidth(const char* str) const
+{
+    int width;
+    TTF_SizeText(_font, str, &width, NULL);
+    return width;
 }
 

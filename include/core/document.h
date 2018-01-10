@@ -16,9 +16,16 @@ public:
     void exec(Doccmd cmd);
     void print();
 
+    unsigned int numlines() const;
+    const Line& operator[](unsigned int index) const;
+
 private:
     void doubleLines();
     void resize();
+    Line& currentLine();
+    void setCurrentLine(unsigned int lineno);
+
+    // Execs
     //void optimize(); // TODO
     void execInsertchar(Doccmd::Insertchar cmd);
     void execMove(Doccmd::Move cmd);

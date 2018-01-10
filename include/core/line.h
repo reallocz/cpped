@@ -12,7 +12,11 @@ public:
     void deleteChar();
 
     void setactive(bool value);
-    bool isactive();
+    bool isactive() const;
+    bool isempty() const;
+    unsigned int number() const;
+    void print() const;
+    const char* data() const;
 
 private:
     String _str;

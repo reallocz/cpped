@@ -19,10 +19,9 @@ int main() {
         input.poll();
         w.clear();
 
-        r.render(w.getCanvas(), doc);
+        r.renderdoc(w.getCanvas(), doc);
 
         w.update();
-
     }
 
     return 0;

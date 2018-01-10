@@ -18,7 +18,11 @@ public:
     void setColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
     
 
-    void render(const Canvas& canvas, const Document& d);
+    void renderdoc(Canvas& canvas, const Document& d);
+
+private:
+    unsigned int calcWidth(const char* str) const;
+    void renderLine(Canvas& canvas, const Line& line);
 
 private:
     TTF_Font* _font;
