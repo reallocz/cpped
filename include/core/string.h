@@ -28,7 +28,7 @@ public:
 
     const char* data() const;
 
-    String slice(unsigned int from, unsigned int to);
+    String slice(unsigned int from, unsigned int to) const;
 
 private:
     void doubleSize();

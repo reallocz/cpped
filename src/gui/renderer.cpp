@@ -38,7 +38,7 @@ void Renderer::setColor(unsigned char r, unsigned char g, unsigned char b, unsig
 
 
 // Draws the document to canvas
-void Renderer::renderdoc(Canvas& canvas, const Document& d)
+void Renderer::renderdoc(Canvas& canvas, Document& d)
 {
     unsigned int numlines = d.numlines();
     for(unsigned int i = 0; i < numlines; ++i)
@@ -56,30 +56,37 @@ void Renderer::renderdoc(Canvas& canvas, const Document& d)
 void Renderer::renderLine(Canvas& canvas, const Line& line)
 {
     int lwidth = (int) calcWidth(line.data());
+    int cwidth = lwidth / line.length();
+
 
     //std::cout << "Rendering: ";
     //line.print();
     //std::cout << "Width: " << lwidth << std::endl;
 
+    SDL_Surface* surf = NULL;
+
     if(lwidth >= (int) canvas.width())
     {
-        std::cout << "Width exceeded!" << std::endl;
+        int numvisible = canvas.width() / cwidth;
+        std::cout << line.slice(0, numvisible - 5).data() << std::endl;
+        surf = TTF_RenderText_Solid(_font, line.slice(0, numvisible - 5).data(), _color);
+        // TODO update lwdith here
     }
-
     else
     {
-        SDL_Surface* surf = TTF_RenderText_Solid(_font, line.data(), _color);
-        SDL_Texture* tex = SDL_CreateTextureFromSurface(canvas.renderer(), surf);
-
-        SDL_Rect dst;
-        dst.x = 0;
-        dst.y = 0;
-        dst.w = lwidth;
-        dst.h = _size;
-
-        SDL_RenderCopy(canvas.renderer(), tex, NULL, &dst);
-        SDL_FreeSurface(surf);
+        surf = TTF_RenderText_Solid(_font, line.data(), _color);
     }
+
+    SDL_Texture* tex = SDL_CreateTextureFromSurface(canvas.renderer(), surf);
+
+    SDL_Rect dst;
+    dst.x = 0;
+    dst.y = 0 + (line.number() * _size);
+    dst.w = lwidth;
+    dst.h = _size;
+
+    SDL_RenderCopy(canvas.renderer(), tex, NULL, &dst);
+    SDL_FreeSurface(surf);
 
 }
 

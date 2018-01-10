@@ -141,7 +141,7 @@ const char* String::data() const
 
 
 // Create and return a new string
-String String::slice(unsigned int from, unsigned int len)
+String String::slice(unsigned int from, unsigned int len) const
 {
     if(len > (_len - from) || from > _len)
     {

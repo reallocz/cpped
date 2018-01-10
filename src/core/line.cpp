@@ -33,6 +33,17 @@ void Line::deleteChar()
 }
 
 
+void Line::setNum(unsigned int num)
+{
+    _num = num;
+}
+
+
+String Line::slice(unsigned int from, unsigned int len) const
+{
+    return _str.slice(from, len);
+}
+
 void Line::setactive(bool value)
 {
     _isactive = value;
@@ -56,6 +67,11 @@ unsigned int Line::number() const
     return _num;
 }
 
+
+unsigned int Line::length() const
+{
+    return _str.length();
+}
 
 void Line::print() const
 {

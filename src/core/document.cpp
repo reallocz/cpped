@@ -6,9 +6,14 @@ Document::Document()
 {
     _filename = DDEF_FILENAME;
     _numlines = DDEF_NUMLINES;
-    _curline = 0;
 
     _lines = new Line[_numlines];
+    for(unsigned int i = 0; i < _numlines; ++i)
+    {
+        _lines[i].setNum(i);
+    }
+
+    setCurrentLine(0);
 }
 
 
@@ -30,7 +35,7 @@ const Line& Document::operator[](unsigned int index) const
     {
         std::cout << "OUTOFBOUND line access in document: "
             << index << "/" << _numlines << std::endl;
-        exit(1);
+        throw;
     }
     else
         return _lines[index];
@@ -55,18 +60,22 @@ void Document::resize()
     _lines = newlines;
 }
 
+
 Line& Document::currentLine()
 {
     Line& curline = _lines[_curline];
-    curline.setactive(true);
+    if(!curline.isactive())
+        std::cout << "WARN:Current line not active!" << std::endl;
     return curline;
 }
 
+
 void Document::setCurrentLine(unsigned int lineno)
 {
-    currentLine().setactive(false);
     _curline = lineno;
+    _lines[_curline].setactive(true);
 }
+
 
 void Document::exec(Doccmd dcmd)
 {
@@ -108,6 +117,7 @@ void Document::execEdit(Doccmd::Edit cmd)
 {
     std::cout << "Edit" << std::endl;
 }
+
 
 // Save the doc to the fs
 void Document::execSave(Doccmd::Save cmd)
