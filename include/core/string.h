@@ -7,6 +7,7 @@ class String
 public:
     String();
     String(const char* str);
+    String(const String& str);
     ~String();
 
     void append(char c); // Insert a char at the end
@@ -15,6 +16,7 @@ public:
     void optimize();
 
     inline unsigned int length() const { return _len; }
+    inline unsigned int size() const { return _size; }
 
 
     unsigned int getSizeBytes() const;
@@ -25,6 +27,8 @@ public:
     void operator=(const char* str);
 
     const char* data() const;
+
+    String slice(unsigned int from, unsigned int to);
 
 private:
     void doubleSize();

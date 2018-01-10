@@ -19,6 +19,15 @@ String::String(const char* str)
     replace(str);
 }
 
+
+// copy ctor
+String::String(const String& str)
+    :String()
+{
+    replace(str.data());
+}
+
+
 String::~String() 
 {
     delete[] _data;
@@ -128,5 +137,21 @@ void String::operator=(const char* str)
 const char* String::data() const
 {
     return _data;
+}
+
+
+// Create and return a new string
+String String::slice(unsigned int from, unsigned int len)
+{
+    if(len > (_len - from) || from > _len)
+    {
+        std::cout << "Invalid slice requested: [" << from << ", " << len
+            << "] on string of length: " << _len << std::endl;;
+        throw;
+    }
+    char* data = new char[len + 1];
+    memcpy(data, &_data[from], len * sizeof(char));
+    data[len] = '\0';
+    return String(data);
 }
 

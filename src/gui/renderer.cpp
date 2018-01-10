@@ -57,11 +57,11 @@ void Renderer::renderLine(Canvas& canvas, const Line& line)
 {
     int lwidth = (int) calcWidth(line.data());
 
-    std::cout << "Rendering: ";
-    line.print();
-    std::cout << "Width: " << lwidth << std::endl;
+    //std::cout << "Rendering: ";
+    //line.print();
+    //std::cout << "Width: " << lwidth << std::endl;
 
-    if(lwidth >= canvas.width())
+    if(lwidth >= (int) canvas.width())
     {
         std::cout << "Width exceeded!" << std::endl;
     }
@@ -70,7 +70,13 @@ void Renderer::renderLine(Canvas& canvas, const Line& line)
     {
         SDL_Surface* surf = TTF_RenderText_Solid(_font, line.data(), _color);
         SDL_Texture* tex = SDL_CreateTextureFromSurface(canvas.renderer(), surf);
-        SDL_Rect dst = {0, 0, lwidth, 72};
+
+        SDL_Rect dst;
+        dst.x = 0;
+        dst.y = 0;
+        dst.w = lwidth;
+        dst.h = _size;
+
         SDL_RenderCopy(canvas.renderer(), tex, NULL, &dst);
         SDL_FreeSurface(surf);
     }

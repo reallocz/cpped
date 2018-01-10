@@ -51,6 +51,7 @@ Save	include/core/doccmd.h	/^        Save,$/;"	m	class:Doccmd::Type
 Save	include/core/doccmd.h	/^    struct Save {$/;"	s	class:Doccmd
 String	include/core/string.h	/^class String$/;"	c
 String	src/core/string.cpp	/^String::String()$/;"	f	class:String
+String	src/core/string.cpp	/^String::String(const String& str)$/;"	f	class:String
 String	src/core/string.cpp	/^String::String(const char* str)$/;"	f	class:String
 StringTest	src/tests/test_main.cpp	/^    StringTest()$/;"	f	struct:StringTest
 StringTest	src/tests/test_main.cpp	/^struct StringTest : testing::Test$/;"	s	file:
@@ -59,7 +60,9 @@ TEST	Makefile	/^TEST=$(wildcard src\/tests\/*.cpp)$/;"	m
 TESTINCLUDE	Makefile	/^TESTINCLUDE=-I\/usr\/src\/googletest\/googletest$/;"	m
 TESTOBJECTS	Makefile	/^TESTOBJECTS=$(addprefix $(OBJ)\/, $(patsubst %.cpp, %.o, $(TESTSRC)))$/;"	m
 TESTSRC	Makefile	/^TESTSRC=$(TEST) src\/core\/string.cpp $/;"	m
+TEST_F	src/tests/test_main.cpp	/^TEST_F(StringTest, Assignment)$/;"	f
 TEST_F	src/tests/test_main.cpp	/^TEST_F(StringTest, Constructor)$/;"	f
+TEST_F	src/tests/test_main.cpp	/^TEST_F(StringTest, Slice)$/;"	f
 Type	include/core/doccmd.h	/^        enum Type {$/;"	g	struct:Doccmd::Edit
 Type	include/core/doccmd.h	/^        enum Type {$/;"	g	struct:Doccmd::Move
 Type	include/core/doccmd.h	/^    enum class Type {$/;"	c	class:Doccmd
@@ -170,6 +173,8 @@ setRenderer	src/gui/canvas.cpp	/^void Canvas::setRenderer(SDL_Renderer* renderer
 setTitle	src/gui/window.cpp	/^void Window::setTitle(const char* title)$/;"	f	class:Window
 setWidth	src/gui/canvas.cpp	/^void Canvas::setWidth(unsigned int width)$/;"	f	class:Canvas
 setactive	src/core/line.cpp	/^void Line::setactive(bool value)$/;"	f	class:Line
+size	include/core/string.h	/^    inline unsigned int size() const { return _size; }$/;"	f	class:String
+slice	src/core/string.cpp	/^String String::slice(unsigned int from, unsigned int len)$/;"	f	class:String
 type	include/core/doccmd.h	/^        Type type;$/;"	m	struct:Doccmd::Edit
 type	include/core/doccmd.h	/^        Type type;$/;"	m	struct:Doccmd::Move
 type	include/core/doccmd.h	/^    Type type;$/;"	m	class:Doccmd

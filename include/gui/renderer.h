@@ -6,7 +6,7 @@
 #include "gui/canvas.h"
 #include "core/document.h"
 
-#define RDEFAULT_SIZE 120
+#define RDEFAULT_SIZE 28
 #define RDEFAULT_PATH "fonts/DejaVuSans.ttf"
 
 class Renderer 
