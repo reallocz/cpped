@@ -5,20 +5,23 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 .DEFAULT_GOAL	Makefile	/^.DEFAULT_GOAL := all$/;"	m
-ALL	Makefile	/^ALL=$(wildcard src\/**\/*.cpp)$/;"	m
 BINDIR	Makefile	/^BINDIR=bin$/;"	m
 CC	Makefile	/^CC=g++$/;"	m
 CFLAGS	Makefile	/^CFLAGS=-std=c++14 -Wall$/;"	m
-Canvas	include/gui/canvas.h	/^struct Canvas$/;"	s
+CORE	Makefile	/^CORE=$(wildcard src\/core\/*.cpp)$/;"	m
+Canvas	include/gui/canvas.h	/^class Canvas$/;"	c
+Canvas	src/gui/canvas.cpp	/^Canvas::Canvas() {}$/;"	f	class:Canvas
 Canvas	src/gui/canvas.cpp	/^Canvas::Canvas(SDL_Renderer* renderer, unsigned int width, unsigned int height)$/;"	f	class:Canvas
 Command	include/core/doccmd.h	/^    union Command {$/;"	u	class:Doccmd
 DDEF_FILENAME	include/core/document.h	6;"	d
+DDEF_NUMLINES	include/core/document.h	7;"	d
 Doccmd	include/core/doccmd.h	/^class Doccmd$/;"	c
-Document	include/core/document.h	/^class Document $/;"	c
+Document	include/core/document.h	/^class Document$/;"	c
 Document	src/core/document.cpp	/^Document::Document()$/;"	f	class:Document
 Edit	include/core/doccmd.h	/^        Edit,$/;"	m	class:Doccmd::Type
 Edit	include/core/doccmd.h	/^    struct Edit {$/;"	s	class:Doccmd
 Edit	include/core/input.h	/^    Edit,       \/\/ Backspace, enter, delete$/;"	m	class:Keytype
+GUI	Makefile	/^GUI=$(wildcard src\/gui\/*.cpp)$/;"	m
 INCLUDE	Makefile	/^INCLUDE=-Iinclude$/;"	m
 Input	include/core/input.h	/^class Input$/;"	c
 Input	src/core/input.cpp	/^Input::Input(Window& window, KEYCB cb):$/;"	f	class:Input
@@ -29,6 +32,7 @@ Key	include/core/input.h	/^struct Key$/;"	s
 Keytype	include/core/input.h	/^enum class Keytype {$/;"	c
 LINKS	Makefile	/^LINKS=-lSDL2 -lSDL2main -lSDL2_ttf$/;"	m
 Line	include/core/line.h	/^class Line$/;"	c
+Line	src/core/line.cpp	/^Line::Line(): Line(0) {}$/;"	f	class:Line
 Line	src/core/line.cpp	/^Line::Line(unsigned int number):$/;"	f	class:Line
 MAIN	Makefile	/^MAIN=$(wildcard src\/*.cpp)$/;"	m
 Move	include/core/doccmd.h	/^        Move,$/;"	m	class:Doccmd::Type
@@ -41,14 +45,21 @@ RDEFAULT_SIZE	include/gui/renderer.h	9;"	d
 Renderer	include/gui/renderer.h	/^class Renderer $/;"	c
 Renderer	src/gui/renderer.cpp	/^Renderer::Renderer() $/;"	f	class:Renderer
 SDEF_SIZE	include/core/string.h	3;"	d
-SRC	Makefile	/^SRC=$(MAIN) $(ALL)$/;"	m
+SRC	Makefile	/^SRC=$(MAIN) $(GUI) $(CORE)$/;"	m
 SRCDIR	Makefile	/^SRCDIR=src$/;"	m
 Save	include/core/doccmd.h	/^        Save,$/;"	m	class:Doccmd::Type
 Save	include/core/doccmd.h	/^    struct Save {$/;"	s	class:Doccmd
 String	include/core/string.h	/^class String$/;"	c
 String	src/core/string.cpp	/^String::String()$/;"	f	class:String
 String	src/core/string.cpp	/^String::String(const char* str)$/;"	f	class:String
+StringTest	src/tests/test_main.cpp	/^    StringTest()$/;"	f	struct:StringTest
+StringTest	src/tests/test_main.cpp	/^struct StringTest : testing::Test$/;"	s	file:
 TARGET	Makefile	/^TARGET=bin\/debug$/;"	m
+TEST	Makefile	/^TEST=$(wildcard src\/tests\/*.cpp)$/;"	m
+TESTINCLUDE	Makefile	/^TESTINCLUDE=-I\/usr\/src\/googletest\/googletest$/;"	m
+TESTOBJECTS	Makefile	/^TESTOBJECTS=$(addprefix $(OBJ)\/, $(patsubst %.cpp, %.o, $(TESTSRC)))$/;"	m
+TESTSRC	Makefile	/^TESTSRC=$(TEST) src\/core\/string.cpp $/;"	m
+TEST_F	src/tests/test_main.cpp	/^TEST_F(StringTest, Constructor)$/;"	f
 Type	include/core/doccmd.h	/^        enum Type {$/;"	g	struct:Doccmd::Edit
 Type	include/core/doccmd.h	/^        enum Type {$/;"	g	struct:Doccmd::Move
 Type	include/core/doccmd.h	/^    enum class Type {$/;"	c	class:Doccmd
@@ -58,23 +69,29 @@ WDEF_WIDTH	include/gui/window.h	5;"	d
 Window	include/gui/window.h	/^class Window {$/;"	c
 Window	src/gui/window.cpp	/^Window::Window():$/;"	f	class:Window
 Window	src/gui/window.cpp	/^Window::Window(unsigned int width, unsigned int height,$/;"	f	class:Window
+_canvas	include/gui/window.h	/^    Canvas _canvas;$/;"	m	class:Window
 _color	include/gui/renderer.h	/^    SDL_Color _color;$/;"	m	class:Renderer
-_cur	include/core/line.h	/^    unsigned int _cur;$/;"	m	class:Line
-_curcol	include/core/document.h	/^    unsigned int _curcol;   \/\/ Cursor col$/;"	m	class:Document
 _curline	include/core/document.h	/^    unsigned int _curline;  \/\/ Cursor line$/;"	m	class:Document
 _data	include/core/string.h	/^    char* _data;$/;"	m	class:String
 _filename	include/core/document.h	/^    std::string _filename;$/;"	m	class:Document
 _font	include/gui/renderer.h	/^    TTF_Font* _font;$/;"	m	class:Renderer
+_height	include/gui/canvas.h	/^    unsigned int _width, _height;$/;"	m	class:Canvas
 _height	include/gui/window.h	/^    unsigned int _width, _height;$/;"	m	class:Window
+_isSizeChanged	include/gui/canvas.h	/^    bool _isSizeChanged;$/;"	m	class:Canvas
+_isactive	include/core/line.h	/^    bool _isactive;$/;"	m	class:Line
 _len	include/core/string.h	/^    unsigned int _len;  \/\/ Length$/;"	m	class:String
+_lines	include/core/document.h	/^    Line* _lines;$/;"	m	class:Document
 _num	include/core/line.h	/^    unsigned int _num;$/;"	m	class:Line
+_numlines	include/core/document.h	/^    unsigned int _numlines;$/;"	m	class:Document
 _path	include/gui/renderer.h	/^    std::string _path;$/;"	m	class:Renderer
+_renderer	include/gui/canvas.h	/^    SDL_Renderer* _renderer;$/;"	m	class:Canvas
 _renderer	include/gui/window.h	/^    SDL_Renderer* _renderer;$/;"	m	class:Window
 _running	include/gui/window.h	/^    bool _running;$/;"	m	class:Window
 _size	include/core/string.h	/^    unsigned int _size; \/\/ Max length$/;"	m	class:String
 _size	include/gui/renderer.h	/^    unsigned int _size;$/;"	m	class:Renderer
 _str	include/core/line.h	/^    String _str;$/;"	m	class:Line
 _title	include/gui/window.h	/^    const char* _title;$/;"	m	class:Window
+_width	include/gui/canvas.h	/^    unsigned int _width, _height;$/;"	m	class:Canvas
 _width	include/gui/window.h	/^    unsigned int _width, _height;$/;"	m	class:Window
 _window	include/core/input.h	/^    Window &_window;$/;"	m	class:Input
 _window	include/gui/window.h	/^    SDL_Window* _window;$/;"	m	class:Window
@@ -86,25 +103,32 @@ close	src/gui/window.cpp	/^void Window::close()$/;"	f	class:Window
 cmd	include/core/doccmd.h	/^    Command cmd;$/;"	m	class:Doccmd
 codeToChar	src/core/input.cpp	/^char Input::codeToChar(int code, int mod)$/;"	f	class:Input
 count	include/core/doccmd.h	/^        int count;$/;"	m	struct:Doccmd::Move
-curpos	include/core/line.h	/^    unsigned int curpos() const { return _cur; }$/;"	f	class:Line
-deleteChar	src/core/line.cpp	/^void Line::deleteChar(unsigned int curpos)$/;"	f	class:Line
+deleteChar	src/core/line.cpp	/^void Line::deleteChar()$/;"	f	class:Line
 deletechar	include/core/doccmd.h	/^            deletechar,$/;"	e	enum:Doccmd::Edit::Type
 doc	src/main.cpp	/^Document doc;$/;"	v
+doubleLines	src/core/document.cpp	/^void Document::doubleLines()$/;"	f	class:Document
 doubleSize	src/core/string.cpp	/^void String::doubleSize()$/;"	f	class:String
 down	include/core/doccmd.h	/^            down,$/;"	e	enum:Doccmd::Move::Type
 edit	include/core/doccmd.h	/^        Edit edit;$/;"	m	union:Doccmd::Command
-exec	src/core/document.cpp	/^void Document::exec(Doccmd cmd)$/;"	f	class:Document
-getCanvas	src/gui/window.cpp	/^Canvas Window::getCanvas() const$/;"	f	class:Window
+exec	src/core/document.cpp	/^void Document::exec(Doccmd dcmd)$/;"	f	class:Document
+execEdit	src/core/document.cpp	/^void Document::execEdit(Doccmd::Edit cmd)$/;"	f	class:Document
+execInsertchar	src/core/document.cpp	/^void Document::execInsertchar(Doccmd::Insertchar cmd)$/;"	f	class:Document
+execMove	src/core/document.cpp	/^void Document::execMove(Doccmd::Move cmd)$/;"	f	class:Document
+execSave	src/core/document.cpp	/^void Document::execSave(Doccmd::Save cmd)$/;"	f	class:Document
+getCanvas	src/gui/window.cpp	/^const Canvas& Window::getCanvas() const$/;"	f	class:Window
 getLengthBytes	src/core/string.cpp	/^unsigned int String::getLengthBytes() const$/;"	f	class:String
 getSizeBytes	src/core/string.cpp	/^unsigned int String::getSizeBytes() const$/;"	f	class:String
 getType	src/core/input.cpp	/^Keytype Input::getType(int code, int mod)$/;"	f	class:Input
-h	include/gui/canvas.h	/^    unsigned int w, h;$/;"	m	struct:Canvas
-insertChar	src/core/line.cpp	/^void Line::insertChar(char a, unsigned int curpos)$/;"	f	class:Line
+height	src/gui/canvas.cpp	/^const unsigned int Canvas::height() const$/;"	f	class:Canvas
+insertChar	src/core/line.cpp	/^void Line::insertChar(char a)$/;"	f	class:Line
 insertchar	include/core/doccmd.h	/^        Insertchar insertchar;$/;"	m	union:Doccmd::Command
+isDirty	src/gui/canvas.cpp	/^bool Canvas::isDirty() const$/;"	f	class:Canvas
+isactive	src/core/line.cpp	/^bool Line::isactive()$/;"	f	class:Line
 keyCb	include/core/input.h	/^    KEYCB keyCb;$/;"	m	class:Input
 left	include/core/doccmd.h	/^            left,$/;"	e	enum:Doccmd::Move::Type
 length	include/core/string.h	/^    inline unsigned int length() const { return _len; }$/;"	f	class:String
 main	src/main.cpp	/^int main() {$/;"	f
+main	src/tests/test_main.cpp	/^int main(int argc, char* argv[])$/;"	f
 move	include/core/doccmd.h	/^        Move move;$/;"	m	union:Doccmd::Command
 newline	include/core/doccmd.h	/^            newline,$/;"	e	enum:Doccmd::Edit::Type
 onClose	src/core/input.cpp	/^void Input::onClose()$/;"	f	class:Input
@@ -113,34 +137,38 @@ onKey	src/main.cpp	/^void onKey(Key key) {$/;"	f
 onMouseButton	src/core/input.cpp	/^void Input::onMouseButton(SDL_MouseButtonEvent &event)$/;"	f	class:Input
 onMouseMotion	src/core/input.cpp	/^void Input::onMouseMotion(SDL_MouseMotionEvent &event)$/;"	f	class:Input
 onMouseWheel	src/core/input.cpp	/^void Input::onMouseWheel(SDL_MouseWheelEvent &event)$/;"	f	class:Input
-operator <<	src/core/document.cpp	/^std::ostream& operator<<(std::ostream& o, const Document& d)$/;"	f
-operator <<	src/gui/canvas.cpp	/^std::ostream& operator<<(std::ostream& o, const Canvas& c)$/;"	f
 operator =	src/core/string.cpp	/^void String::operator=(const char* str)$/;"	f	class:String
 operator []	src/core/string.cpp	/^char String::operator[](unsigned int pos) const$/;"	f	class:String
 optimize	src/core/string.cpp	/^void String::optimize()$/;"	f	class:String
 poll	src/core/input.cpp	/^void Input::poll()$/;"	f	class:Input
+print	src/core/document.cpp	/^void Document::print()$/;"	f	class:Document
 print	src/core/string.cpp	/^void String::print() const$/;"	f	class:String
-r	include/gui/canvas.h	/^    SDL_Renderer* r;$/;"	m	struct:Canvas
-render	src/gui/renderer.cpp	/^void Renderer::render(Canvas canvas, Document& d)$/;"	f	class:Renderer
+print	src/gui/canvas.cpp	/^void Canvas::print() const$/;"	f	class:Canvas
+render	src/gui/renderer.cpp	/^void Renderer::render(const Canvas& canvas, const Document& d)$/;"	f	class:Renderer
 replace	src/core/string.cpp	/^void String::replace(const char* str)$/;"	f	class:String
+resize	src/core/document.cpp	/^void Document::resize()$/;"	f	class:Document
 resize	src/core/string.cpp	/^void String::resize()$/;"	f	class:String
 right	include/core/doccmd.h	/^            right,$/;"	e	enum:Doccmd::Move::Type
 running	include/gui/window.h	/^    inline bool running() const { return _running; };$/;"	f	class:Window
+s1	src/tests/test_main.cpp	/^    String* s1;$/;"	m	struct:StringTest	file:
 save	include/core/doccmd.h	/^        Save save;$/;"	m	union:Doccmd::Command
 saveas	include/core/doccmd.h	/^        bool saveas;$/;"	m	struct:Doccmd::Save
 setColor	src/gui/renderer.cpp	/^void Renderer::setColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a)$/;"	f	class:Renderer
 setFont	src/gui/renderer.cpp	/^void Renderer::setFont(const char* path, unsigned int size)$/;"	f	class:Renderer
+setTitle	src/gui/window.cpp	/^void Window::setTitle(const char* title)$/;"	f	class:Window
+setactive	src/core/line.cpp	/^void Line::setactive(bool value)$/;"	f	class:Line
 type	include/core/doccmd.h	/^        Type type;$/;"	m	struct:Doccmd::Edit
 type	include/core/doccmd.h	/^        Type type;$/;"	m	struct:Doccmd::Move
 type	include/core/doccmd.h	/^    Type type;$/;"	m	class:Doccmd
 type	include/core/input.h	/^    Keytype type;$/;"	m	struct:Key
 up	include/core/doccmd.h	/^            up$/;"	e	enum:Doccmd::Move::Type
 update	src/gui/window.cpp	/^void Window::update()$/;"	f	class:Window
-w	include/gui/canvas.h	/^    unsigned int w, h;$/;"	m	struct:Canvas
+width	src/gui/canvas.cpp	/^const unsigned int Canvas::width() const$/;"	f	class:Canvas
 ~Canvas	src/gui/canvas.cpp	/^Canvas::~Canvas()$/;"	f	class:Canvas
 ~Document	src/core/document.cpp	/^Document::~Document()$/;"	f	class:Document
 ~Input	src/core/input.cpp	/^Input::~Input() {}$/;"	f	class:Input
 ~Line	src/core/line.cpp	/^Line::~Line()$/;"	f	class:Line
 ~Renderer	src/gui/renderer.cpp	/^Renderer::~Renderer()$/;"	f	class:Renderer
 ~String	src/core/string.cpp	/^String::~String() $/;"	f	class:String
+~StringTest	src/tests/test_main.cpp	/^    ~StringTest()$/;"	f	struct:StringTest
 ~Window	src/gui/window.cpp	/^Window::~Window()$/;"	f	class:Window

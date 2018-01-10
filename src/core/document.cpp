@@ -1,32 +1,57 @@
 #include "core/document.h"
 #include <iostream>
+#include <memory.h>
 
 Document::Document()
 {
     _filename = DDEF_FILENAME;
     _curline = 0;
+    _numlines = DDEF_NUMLINES;
+
+    _lines = new Line[_numlines];
 }
+
 
 Document::~Document()
 {
     std::cout << "Document closed" << std::endl;
+    delete[] _lines;
 }
 
-void Document::exec(Doccmd cmd)
+void Document::doubleLines()
 {
-    switch (cmd.type)
+    std::cout << "Doubling lines: " << _numlines << " -> " << _numlines * 2 << std::endl;
+
+    _numlines *= 2;
+    resize();
+}
+
+
+void Document::resize()
+{
+    Line* newlines = new Line[_numlines];
+    memset(newlines, 0, _numlines * sizeof(_lines[0]));
+    memcpy(newlines, _lines, _numlines * sizeof(_lines[0]));
+    delete[] _lines;
+    _lines = newlines;
+}
+
+
+void Document::exec(Doccmd dcmd)
+{
+    switch (dcmd.type)
     {
     case Doccmd::Type::Insertchar:
-        std::cout << "CMD: insertchar" << std::endl;
+        execInsertchar(dcmd.cmd.insertchar);
         break;
     case Doccmd::Type::Edit:
-        std::cout << "CMD: eidt" << std::endl;
+        execEdit(dcmd.cmd.edit);
         break;
     case Doccmd::Type::Move:
-        std::cout << "CMD: move" << std::endl;
+        execMove(dcmd.cmd.move);
         break;
     case Doccmd::Type::Save:
-        std::cout << "CMD: Save" << std::endl;
+        execSave(dcmd.cmd.save);
         break;
     default:
         std::cout << "Default cmd" << std::endl;
@@ -34,10 +59,36 @@ void Document::exec(Doccmd cmd)
     }
 }
 
-std::ostream& operator<<(std::ostream& o, const Document& d)
+
+void Document::execInsertchar(Doccmd::Insertchar cmd)
 {
-    return o;
+    std::cout << cmd.c << std::endl;
 }
 
 
+void Document::execMove(Doccmd::Move cmd)
+{
+}
 
+
+void Document::execEdit(Doccmd::Edit cmd)
+{
+    std::cout << "Edit" << std::endl;
+}
+
+// Save the doc to the fs
+void Document::execSave(Doccmd::Save cmd)
+{
+    if(cmd.saveas)
+        std::cout << "Saving As" << std::endl;
+    else
+        std::cout << "Saving" << std::endl;
+}
+
+
+void Document::print()
+{
+    std::cout << "Document {\n"
+        << "name: " << _filename << "\n"
+        << "}\n";
+}

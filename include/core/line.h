@@ -4,15 +4,18 @@
 class Line
 {
 public:
+    Line();
     Line(unsigned int number);
     ~Line();
 
-    unsigned int curpos() const { return _cur; }
-    void insertChar(char a, unsigned int curpos);
-    void deleteChar(unsigned int curpos);
+    void insertChar(char a);
+    void deleteChar();
+
+    void setactive(bool value);
+    bool isactive();
 
 private:
     String _str;
     unsigned int _num;
-    unsigned int _cur;
+    bool _isactive;
 };

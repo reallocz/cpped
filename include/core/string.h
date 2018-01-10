@@ -10,9 +10,12 @@ public:
     ~String();
 
     void append(char c); // Insert a char at the end
+    void insert(char c, unsigned int pos);
+
     void optimize();
 
     inline unsigned int length() const { return _len; }
+
     unsigned int getSizeBytes() const;
     unsigned int getLengthBytes() const;
     void print() const;

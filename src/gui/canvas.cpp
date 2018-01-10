@@ -1,20 +1,35 @@
 #include "gui/canvas.h"
 
+Canvas::Canvas() {}
 
 Canvas::Canvas(SDL_Renderer* renderer, unsigned int width, unsigned int height)
 {
-    r = renderer;
-    w = width;
-    h = height;
+    _renderer = renderer;
+    _width = width;
+    _height = height;
+    _isSizeChanged = false;
 }
 
 Canvas::~Canvas()
 {
 }
 
-
-std::ostream& operator<<(std::ostream& o, const Canvas& c)
+const unsigned int Canvas::width() const
 {
-    o << "Canvas<" << c.w << ", " << c.h << ">" << std::endl;
-    return o;
+    return _width;
+}
+
+const unsigned int Canvas::height() const
+{
+    return _height;
+}
+
+bool Canvas::isDirty() const
+{
+    return _isSizeChanged;
+}
+
+void Canvas::print() const
+{
+    std::cout << "Canvas <w-" << width() << ", h-" << height() << ">" << std::endl;
 }

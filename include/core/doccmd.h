@@ -47,6 +47,7 @@ public:
         Move move;
         Save save;
     };
+
 public:
     Type type;
     Command cmd;

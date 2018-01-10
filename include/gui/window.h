@@ -16,14 +16,15 @@ public:
     void clear();
     void close();
     inline bool running() const { return _running; };
-    Canvas getCanvas() const;
+    const Canvas& getCanvas() const;
+    void setTitle(const char* title);
 
 private:
     unsigned int _width, _height;
     const char* _title;
+    bool _running;
 
     SDL_Window* _window;
     SDL_Renderer* _renderer;
-
-    bool _running;
+    Canvas _canvas;
 };

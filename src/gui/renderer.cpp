@@ -30,15 +30,15 @@ void Renderer::setFont(const char* path, unsigned int size)
 }
 
 
-
 void Renderer::setColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
 {
     std::cout << "Setting color<" << r << ", " << g << ", " << b << ", " << a << ">" << std::endl; 
     _color = {r, g, b, a};
 }
 
+
 // Draws the document to canvas
-void Renderer::render(Canvas canvas, Document& d)
+void Renderer::render(const Canvas& canvas, const Document& d)
 {
     //SDL_Surface* surf = TTF_RenderText_Solid(_font, string, _color);
     //SDL_Texture* tex = SDL_CreateTextureFromSurface(canvas.r, surf);
