@@ -1,6 +1,5 @@
 #pragma once
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include <string>
 #include "gui/canvas.h"
@@ -21,11 +20,10 @@ public:
     void renderdoc(Canvas& canvas, Document& d);
 
 private:
-    unsigned int calcWidth(const char* str) const;
+    void calcSize(const char* str, int& width, int& height) const;
     void renderLine(Canvas& canvas, const Line& line);
 
 private:
-    TTF_Font* _font;
     unsigned int _size;
     std::string _path;
     SDL_Color _color;

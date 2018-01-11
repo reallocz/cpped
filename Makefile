@@ -8,7 +8,7 @@ BINDIR=bin
 OBJ=bin/obj
 INCLUDE=-Iinclude
 
-LINKS=-lSDL2 -lSDL2main -lSDL2_ttf
+LINKS=-lSDL2 -lSDL2main
 
 ##### SRC
 GUI=$(wildcard src/gui/*.cpp)

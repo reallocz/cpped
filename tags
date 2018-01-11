@@ -30,7 +30,7 @@ Insertchar	include/core/doccmd.h	/^        Insertchar,$/;"	m	class:Doccmd::Type
 Insertchar	include/core/doccmd.h	/^    struct Insertchar {$/;"	s	class:Doccmd
 Key	include/core/input.h	/^struct Key$/;"	s
 Keytype	include/core/input.h	/^enum class Keytype {$/;"	c
-LINKS	Makefile	/^LINKS=-lSDL2 -lSDL2main -lSDL2_ttf$/;"	m
+LINKS	Makefile	/^LINKS=-lSDL2 -lSDL2main$/;"	m
 Line	include/core/line.h	/^class Line$/;"	c
 Line	src/core/line.cpp	/^Line::Line(): Line(0) {}$/;"	f	class:Line
 Line	src/core/line.cpp	/^Line::Line(unsigned int number):$/;"	f	class:Line
@@ -40,8 +40,8 @@ Move	include/core/doccmd.h	/^    struct Move {$/;"	s	class:Doccmd
 Movement	include/core/input.h	/^    Movement,   \/\/ Arrows and home\/pgup etc$/;"	m	class:Keytype
 OBJ	Makefile	/^OBJ=bin\/obj$/;"	m
 OBJECTS	Makefile	/^OBJECTS=$(addprefix $(OBJ)\/, $(patsubst %.cpp, %.o, $(SRC)))$/;"	m
-RDEFAULT_PATH	include/gui/renderer.h	10;"	d
-RDEFAULT_SIZE	include/gui/renderer.h	9;"	d
+RDEFAULT_PATH	include/gui/renderer.h	9;"	d
+RDEFAULT_SIZE	include/gui/renderer.h	8;"	d
 Renderer	include/gui/renderer.h	/^class Renderer $/;"	c
 Renderer	src/gui/renderer.cpp	/^Renderer::Renderer() $/;"	f	class:Renderer
 SDEF_SIZE	include/core/string.h	3;"	d
@@ -77,7 +77,6 @@ _color	include/gui/renderer.h	/^    SDL_Color _color;$/;"	m	class:Renderer
 _curline	include/core/document.h	/^    unsigned int _curline;  \/\/ Cursor line$/;"	m	class:Document
 _data	include/core/string.h	/^    char* _data;$/;"	m	class:String
 _filename	include/core/document.h	/^    std::string _filename;$/;"	m	class:Document
-_font	include/gui/renderer.h	/^    TTF_Font* _font;$/;"	m	class:Renderer
 _height	include/gui/canvas.h	/^    unsigned int _width, _height;$/;"	m	class:Canvas
 _isSizeChanged	include/gui/canvas.h	/^    bool _isSizeChanged;$/;"	m	class:Canvas
 _isactive	include/core/line.h	/^    bool _isactive;$/;"	m	class:Line
@@ -99,7 +98,7 @@ _window	include/gui/window.h	/^    SDL_Window* _window;$/;"	m	class:Window
 append	src/core/string.cpp	/^void String::append(char c)$/;"	f	class:String
 c	include/core/doccmd.h	/^        char c;$/;"	m	struct:Doccmd::Insertchar
 c	include/core/input.h	/^    char c;$/;"	m	struct:Key
-calcWidth	src/gui/renderer.cpp	/^unsigned int Renderer::calcWidth(const char* str) const$/;"	f	class:Renderer
+calcSize	src/gui/renderer.cpp	/^void Renderer::calcSize(const char* str, int& width, int& height) const$/;"	f	class:Renderer
 clear	src/gui/window.cpp	/^void Window::clear()$/;"	f	class:Window
 close	src/gui/window.cpp	/^void Window::close()$/;"	f	class:Window
 cmd	include/core/doccmd.h	/^    Command cmd;$/;"	m	class:Doccmd
