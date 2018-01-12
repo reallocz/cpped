@@ -2,27 +2,11 @@
 
 Renderer::Renderer() 
 {
-    _size = RDEFAULT_SIZE;
-    _path = RDEFAULT_PATH;
-
-    setFont(_path.c_str(), _size);
-    setColor(0, 0, 0, 255);
 }
 
 
 Renderer::~Renderer()
 {
-}
-
-void Renderer::setFont(const char* path, unsigned int size)
-{
-}
-
-
-void Renderer::setColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
-{
-    std::cout << "Setting color<" << r << ", " << g << ", " << b << ", " << a << ">" << std::endl; 
-    _color = {r, g, b, a};
 }
 
 
@@ -46,8 +30,4 @@ void Renderer::renderLine(Canvas& canvas, const Line& line)
 {
 }
 
-
-void Renderer::calcSize(const char* str, int& width, int& height) const
-{
-}
 

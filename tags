@@ -21,8 +21,12 @@ Document	src/core/document.cpp	/^Document::Document()$/;"	f	class:Document
 Edit	include/core/doccmd.h	/^        Edit,$/;"	m	class:Doccmd::Type
 Edit	include/core/doccmd.h	/^    struct Edit {$/;"	s	class:Doccmd
 Edit	include/core/input.h	/^    Edit,       \/\/ Backspace, enter, delete$/;"	m	class:Keytype
+FDEF_FONT	include/gui/font.h	7;"	d
+FDEF_SIZE	include/gui/font.h	6;"	d
+Font	include/gui/font.h	/^class Font$/;"	c
+Font	src/gui/font.cpp	/^Font::Font()$/;"	f	class:Font
 GUI	Makefile	/^GUI=$(wildcard src\/gui\/*.cpp)$/;"	m
-INCLUDE	Makefile	/^INCLUDE=-Iinclude$/;"	m
+INCLUDE	Makefile	/^INCLUDE=-Iinclude -I\/usr\/include\/freetype2$/;"	m
 Input	include/core/input.h	/^class Input$/;"	c
 Input	src/core/input.cpp	/^Input::Input(Window& window, KEYCB cb):$/;"	f	class:Input
 Insert	include/core/input.h	/^    Insert,     \/\/ Alphanumeric, spacebar$/;"	m	class:Keytype
@@ -30,7 +34,7 @@ Insertchar	include/core/doccmd.h	/^        Insertchar,$/;"	m	class:Doccmd::Type
 Insertchar	include/core/doccmd.h	/^    struct Insertchar {$/;"	s	class:Doccmd
 Key	include/core/input.h	/^struct Key$/;"	s
 Keytype	include/core/input.h	/^enum class Keytype {$/;"	c
-LINKS	Makefile	/^LINKS=-lSDL2 -lSDL2main$/;"	m
+LINKS	Makefile	/^LINKS=-lSDL2 -lSDL2main -lfreetype$/;"	m
 Line	include/core/line.h	/^class Line$/;"	c
 Line	src/core/line.cpp	/^Line::Line(): Line(0) {}$/;"	f	class:Line
 Line	src/core/line.cpp	/^Line::Line(unsigned int number):$/;"	f	class:Line
@@ -40,8 +44,6 @@ Move	include/core/doccmd.h	/^    struct Move {$/;"	s	class:Doccmd
 Movement	include/core/input.h	/^    Movement,   \/\/ Arrows and home\/pgup etc$/;"	m	class:Keytype
 OBJ	Makefile	/^OBJ=bin\/obj$/;"	m
 OBJECTS	Makefile	/^OBJECTS=$(addprefix $(OBJ)\/, $(patsubst %.cpp, %.o, $(SRC)))$/;"	m
-RDEFAULT_PATH	include/gui/renderer.h	9;"	d
-RDEFAULT_SIZE	include/gui/renderer.h	8;"	d
 Renderer	include/gui/renderer.h	/^class Renderer $/;"	c
 Renderer	src/gui/renderer.cpp	/^Renderer::Renderer() $/;"	f	class:Renderer
 SDEF_SIZE	include/core/string.h	3;"	d
@@ -73,23 +75,26 @@ Window	include/gui/window.h	/^class Window {$/;"	c
 Window	src/gui/window.cpp	/^Window::Window():$/;"	f	class:Window
 Window	src/gui/window.cpp	/^Window::Window(unsigned int width, unsigned int height,$/;"	f	class:Window
 _canvas	include/gui/window.h	/^    Canvas _canvas;$/;"	m	class:Window
+_charmap	include/gui/font.h	/^    std::map<unsigned int, unsigned int> _charmap;$/;"	m	class:Font
 _color	include/gui/renderer.h	/^    SDL_Color _color;$/;"	m	class:Renderer
 _curline	include/core/document.h	/^    unsigned int _curline;  \/\/ Cursor line$/;"	m	class:Document
 _data	include/core/string.h	/^    char* _data;$/;"	m	class:String
+_face	include/gui/font.h	/^    FT_Face _face;$/;"	m	class:Font
 _filename	include/core/document.h	/^    std::string _filename;$/;"	m	class:Document
+_fontpath	include/gui/font.h	/^    const char* _fontpath;$/;"	m	class:Font
 _height	include/gui/canvas.h	/^    unsigned int _width, _height;$/;"	m	class:Canvas
 _isSizeChanged	include/gui/canvas.h	/^    bool _isSizeChanged;$/;"	m	class:Canvas
 _isactive	include/core/line.h	/^    bool _isactive;$/;"	m	class:Line
+_isinit	include/gui/font.h	/^    bool _isinit;$/;"	m	class:Font
 _len	include/core/string.h	/^    unsigned int _len;  \/\/ Length$/;"	m	class:String
+_library	include/gui/font.h	/^    FT_Library _library;$/;"	m	class:Font
 _lines	include/core/document.h	/^    Line* _lines;$/;"	m	class:Document
 _num	include/core/line.h	/^    unsigned int _num;$/;"	m	class:Line
 _numlines	include/core/document.h	/^    unsigned int _numlines;$/;"	m	class:Document
-_path	include/gui/renderer.h	/^    std::string _path;$/;"	m	class:Renderer
 _renderer	include/gui/canvas.h	/^    SDL_Renderer* _renderer;$/;"	m	class:Canvas
 _renderer	include/gui/window.h	/^    SDL_Renderer* _renderer;$/;"	m	class:Window
 _running	include/gui/window.h	/^    bool _running;$/;"	m	class:Window
 _size	include/core/string.h	/^    unsigned int _size; \/\/ Max length$/;"	m	class:String
-_size	include/gui/renderer.h	/^    unsigned int _size;$/;"	m	class:Renderer
 _str	include/core/line.h	/^    String _str;$/;"	m	class:Line
 _title	include/gui/window.h	/^    const char* _title;$/;"	m	class:Window
 _width	include/gui/canvas.h	/^    unsigned int _width, _height;$/;"	m	class:Canvas
@@ -98,7 +103,6 @@ _window	include/gui/window.h	/^    SDL_Window* _window;$/;"	m	class:Window
 append	src/core/string.cpp	/^void String::append(char c)$/;"	f	class:String
 c	include/core/doccmd.h	/^        char c;$/;"	m	struct:Doccmd::Insertchar
 c	include/core/input.h	/^    char c;$/;"	m	struct:Key
-calcSize	src/gui/renderer.cpp	/^void Renderer::calcSize(const char* str, int& width, int& height) const$/;"	f	class:Renderer
 clear	src/gui/window.cpp	/^void Window::clear()$/;"	f	class:Window
 close	src/gui/window.cpp	/^void Window::close()$/;"	f	class:Window
 cmd	include/core/doccmd.h	/^    Command cmd;$/;"	m	class:Doccmd
@@ -119,20 +123,26 @@ execEdit	src/core/document.cpp	/^void Document::execEdit(Doccmd::Edit cmd)$/;"	f
 execInsertchar	src/core/document.cpp	/^void Document::execInsertchar(Doccmd::Insertchar cmd)$/;"	f	class:Document
 execMove	src/core/document.cpp	/^void Document::execMove(Doccmd::Move cmd)$/;"	f	class:Document
 execSave	src/core/document.cpp	/^void Document::execSave(Doccmd::Save cmd)$/;"	f	class:Document
+font	include/gui/renderer.h	/^    Font font;$/;"	m	class:Renderer
 getCanvas	src/gui/window.cpp	/^Canvas& Window::getCanvas()$/;"	f	class:Window
+getGlyph	src/gui/font.cpp	/^void Font::getGlyph(unsigned int code)$/;"	f	class:Font
 getLengthBytes	src/core/string.cpp	/^unsigned int String::getLengthBytes() const$/;"	f	class:String
 getSizeBytes	src/core/string.cpp	/^unsigned int String::getSizeBytes() const$/;"	f	class:String
 getType	src/core/input.cpp	/^Keytype Input::getType(int code, int mod)$/;"	f	class:Input
 height	src/gui/canvas.cpp	/^const unsigned int Canvas::height() const$/;"	f	class:Canvas
+initLib	src/gui/font.cpp	/^void Font::initLib()$/;"	f	class:Font
 insertChar	src/core/line.cpp	/^void Line::insertChar(char a)$/;"	f	class:Line
 insertchar	include/core/doccmd.h	/^        Insertchar insertchar;$/;"	m	union:Doccmd::Command
 isDirty	src/gui/canvas.cpp	/^bool Canvas::isDirty() const$/;"	f	class:Canvas
 isactive	src/core/line.cpp	/^bool Line::isactive() const$/;"	f	class:Line
 isempty	src/core/line.cpp	/^bool Line::isempty() const$/;"	f	class:Line
+isinit	src/gui/font.cpp	/^bool Font::isinit()$/;"	f	class:Font
 keyCb	include/core/input.h	/^    KEYCB keyCb;$/;"	m	class:Input
 left	include/core/doccmd.h	/^            left,$/;"	e	enum:Doccmd::Move::Type
 length	include/core/string.h	/^    inline unsigned int length() const { return _len; }$/;"	f	class:String
 length	src/core/line.cpp	/^unsigned int Line::length() const$/;"	f	class:Line
+loadCharmap	src/gui/font.cpp	/^void Font::loadCharmap()$/;"	f	class:Font
+loadFace	src/gui/font.cpp	/^void Font::loadFace(const char* path)$/;"	f	class:Font
 main	src/main.cpp	/^int main() {$/;"	f
 main	src/tests/test_main.cpp	/^int main(int argc, char* argv[])$/;"	f
 move	include/core/doccmd.h	/^        Move move;$/;"	m	union:Doccmd::Command
@@ -154,6 +164,7 @@ print	src/core/document.cpp	/^void Document::print()$/;"	f	class:Document
 print	src/core/line.cpp	/^void Line::print() const$/;"	f	class:Line
 print	src/core/string.cpp	/^void String::print() const$/;"	f	class:String
 print	src/gui/canvas.cpp	/^void Canvas::print() const$/;"	f	class:Canvas
+print	src/gui/font.cpp	/^void Font::print()$/;"	f	class:Font
 renderLine	src/gui/renderer.cpp	/^void Renderer::renderLine(Canvas& canvas, const Line& line)$/;"	f	class:Renderer
 renderdoc	src/gui/renderer.cpp	/^void Renderer::renderdoc(Canvas& canvas, Document& d)$/;"	f	class:Renderer
 renderer	src/gui/canvas.cpp	/^SDL_Renderer* Canvas::renderer()$/;"	f	class:Canvas
@@ -165,15 +176,15 @@ running	include/gui/window.h	/^    inline bool running() const { return _running
 s1	src/tests/test_main.cpp	/^    String* s1;$/;"	m	struct:StringTest	file:
 save	include/core/doccmd.h	/^        Save save;$/;"	m	union:Doccmd::Command
 saveas	include/core/doccmd.h	/^        bool saveas;$/;"	m	struct:Doccmd::Save
-setColor	src/gui/renderer.cpp	/^void Renderer::setColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a)$/;"	f	class:Renderer
 setCurrentLine	src/core/document.cpp	/^void Document::setCurrentLine(unsigned int lineno)$/;"	f	class:Document
-setFont	src/gui/renderer.cpp	/^void Renderer::setFont(const char* path, unsigned int size)$/;"	f	class:Renderer
 setHeight	src/gui/canvas.cpp	/^void Canvas::setHeight(unsigned int height)$/;"	f	class:Canvas
 setNum	src/core/line.cpp	/^void Line::setNum(unsigned int num)$/;"	f	class:Line
 setRenderer	src/gui/canvas.cpp	/^void Canvas::setRenderer(SDL_Renderer* renderer)$/;"	f	class:Canvas
+setSize	src/gui/font.cpp	/^void Font::setSize(unsigned int val)$/;"	f	class:Font
 setTitle	src/gui/window.cpp	/^void Window::setTitle(const char* title)$/;"	f	class:Window
 setWidth	src/gui/canvas.cpp	/^void Canvas::setWidth(unsigned int width)$/;"	f	class:Canvas
 setactive	src/core/line.cpp	/^void Line::setactive(bool value)$/;"	f	class:Line
+setinit	src/gui/font.cpp	/^void Font::setinit(bool val)$/;"	f	class:Font
 size	include/core/string.h	/^    inline unsigned int size() const { return _size; }$/;"	f	class:String
 slice	src/core/line.cpp	/^String Line::slice(unsigned int from, unsigned int len) const$/;"	f	class:Line
 slice	src/core/string.cpp	/^String String::slice(unsigned int from, unsigned int len) const$/;"	f	class:String
@@ -186,6 +197,7 @@ update	src/gui/window.cpp	/^void Window::update()$/;"	f	class:Window
 width	src/gui/canvas.cpp	/^const unsigned int Canvas::width() const$/;"	f	class:Canvas
 ~Canvas	src/gui/canvas.cpp	/^Canvas::~Canvas()$/;"	f	class:Canvas
 ~Document	src/core/document.cpp	/^Document::~Document()$/;"	f	class:Document
+~Font	src/gui/font.cpp	/^Font::~Font()$/;"	f	class:Font
 ~Input	src/core/input.cpp	/^Input::~Input() {}$/;"	f	class:Input
 ~Line	src/core/line.cpp	/^Line::~Line()$/;"	f	class:Line
 ~Renderer	src/gui/renderer.cpp	/^Renderer::~Renderer()$/;"	f	class:Renderer

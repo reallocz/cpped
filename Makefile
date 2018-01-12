@@ -6,9 +6,9 @@ TARGET=bin/debug
 SRCDIR=src
 BINDIR=bin
 OBJ=bin/obj
-INCLUDE=-Iinclude
+INCLUDE=-Iinclude -I/usr/include/freetype2
 
-LINKS=-lSDL2 -lSDL2main
+LINKS=-lSDL2 -lSDL2main -lfreetype
 
 ##### SRC
 GUI=$(wildcard src/gui/*.cpp)
