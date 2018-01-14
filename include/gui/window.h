@@ -1,4 +1,5 @@
 #pragma once
+#include <glad/glad.h>
 #include <SDL2/SDL.h>
 #include "gui/canvas.h"
 
@@ -20,10 +21,13 @@ public:
     void setTitle(const char* title);
 
 private:
+    void initGl();
+
+private:
     const char* _title;
     bool _running;
 
     SDL_Window* _window;
-    SDL_Renderer* _renderer;
+    SDL_GLContext _glcontext;
     Canvas _canvas;
 };

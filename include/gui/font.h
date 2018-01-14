@@ -2,6 +2,7 @@
 #include <map>
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#include "gui/bitmap.h"
 
 #define FDEF_SIZE 28
 #define FDEF_FONT "fonts/DejaVuSans.ttf"
@@ -16,7 +17,8 @@ public:
     bool isinit(); 
     void print();
     void setSize(unsigned int val); // TODO
-    void getGlyph(unsigned int code);
+
+    Bitmap getBitmap(unsigned int code);
 
 private:
     void initLib();

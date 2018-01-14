@@ -13,6 +13,7 @@ int main() {
     Renderer r;
     Window w;
     Input input(w, onKey);
+        Font font;
 
     while(w.running())
     {

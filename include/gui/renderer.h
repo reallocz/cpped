@@ -1,5 +1,4 @@
 #pragma once
-#include <SDL2/SDL.h>
 #include "gui/canvas.h"
 #include "gui/font.h"
 #include "core/document.h"
@@ -18,8 +17,7 @@ private:
     void renderLine(Canvas& canvas, const Line& line);
 
 private:
-    Font font;
-    SDL_Color _color;
+    //Font _font;
     // TODO Add dpi
 };
 

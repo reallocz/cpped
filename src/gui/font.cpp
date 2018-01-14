@@ -51,12 +51,9 @@ void Font::loadFace(const char* path)
         std::cout << "Font face loaded successfully: " << _fontpath
             << std::endl;
         
-        setSize(12);        
+        setSize(24);        
         loadCharmap();
-        print();
         setinit(true);
-
-        getGlyph('a');
     }
 }
 
@@ -67,9 +64,10 @@ void Font::setSize(unsigned int val)
             _face, 
             0,              // Width 0 means same as height
             val*64,         // Height
-            300,            // Horizontal resolution
-            300             // Vertical resolution
+            200,            // Horizontal resolution
+            200             // Vertical resolution
     );
+
     if(error)
     {
         std::cerr << "Failed to set font size: " << val << std::endl;
@@ -116,15 +114,17 @@ void Font::loadCharmap()
 }
 
 
-void Font::getGlyph(unsigned int code)
+Bitmap Font::getBitmap(unsigned int code)
 {
     if(_charmap[code] != 0)
     {
         int error = FT_Load_Glyph(_face, code, FT_LOAD_DEFAULT);
+
         if (error) 
         {
-            std::cout << "Cannot getGlyph: Failed to load glyph!" << std::endl;;
+            std::cout << "Cannot getGlyph: Failed to load glyph!" << std::endl;
         }
+
         error = FT_Render_Glyph(_face->glyph, FT_RENDER_MODE_NORMAL);
         if (error)
         {
@@ -132,10 +132,13 @@ void Font::getGlyph(unsigned int code)
         }
 
         FT_Bitmap bitmap = _face->glyph->bitmap;
+
+        return Bitmap(bitmap.rows, bitmap.width, bitmap.pitch, bitmap.buffer);
     }
     else
     {
         std::cout << "Cannot getGlyph: Invalid code: " << code << std::endl;
+        return Bitmap();
     }
 }
 

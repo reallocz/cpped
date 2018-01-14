@@ -2,9 +2,8 @@
 
 Canvas::Canvas() {}
 
-Canvas::Canvas(SDL_Renderer* renderer, unsigned int width, unsigned int height)
+Canvas::Canvas(unsigned int width, unsigned int height)
 {
-    _renderer = renderer;
     _width = width;
     _height = height;
     _isSizeChanged = false;
@@ -12,12 +11,6 @@ Canvas::Canvas(SDL_Renderer* renderer, unsigned int width, unsigned int height)
 
 Canvas::~Canvas()
 {
-}
-
-
-SDL_Renderer* Canvas::renderer()
-{
-    return _renderer;
 }
 
 
@@ -32,11 +25,6 @@ void Canvas::setHeight(unsigned int height)
     _height = height;
 }
 
-
-void Canvas::setRenderer(SDL_Renderer* renderer)
-{
-    _renderer = renderer;
-}
 
 const unsigned int Canvas::width() const
 {

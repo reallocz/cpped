@@ -1,5 +1,4 @@
 #pragma once
-#include <SDL2/SDL.h>
 #include <iostream>
 
 class Canvas
@@ -8,10 +7,9 @@ class Canvas
 
 public:
     Canvas();
-    Canvas(SDL_Renderer* renderer, unsigned int width, unsigned int height);
+    Canvas(unsigned int width, unsigned int height);
     virtual ~Canvas();
 
-    SDL_Renderer* renderer();
     const unsigned int width() const;
     const unsigned int height() const;
 
@@ -21,10 +19,8 @@ public:
 private:
     void setWidth(unsigned int width);
     void setHeight(unsigned int width);
-    void setRenderer(SDL_Renderer* renderer);
 
 private:
-    SDL_Renderer* _renderer;
     unsigned int _width, _height;
     bool _isSizeChanged;
 };

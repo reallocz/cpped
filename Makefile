@@ -9,6 +9,7 @@ OBJ=bin/obj
 INCLUDE=-Iinclude -I/usr/include/freetype2
 
 LINKS=-lSDL2 -lSDL2main -lfreetype
+EXLINKS = -lGL -lX11 -lpthread -lXrandr -lXi -ldl
 
 ##### SRC
 GUI=$(wildcard src/gui/*.cpp)
@@ -27,6 +28,13 @@ TESTOBJECTS=$(addprefix $(OBJ)/, $(patsubst %.cpp, %.o, $(TESTSRC)))
 TESTINCLUDE=-I/usr/src/googletest/googletest
 ##### / TESTS
 
+### EXTERNAL
+EXOBJECTS=bin/obj/src/glad.o
+### / External
+
+
+external:
+	gcc -g $(INCLUDE) -c -o bin/obj/src/glad.o src/glad.c $(EXLINKS)
 
 $(OBJ)/%.o: %.cpp
 	$(CC) $(CFLAGS) $(INCLUDE) -c -o $@ $<
@@ -38,8 +46,8 @@ clean:
 	@rm -rf $(BINDIR)
 	make dirs
 
-all: ctags dirs $(OBJECTS)
-	@$(CC) $(CFLAGS) $(INCLUDE) -o $(TARGET) $(OBJECTS) $(LINKS)
+all: ctags dirs external $(OBJECTS)
+	@$(CC) $(CFLAGS) $(INCLUDE) -o $(TARGET) $(EXOBJECTS) $(OBJECTS) $(LINKS) $(EXLINKS)
 
 #Run
 r:
@@ -59,6 +67,6 @@ rt:
 	@./bin/test
 
 
-.PHONY: all clean test
+.PHONY: all clean test external
 
 .DEFAULT_GOAL := all
