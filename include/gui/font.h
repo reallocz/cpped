@@ -6,8 +6,8 @@
 #include "config.h"
 #include "gui/bitmap.h"
 
-#define FDEF_SIZE 28
-#define FDEF_FONT CONF_RES_ROOT "fonts/DejaVuSans.ttf"
+#define FDEF_SIZE 22 
+#define FDEF_FONT CONF_RES_ROOT "fonts/ubuntu.ttf"
 
 class Font
 {
@@ -34,6 +34,7 @@ private:
     const char* _fontpath;
     bool _isinit;
 
+    // Charcode -> glyphindex;
     std::map<unsigned int, unsigned int> _charmap;
 };
 

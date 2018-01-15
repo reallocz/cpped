@@ -17,7 +17,7 @@ private:
     void renderLine(Canvas& canvas, const Line& line);
 
 private:
-    Font _font;
+    //Font _font;
     // TODO Add dpi
 };
 

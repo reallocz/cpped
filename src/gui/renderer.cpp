@@ -32,6 +32,6 @@ void Renderer::renderdoc(Canvas& canvas, Document& d)
 
 void Renderer::renderLine(Canvas& canvas, const Line& line)
 {
-    Bitmap b = _font.getBitmap('a');
+    //Bitmap b = _font.getBitmap('b');
 }
 

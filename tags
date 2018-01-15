@@ -34,7 +34,7 @@ FDEF_FONT	include/gui/font.h	10;"	d
 FDEF_SIZE	include/gui/font.h	9;"	d
 Font	include/gui/font.h	/^class Font$/;"	c
 Font	src/gui/font.cpp	/^Font::Font()$/;"	f	class:Font
-FragColor	res/shaders/frag.s	/^    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);$/;"	d
+FragColor	res/shaders/frag.s	/^    FragColor = texture(ourTexture, TexCoord);$/;"	d
 GLAD_GL_VERSION_1_0	include/glad/glad.h	/^GLAPI int GLAD_GL_VERSION_1_0;$/;"	v
 GLAD_GL_VERSION_1_0	src/glad.c	/^int GLAD_GL_VERSION_1_0;$/;"	v
 GLAD_GL_VERSION_1_1	include/glad/glad.h	/^GLAPI int GLAD_GL_VERSION_1_1;$/;"	v
@@ -1367,6 +1367,7 @@ TESTSRC	Makefile	/^TESTSRC=$(TEST) src\/core\/string.cpp $/;"	m
 TEST_F	src/tests/test_main.cpp	/^TEST_F(StringTest, Assignment)$/;"	f
 TEST_F	src/tests/test_main.cpp	/^TEST_F(StringTest, Constructor)$/;"	f
 TEST_F	src/tests/test_main.cpp	/^TEST_F(StringTest, Slice)$/;"	f
+TexCoord	res/shaders/vert.s	/^    TexCoord = aCoord;$/;"	d
 Type	include/core/doccmd.h	/^        enum Type {$/;"	g	struct:Doccmd::Edit
 Type	include/core/doccmd.h	/^        enum Type {$/;"	g	struct:Doccmd::Move
 Type	include/core/doccmd.h	/^    enum class Type {$/;"	c	class:Doccmd
@@ -1387,7 +1388,6 @@ _curline	include/core/document.h	/^    unsigned int _curline;  \/\/ Cursor line$
 _data	include/core/string.h	/^    char* _data;$/;"	m	class:String
 _face	include/gui/font.h	/^    FT_Face _face;$/;"	m	class:Font
 _filename	include/core/document.h	/^    std::string _filename;$/;"	m	class:Document
-_font	include/gui/renderer.h	/^    Font _font;$/;"	m	class:Renderer
 _fontpath	include/gui/font.h	/^    const char* _fontpath;$/;"	m	class:Font
 _fragPath	include/gui/shader.h	/^    const char* _fragPath;$/;"	m	class:Shader
 _glcontext	include/gui/window.h	/^    SDL_GLContext _glcontext;$/;"	m	class:Window
@@ -2585,6 +2585,7 @@ glad_glWaitSync	include/glad/glad.h	/^GLAPI PFNGLWAITSYNCPROC glad_glWaitSync;$/
 glad_glWaitSync	src/glad.c	/^PFNGLWAITSYNCPROC glad_glWaitSync;$/;"	v
 has_ext	src/glad.c	/^static int has_ext(const char *ext) {$/;"	f	file:
 height	src/gui/canvas.cpp	/^const unsigned int Canvas::height() const$/;"	f	class:Canvas
+in	res/shaders/frag.s	/^in vec2 TexCoord;$/;"	l
 initGl	src/gui/window.cpp	/^void Window::initGl()$/;"	f	class:Window
 initLib	src/gui/font.cpp	/^void Font::initLib()$/;"	f	class:Font
 insertChar	src/core/line.cpp	/^void Line::insertChar(char a)$/;"	f	class:Line
@@ -2600,6 +2601,7 @@ isempty	src/core/line.cpp	/^bool Line::isempty() const$/;"	f	class:Line
 isinit	src/gui/font.cpp	/^bool Font::isinit()$/;"	f	class:Font
 keyCb	include/core/input.h	/^    KEYCB keyCb;$/;"	m	class:Input
 layout	res/shaders/vert.s	/^layout (location = 0) in vec3 aPos;$/;"	l
+layout	res/shaders/vert.s	/^layout (location = 1) in vec2 aCoord;$/;"	l
 left	include/core/doccmd.h	/^            left,$/;"	e	enum:Doccmd::Move::Type
 length	include/core/string.h	/^    inline unsigned int length() const { return _len; }$/;"	f	class:String
 length	src/core/line.cpp	/^unsigned int Line::length() const$/;"	f	class:Line
@@ -2642,6 +2644,7 @@ operator []	src/core/document.cpp	/^const Line& Document::operator[](unsigned in
 operator []	src/core/string.cpp	/^char String::operator[](unsigned int pos) const$/;"	f	class:String
 optimize	src/core/string.cpp	/^void String::optimize()$/;"	f	class:String
 out	res/shaders/frag.s	/^out vec4 FragColor;$/;"	l
+out	res/shaders/vert.s	/^out vec2 TexCoord;$/;"	l
 pitch	src/gui/bitmap.cpp	/^int Bitmap::pitch() const$/;"	f	class:Bitmap
 poll	src/core/input.cpp	/^void Input::poll()$/;"	f	class:Input
 print	src/core/document.cpp	/^void Document::print()$/;"	f	class:Document
@@ -2678,6 +2681,7 @@ type	include/core/input.h	/^    Keytype type;$/;"	m	struct:Key
 uint64_t	include/glad/glad.h	/^typedef unsigned __int64 uint64_t;$/;"	t
 uint64_t	include/glad/glad.h	/^typedef unsigned long int uint64_t;$/;"	t
 uint64_t	include/glad/glad.h	/^typedef unsigned long long int uint64_t;$/;"	t
+uniform	res/shaders/frag.s	/^uniform sampler2D ourTexture;$/;"	l
 up	include/core/doccmd.h	/^            up$/;"	e	enum:Doccmd::Move::Type
 update	src/gui/window.cpp	/^void Window::update()$/;"	f	class:Window
 updateViewport	src/gui/canvas.cpp	/^void Canvas::updateViewport()$/;"	f	class:Canvas

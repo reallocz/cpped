@@ -20,9 +20,17 @@ Canvas::~Canvas()
 
 void Canvas::setSize(unsigned int width, unsigned int height)
 {
-    _width = width;
-    _height = height;
-    updateViewport();
+    if(width != _width || height != _height)
+    {
+        _width = width;
+        _height = height;
+        _isSizeChanged = true;
+        updateViewport();
+    }
+    else
+    {
+        _isSizeChanged = false;
+    }
 }
 
 

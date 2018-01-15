@@ -61,8 +61,8 @@ void Bitmap::print()
     {
         for(int c = 0; c < width(); ++c)
         {
-            if(c % 3 == 0) std::cout << ' ';
-            std::cout << (int) _buffer[row * width() + c] << '.';
+            char x = _buffer[row*width() + c] == 0 ? ' ' : '.';
+            std::cout << x;
         }
         std::cout << std::endl;
     }

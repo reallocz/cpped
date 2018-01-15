@@ -95,22 +95,24 @@ void Font::print()
         << " style: " << _face->style_name << ",\n"
         << " size: " << _face->size << ",\n"
         << " faces: " << _face->num_faces << ",\n"
+        << " glyphs: " << _face->num_glyphs << ",\n"
         << "}" << std::endl;
 }
 
 
 void Font::loadCharmap()
 {
-    unsigned int index;
-    //std::cout << "Charmap: " << std::endl;
-
-    for(unsigned int i = 0; i < 127; ++i)
+    std::cout << "Loading charmap...";
+    unsigned int index = 0;
+    int num = _face->num_glyphs;
+    for(wchar_t i = 0; i < num; ++i)
     {
         index = FT_Get_Char_Index(_face, i); 
-        //std::cout << (char) i << " -> " << index << std::endl;
-        _charmap[i] = index;
+        if(index != 0)
+            _charmap[i] = index;
     }
-    std::cout << "Loaded charmap." << std::endl;
+    std::cout << "done." << std::endl;
+    std::cout << "Loaded  " << _charmap.size() << "/" << _face->num_glyphs << std::endl;
 }
 
 
@@ -118,20 +120,25 @@ Bitmap Font::getBitmap(unsigned int code)
 {
     if(_charmap[code] != 0)
     {
-        int error = FT_Load_Glyph(_face, code, FT_LOAD_DEFAULT);
+        int error = 1;
+        error = FT_Load_Glyph(_face, _charmap[code], FT_LOAD_DEFAULT);
 
         if (error) 
-        {
             std::cout << "Cannot getGlyph: Failed to load glyph!" << std::endl;
-        }
 
+        error = 1;
         error = FT_Render_Glyph(_face->glyph, FT_RENDER_MODE_NORMAL);
         if (error)
-        {
             std::cout << "Error FT_Render_Glyph" << std::endl;
-        }
 
         FT_Bitmap bitmap = _face->glyph->bitmap;
+
+        //std::cout << "Loaded glyph {"
+            //<< " char: " << (char)code
+            //<< " rows: " << bitmap.rows
+            //<< " width: " << bitmap.width
+            //<< " pitch: " << bitmap.pitch
+            //<< " }" << std::endl;
 
         return Bitmap(bitmap.rows, bitmap.width, bitmap.pitch, bitmap.buffer);
     }
