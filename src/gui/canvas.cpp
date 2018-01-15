@@ -1,28 +1,34 @@
 #include "gui/canvas.h"
+#include "glad/glad.h"
 
 Canvas::Canvas() {}
+
 
 Canvas::Canvas(unsigned int width, unsigned int height)
 {
     _width = width;
     _height = height;
     _isSizeChanged = false;
+    updateViewport();
 }
+
 
 Canvas::~Canvas()
 {
 }
 
 
-void Canvas::setWidth(unsigned int width)
+void Canvas::setSize(unsigned int width, unsigned int height)
 {
     _width = width;
+    _height = height;
+    updateViewport();
 }
 
 
-void Canvas::setHeight(unsigned int height)
+void Canvas::updateViewport()
 {
-    _height = height;
+    glViewport(0, 0, _width, _height);
 }
 
 
@@ -42,6 +48,7 @@ bool Canvas::isDirty() const
 {
     return _isSizeChanged;
 }
+
 
 void Canvas::print() const
 {

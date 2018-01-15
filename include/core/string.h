@@ -12,13 +12,13 @@ public:
 
     void append(char c); // Insert a char at the end
     void insert(char c, unsigned int pos);
-
     void optimize();
+
+    const char* data() const;
+    String slice(unsigned int from, unsigned int to) const;
 
     inline unsigned int length() const { return _len; }
     inline unsigned int size() const { return _size; }
-
-
     unsigned int getSizeBytes() const;
     unsigned int getLengthBytes() const;
     void print() const;
@@ -26,9 +26,11 @@ public:
     char operator[](unsigned int pos) const;
     void operator=(const char* str);
 
-    const char* data() const;
+    bool empty();
 
-    String slice(unsigned int from, unsigned int to) const;
+public:
+    static String fromFile(const char* path);
+
 
 private:
     void doubleSize();

@@ -14,6 +14,7 @@ Bitmap	src/gui/bitmap.cpp	/^Bitmap::Bitmap(const Bitmap& b)$/;"	f	class:Bitmap
 Bitmap	src/gui/bitmap.cpp	/^Bitmap::Bitmap(unsigned int rows, unsigned int width, int pitch, unsigned char* buffer)$/;"	f	class:Bitmap
 CC	Makefile	/^CC=g++$/;"	m
 CFLAGS	Makefile	/^CFLAGS=-std=c++14 -Wall$/;"	m
+CONF_RES_ROOT	include/config.h	3;"	d
 CORE	Makefile	/^CORE=$(wildcard src\/core\/*.cpp)$/;"	m
 Canvas	include/gui/canvas.h	/^class Canvas$/;"	c
 Canvas	src/gui/canvas.cpp	/^Canvas::Canvas() {}$/;"	f	class:Canvas
@@ -29,10 +30,11 @@ EXOBJECTS	Makefile	/^EXOBJECTS=bin\/obj\/src\/glad.o$/;"	m
 Edit	include/core/doccmd.h	/^        Edit,$/;"	m	class:Doccmd::Type
 Edit	include/core/doccmd.h	/^    struct Edit {$/;"	s	class:Doccmd
 Edit	include/core/input.h	/^    Edit,       \/\/ Backspace, enter, delete$/;"	m	class:Keytype
-FDEF_FONT	include/gui/font.h	8;"	d
-FDEF_SIZE	include/gui/font.h	7;"	d
+FDEF_FONT	include/gui/font.h	10;"	d
+FDEF_SIZE	include/gui/font.h	9;"	d
 Font	include/gui/font.h	/^class Font$/;"	c
 Font	src/gui/font.cpp	/^Font::Font()$/;"	f	class:Font
+FragColor	res/shaders/frag.s	/^    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);$/;"	d
 GLAD_GL_VERSION_1_0	include/glad/glad.h	/^GLAPI int GLAD_GL_VERSION_1_0;$/;"	v
 GLAD_GL_VERSION_1_0	src/glad.c	/^int GLAD_GL_VERSION_1_0;$/;"	v
 GLAD_GL_VERSION_1_1	include/glad/glad.h	/^GLAPI int GLAD_GL_VERSION_1_1;$/;"	v
@@ -1342,11 +1344,15 @@ PFNGLXGETPROCADDRESSPROC_PRIVATE	src/glad.c	/^typedef void* (APIENTRYP PFNGLXGET
 PFNWGLGETPROCADDRESSPROC_PRIVATE	src/glad.c	/^typedef void* (APIENTRYP PFNWGLGETPROCADDRESSPROC_PRIVATE)(const char*);$/;"	t	file:
 Renderer	include/gui/renderer.h	/^class Renderer $/;"	c
 Renderer	src/gui/renderer.cpp	/^Renderer::Renderer() $/;"	f	class:Renderer
+SDEF_FRAGPATH	include/gui/shader.h	6;"	d
 SDEF_SIZE	include/core/string.h	3;"	d
+SDEF_VERTPATH	include/gui/shader.h	5;"	d
 SRC	Makefile	/^SRC=$(MAIN) $(GUI) $(CORE)$/;"	m
 SRCDIR	Makefile	/^SRCDIR=src$/;"	m
 Save	include/core/doccmd.h	/^        Save,$/;"	m	class:Doccmd::Type
 Save	include/core/doccmd.h	/^    struct Save {$/;"	s	class:Doccmd
+Shader	include/gui/shader.h	/^class Shader$/;"	c
+Shader	src/gui/shader.cpp	/^Shader::Shader()$/;"	f	class:Shader
 String	include/core/string.h	/^class String$/;"	c
 String	src/core/string.cpp	/^String::String()$/;"	f	class:String
 String	src/core/string.cpp	/^String::String(const String& str)$/;"	f	class:String
@@ -1381,9 +1387,12 @@ _curline	include/core/document.h	/^    unsigned int _curline;  \/\/ Cursor line$
 _data	include/core/string.h	/^    char* _data;$/;"	m	class:String
 _face	include/gui/font.h	/^    FT_Face _face;$/;"	m	class:Font
 _filename	include/core/document.h	/^    std::string _filename;$/;"	m	class:Document
+_font	include/gui/renderer.h	/^    Font _font;$/;"	m	class:Renderer
 _fontpath	include/gui/font.h	/^    const char* _fontpath;$/;"	m	class:Font
+_fragPath	include/gui/shader.h	/^    const char* _fragPath;$/;"	m	class:Shader
 _glcontext	include/gui/window.h	/^    SDL_GLContext _glcontext;$/;"	m	class:Window
 _height	include/gui/canvas.h	/^    unsigned int _width, _height;$/;"	m	class:Canvas
+_id	include/gui/shader.h	/^    unsigned int _id;$/;"	m	class:Shader
 _isSizeChanged	include/gui/canvas.h	/^    bool _isSizeChanged;$/;"	m	class:Canvas
 _isactive	include/core/line.h	/^    bool _isactive;$/;"	m	class:Line
 _isinit	include/gui/font.h	/^    bool _isinit;$/;"	m	class:Font
@@ -1398,6 +1407,7 @@ _running	include/gui/window.h	/^    bool _running;$/;"	m	class:Window
 _size	include/core/string.h	/^    unsigned int _size; \/\/ Max length$/;"	m	class:String
 _str	include/core/line.h	/^    String _str;$/;"	m	class:Line
 _title	include/gui/window.h	/^    const char* _title;$/;"	m	class:Window
+_vertPath	include/gui/shader.h	/^    const char* _vertPath;$/;"	m	class:Shader
 _width	include/gui/bitmap.h	/^    unsigned int _rows, _width;$/;"	m	class:Bitmap
 _width	include/gui/canvas.h	/^    unsigned int _width, _height;$/;"	m	class:Canvas
 _window	include/core/input.h	/^    Window &_window;$/;"	m	class:Input
@@ -1406,12 +1416,16 @@ append	src/core/string.cpp	/^void String::append(char c)$/;"	f	class:String
 buffer	src/gui/bitmap.cpp	/^unsigned char* Bitmap::buffer() const$/;"	f	class:Bitmap
 c	include/core/doccmd.h	/^        char c;$/;"	m	struct:Doccmd::Insertchar
 c	include/core/input.h	/^    char c;$/;"	m	struct:Key
+checkProgramStatus	src/gui/shader.cpp	/^void Shader::checkProgramStatus()$/;"	f	class:Shader
+checkShaderStatus	src/gui/shader.cpp	/^void Shader::checkShaderStatus(unsigned int id, const char* name)$/;"	f	class:Shader
 clear	src/gui/window.cpp	/^void Window::clear()$/;"	f	class:Window
 close	src/gui/window.cpp	/^void Window::close()$/;"	f	class:Window
 close_gl	src/glad.c	/^void close_gl(void) {$/;"	f	file:
 cmd	include/core/doccmd.h	/^    Command cmd;$/;"	m	class:Doccmd
 codeToChar	src/core/input.cpp	/^char Input::codeToChar(int code, int mod)$/;"	f	class:Input
+compile	src/gui/shader.cpp	/^void Shader::compile(int id, const char* path)$/;"	f	class:Shader
 count	include/core/doccmd.h	/^        int count;$/;"	m	struct:Doccmd::Move
+create	src/gui/shader.cpp	/^int Shader::create(GLuint type)$/;"	f	class:Shader
 currentLine	src/core/document.cpp	/^Line& Document::currentLine()$/;"	f	class:Document
 data	src/core/line.cpp	/^const char* Line::data() const$/;"	f	class:Line
 data	src/core/string.cpp	/^const char* String::data() const$/;"	f	class:String
@@ -1422,6 +1436,7 @@ doubleLines	src/core/document.cpp	/^void Document::doubleLines()$/;"	f	class:Doc
 doubleSize	src/core/string.cpp	/^void String::doubleSize()$/;"	f	class:String
 down	include/core/doccmd.h	/^            down,$/;"	e	enum:Doccmd::Move::Type
 edit	include/core/doccmd.h	/^        Edit edit;$/;"	m	union:Doccmd::Command
+empty	src/core/string.cpp	/^bool String::empty()$/;"	f	class:String
 exec	src/core/document.cpp	/^void Document::exec(Doccmd dcmd)$/;"	f	class:Document
 execEdit	src/core/document.cpp	/^void Document::execEdit(Doccmd::Edit cmd)$/;"	f	class:Document
 execInsertchar	src/core/document.cpp	/^void Document::execInsertchar(Doccmd::Insertchar cmd)$/;"	f	class:Document
@@ -1432,6 +1447,7 @@ exts_i	src/glad.c	/^static const char **exts_i = NULL;$/;"	v	file:
 find_coreGL	src/glad.c	/^static void find_coreGL(void) {$/;"	f	file:
 find_extensionsGL	src/glad.c	/^static int find_extensionsGL(void) {$/;"	f	file:
 free_exts	src/glad.c	/^static void free_exts(void) {$/;"	f	file:
+fromFile	src/core/string.cpp	/^String String::fromFile(const char* path)$/;"	f	class:String
 getBitmap	src/gui/font.cpp	/^Bitmap Font::getBitmap(unsigned int code)$/;"	f	class:Font
 getCanvas	src/gui/window.cpp	/^Canvas& Window::getCanvas()$/;"	f	class:Window
 getLengthBytes	src/core/string.cpp	/^unsigned int String::getLengthBytes() const$/;"	f	class:String
@@ -1813,6 +1829,7 @@ glVertexP4ui	include/glad/glad.h	2103;"	d
 glVertexP4uiv	include/glad/glad.h	2106;"	d
 glViewport	include/glad/glad.h	1156;"	d
 glWaitSync	include/glad/glad.h	1973;"	d
+gl_Position	res/shaders/vert.s	/^    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);$/;"	d
 gladGLversionStruct	include/glad/glad.h	/^struct gladGLversionStruct {$/;"	s
 gladGetProcAddressPtr	src/glad.c	/^static PFNGLXGETPROCADDRESSPROC_PRIVATE gladGetProcAddressPtr;$/;"	v	file:
 gladGetProcAddressPtr	src/glad.c	/^static PFNWGLGETPROCADDRESSPROC_PRIVATE gladGetProcAddressPtr;$/;"	v	file:
@@ -2582,6 +2599,7 @@ isactive	src/core/line.cpp	/^bool Line::isactive() const$/;"	f	class:Line
 isempty	src/core/line.cpp	/^bool Line::isempty() const$/;"	f	class:Line
 isinit	src/gui/font.cpp	/^bool Font::isinit()$/;"	f	class:Font
 keyCb	include/core/input.h	/^    KEYCB keyCb;$/;"	m	class:Input
+layout	res/shaders/vert.s	/^layout (location = 0) in vec3 aPos;$/;"	l
 left	include/core/doccmd.h	/^            left,$/;"	e	enum:Doccmd::Move::Type
 length	include/core/string.h	/^    inline unsigned int length() const { return _len; }$/;"	f	class:String
 length	src/core/line.cpp	/^unsigned int Line::length() const$/;"	f	class:Line
@@ -2623,6 +2641,7 @@ operator =	src/core/string.cpp	/^void String::operator=(const char* str)$/;"	f	c
 operator []	src/core/document.cpp	/^const Line& Document::operator[](unsigned int index) const$/;"	f	class:Document
 operator []	src/core/string.cpp	/^char String::operator[](unsigned int pos) const$/;"	f	class:String
 optimize	src/core/string.cpp	/^void String::optimize()$/;"	f	class:String
+out	res/shaders/frag.s	/^out vec4 FragColor;$/;"	l
 pitch	src/gui/bitmap.cpp	/^int Bitmap::pitch() const$/;"	f	class:Bitmap
 poll	src/core/input.cpp	/^void Input::poll()$/;"	f	class:Input
 print	src/core/document.cpp	/^void Document::print()$/;"	f	class:Document
@@ -2643,11 +2662,10 @@ s1	src/tests/test_main.cpp	/^    String* s1;$/;"	m	struct:StringTest	file:
 save	include/core/doccmd.h	/^        Save save;$/;"	m	union:Doccmd::Command
 saveas	include/core/doccmd.h	/^        bool saveas;$/;"	m	struct:Doccmd::Save
 setCurrentLine	src/core/document.cpp	/^void Document::setCurrentLine(unsigned int lineno)$/;"	f	class:Document
-setHeight	src/gui/canvas.cpp	/^void Canvas::setHeight(unsigned int height)$/;"	f	class:Canvas
 setNum	src/core/line.cpp	/^void Line::setNum(unsigned int num)$/;"	f	class:Line
+setSize	src/gui/canvas.cpp	/^void Canvas::setSize(unsigned int width, unsigned int height)$/;"	f	class:Canvas
 setSize	src/gui/font.cpp	/^void Font::setSize(unsigned int val)$/;"	f	class:Font
 setTitle	src/gui/window.cpp	/^void Window::setTitle(const char* title)$/;"	f	class:Window
-setWidth	src/gui/canvas.cpp	/^void Canvas::setWidth(unsigned int width)$/;"	f	class:Canvas
 setactive	src/core/line.cpp	/^void Line::setactive(bool value)$/;"	f	class:Line
 setinit	src/gui/font.cpp	/^void Font::setinit(bool val)$/;"	f	class:Font
 size	include/core/string.h	/^    inline unsigned int size() const { return _size; }$/;"	f	class:String
@@ -2662,6 +2680,10 @@ uint64_t	include/glad/glad.h	/^typedef unsigned long int uint64_t;$/;"	t
 uint64_t	include/glad/glad.h	/^typedef unsigned long long int uint64_t;$/;"	t
 up	include/core/doccmd.h	/^            up$/;"	e	enum:Doccmd::Move::Type
 update	src/gui/window.cpp	/^void Window::update()$/;"	f	class:Window
+updateViewport	src/gui/canvas.cpp	/^void Canvas::updateViewport()$/;"	f	class:Canvas
+use	src/gui/shader.cpp	/^void Shader::use()$/;"	f	class:Shader
+void	res/shaders/frag.s	/^void main()$/;"	l
+void	res/shaders/vert.s	/^void main()$/;"	l
 width	src/gui/bitmap.cpp	/^unsigned int Bitmap::width() const$/;"	f	class:Bitmap
 width	src/gui/canvas.cpp	/^const unsigned int Canvas::width() const$/;"	f	class:Canvas
 ~Bitmap	src/gui/bitmap.cpp	/^Bitmap::~Bitmap()$/;"	f	class:Bitmap
@@ -2671,6 +2693,7 @@ width	src/gui/canvas.cpp	/^const unsigned int Canvas::width() const$/;"	f	class:
 ~Input	src/core/input.cpp	/^Input::~Input() {}$/;"	f	class:Input
 ~Line	src/core/line.cpp	/^Line::~Line()$/;"	f	class:Line
 ~Renderer	src/gui/renderer.cpp	/^Renderer::~Renderer()$/;"	f	class:Renderer
+~Shader	src/gui/shader.cpp	/^Shader::~Shader()$/;"	f	class:Shader
 ~String	src/core/string.cpp	/^String::~String() $/;"	f	class:String
 ~StringTest	src/tests/test_main.cpp	/^    ~StringTest()$/;"	f	struct:StringTest
 ~Window	src/gui/window.cpp	/^Window::~Window()$/;"	f	class:Window

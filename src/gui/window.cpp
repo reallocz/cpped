@@ -57,18 +57,18 @@ void Window::update()
 {
     // TODO
     SDL_GL_SwapWindow(_window);
-}
-
-// Clear the screen and update the window size
-void Window::clear()
-{
-    glClearColor(0,0,0,1);
-    glClear(GL_COLOR_BUFFER_BIT);
 
     int width, height;
     SDL_GetWindowSize(_window, &width, &height); // SDL uses int and not uint
-    _canvas.setWidth(width);
-    _canvas.setHeight(height);
+    _canvas.setSize(width, height);
+}
+
+
+// Clear the screen
+void Window::clear()
+{
+    glClearColor(1,1,1,1);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 

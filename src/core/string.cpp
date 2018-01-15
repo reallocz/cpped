@@ -1,6 +1,7 @@
 #include "core/string.h"
 #include <iostream>
 #include <memory.h>
+#include <cstdio>
 
 
 String::String()
@@ -45,10 +46,10 @@ void String::append(char c)
     if(_len >= _size)
         doubleSize();
 
-    std::cout << c << "-"  << _len << "/" << _size-1 << std::endl;
+    //std::cout << c << "-"  << _len << "/" << _size-1 << std::endl;
     _data[_len] = c;
     ++_len;
-    print();
+    //print();
 }
 
 
@@ -65,7 +66,7 @@ void String::replace(const char* str)
 
 void String::doubleSize()
 {
-    std::cout << "\nDoubling " << _size << " -> " << _size * 2 << std::endl;
+    //std::cout << "\nDoubling " << _size << " -> " << _size * 2 << std::endl;
     _size *= 2;
     resize();
 }
@@ -128,6 +129,12 @@ char String::operator[](unsigned int pos) const
         return _data[pos];
 }
 
+
+bool String::empty()
+{
+    return _len == 0;
+}
+
 void String::operator=(const char* str)
 {
     replace(str);
@@ -153,5 +160,40 @@ String String::slice(unsigned int from, unsigned int len) const
     memcpy(data, &_data[from], len * sizeof(char));
     data[len] = '\0';
     return String(data);
+}
+
+
+
+String String::fromFile(const char* path)
+{
+    FILE* file = NULL;    
+    file = fopen(path, "r");
+
+    if(file == NULL)
+    {
+        std::cerr << "ERROR: String::fromFile: Couldn't open file: "
+            << path << std::endl;
+        return String();
+    }
+    else
+    {
+        String s;
+        char c;
+        int size = 0, readcount = 0;
+
+        fseek(file, 0, SEEK_END);
+        size = ftell(file);
+        rewind(file);
+
+        while((c = getc(file)) != EOF)
+        {
+            s.append(c);
+            readcount++;
+        }
+        std::cout << "Read " << readcount << "/" << size
+            << " bytes." << std::endl;
+        fclose(file);
+        return s;
+    }
 }
 

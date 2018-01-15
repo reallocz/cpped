@@ -17,8 +17,8 @@ public:
     bool isDirty() const;
 
 private:
-    void setWidth(unsigned int width);
-    void setHeight(unsigned int width);
+    void setSize(unsigned int width, unsigned int height);
+    void updateViewport();
 
 private:
     unsigned int _width, _height;

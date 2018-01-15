@@ -2,10 +2,12 @@
 #include <map>
 #include <ft2build.h>
 #include FT_FREETYPE_H
+
+#include "config.h"
 #include "gui/bitmap.h"
 
 #define FDEF_SIZE 28
-#define FDEF_FONT "fonts/DejaVuSans.ttf"
+#define FDEF_FONT CONF_RES_ROOT "fonts/DejaVuSans.ttf"
 
 class Font
 {

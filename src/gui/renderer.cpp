@@ -14,6 +14,9 @@ Renderer::~Renderer()
 void Renderer::renderdoc(Canvas& canvas, Document& d)
 {
     unsigned int numlines = d.numlines();
+    renderLine(canvas, d[0]);
+
+#if 0
     for(unsigned int i = 0; i < numlines; ++i)
     {
         const Line& line = d[i];
@@ -22,12 +25,13 @@ void Renderer::renderdoc(Canvas& canvas, Document& d)
             renderLine(canvas, line);
         }
     }
+#endif
 
 }
 
 
 void Renderer::renderLine(Canvas& canvas, const Line& line)
 {
+    Bitmap b = _font.getBitmap('a');
 }
-
 
