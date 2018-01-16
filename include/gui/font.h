@@ -5,6 +5,7 @@
 
 #include "config.h"
 #include "gui/bitmap.h"
+#include "gui/glyph.h"
 
 #define FDEF_SIZE 22 
 #define FDEF_FONT CONF_RES_ROOT "fonts/ubuntu.ttf"
@@ -13,18 +14,18 @@ class Font
 {
 public:
     Font();
-    ~Font();
+    ~Font() noexcept;
 
     void loadFace(const char* path);
-    bool isinit(); 
-    void print();
+    void print() const;
     void setSize(unsigned int val); // TODO
 
-    Bitmap getBitmap(unsigned int code);
+    Glyph& getGlyph(unsigned char c);
 
 private:
-    void initLib();
-    void setinit(bool val);
+    bool loadGlyphAt(unsigned int index, Glyph& g);
+    bool loadBitmap(Glyph& g);
+    bool initLib();
     void loadCharmap();
 
 private:
@@ -32,9 +33,8 @@ private:
     FT_Face _face;
 
     const char* _fontpath;
-    bool _isinit;
 
-    // Charcode -> glyphindex;
-    std::map<unsigned int, unsigned int> _charmap;
+    // Charcode -> glyph;
+    std::map<unsigned int, Glyph> _charmap;
 };
 

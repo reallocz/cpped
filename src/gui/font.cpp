@@ -1,10 +1,13 @@
 #include "gui/font.h"
 #include <iostream>
 
+static bool ISFTINIT = false;
+
 Font::Font()
 {
-    setinit(false);
-    initLib();
+    if(!ISFTINIT) {
+        ISFTINIT = initLib();
+    }
     loadFace(FDEF_FONT);
     // TODO https://www.freetype.org/freetype2/docs/tutorial/step1.html
 }
@@ -16,15 +19,21 @@ Font::~Font()
 }
 
 
-void Font::initLib()
+bool Font::initLib()
 {
     int error = FT_Init_FreeType(&_library);
     if(error)
+    {
         std::cerr << "Failed to initialize freetype library"
             << std::endl;
+        return false;
+    }
     else
+    {
         std::cout << "Freetype initialized successfully!"
             << std::endl;
+        return true;
+    }
 }
 
 
@@ -38,13 +47,11 @@ void Font::loadFace(const char* path)
     {
         std::cerr << "FONT: Unknown file format: " << _fontpath
             << std::endl;
-        setinit(false);
     }
     else if ( error || _face == NULL )
     {
         std::cerr << "FONT: Failed to load font: " <<  _fontpath
             << std::endl;
-        setinit(false);
     }
     else
     {
@@ -53,7 +60,6 @@ void Font::loadFace(const char* path)
         
         setSize(24);        
         loadCharmap();
-        setinit(true);
     }
 }
 
@@ -71,23 +77,12 @@ void Font::setSize(unsigned int val)
     if(error)
     {
         std::cerr << "Failed to set font size: " << val << std::endl;
-        setinit(false);
     }
 }
 
-void Font::setinit(bool val)
-{
-    _isinit = val;
-}
 
 
-bool Font::isinit()
-{
-    return _isinit;
-}
-
-
-void Font::print()
+void Font::print() const
 {
     std::cout << "Font {\n"
         << " path: " << _fontpath << ",\n"
@@ -103,50 +98,87 @@ void Font::print()
 void Font::loadCharmap()
 {
     std::cout << "Loading charmap...";
-    unsigned int index = 0;
-    int num = _face->num_glyphs;
-    for(wchar_t i = 0; i < num; ++i)
+    int num_glyphs = _face->num_glyphs;
+
+    for(wchar_t c = 0; c < 129; ++c)
     {
-        index = FT_Get_Char_Index(_face, i); 
+        unsigned int index = FT_Get_Char_Index(_face, c); 
         if(index != 0)
-            _charmap[i] = index;
+        {
+            Glyph g;
+            g.code = c;
+            loadGlyphAt(index, g);
+            loadBitmap(g);
+            _charmap[c] = g;
+        }
     }
-    std::cout << "done." << std::endl;
-    std::cout << "Loaded  " << _charmap.size() << "/" << _face->num_glyphs << std::endl;
+
+    std::cout << "done.\n"
+        << "Loaded " << _charmap.size() << "/" << _face->num_glyphs
+        << std::endl;
 }
 
 
-Bitmap Font::getBitmap(unsigned int code)
+
+Glyph& Font::getGlyph(unsigned char c)
 {
-    if(_charmap[code] != 0)
+    return _charmap[c];
+}
+
+
+bool Font::loadGlyphAt(unsigned int index, Glyph& g)
+{
+    int error = 1;
+    error = FT_Load_Glyph(_face, index, FT_LOAD_DEFAULT);
+    if(error)
     {
-        int error = 1;
-        error = FT_Load_Glyph(_face, _charmap[code], FT_LOAD_DEFAULT);
-
-        if (error) 
-            std::cout << "Cannot getGlyph: Failed to load glyph!" << std::endl;
-
-        error = 1;
-        error = FT_Render_Glyph(_face->glyph, FT_RENDER_MODE_NORMAL);
-        if (error)
-            std::cout << "Error FT_Render_Glyph" << std::endl;
-
-        FT_Bitmap bitmap = _face->glyph->bitmap;
-
-        //std::cout << "Loaded glyph {"
-            //<< " char: " << (char)code
-            //<< " rows: " << bitmap.rows
-            //<< " width: " << bitmap.width
-            //<< " pitch: " << bitmap.pitch
-            //<< " }" << std::endl;
-
-        return Bitmap(bitmap.rows, bitmap.width, bitmap.pitch, bitmap.buffer);
+        std::cerr << "Error: Cannot loadGlyphAt(index=" << index << ")" << std::endl;
+        return false;
     }
     else
     {
-        std::cout << "Cannot getGlyph: Invalid code: " << code << std::endl;
-        return Bitmap();
+        FT_GlyphSlot slot = _face->glyph;
+
+        g.index = index;
+        g.advX = slot->advance.x;
+        g.advY = slot->advance.y;
+        g.width = slot->metrics.width;
+        g.height = slot->metrics.height;
+        return true;
     }
+}
+
+
+// Load bitmap from glyph index
+bool Font::loadBitmap(Glyph& g)
+{
+    int error = 1;
+    error = FT_Load_Glyph(_face, g.index, FT_LOAD_DEFAULT);
+    if (error)
+    {
+        std::cout << "Error: cannot loadBitmap::Cannot getGlyph: Failed to load glyph!" << std::endl;
+        return false;
+    }
+
+    error = 1;
+    error = FT_Render_Glyph(_face->glyph, FT_RENDER_MODE_NORMAL);
+    if (error)
+    {
+        std::cout << "Error FT_Render_Glyph" << std::endl;
+        return false;
+    }
+
+
+    FT_Bitmap bitmap = _face->glyph->bitmap;
+
+    //std::cout << "Loaded glyph {"
+    //<< " char: " << (char)code
+    //<< " rows: " << bitmap.rows
+    //<< " width: " << bitmap.width
+    //<< " pitch: " << bitmap.pitch
+    //<< " }" << std::endl;
+    g.bitmap = Bitmap(bitmap.rows, bitmap.width, bitmap.pitch, bitmap.buffer);
+    return true;
 }
 
 

@@ -4,16 +4,24 @@ class Bitmap
 {
 public:
     Bitmap();
-    Bitmap(unsigned int rows, unsigned int width, int pitch, unsigned char* buffer);
-    Bitmap(const Bitmap& b);
-    ~Bitmap();
+    Bitmap(unsigned int rows, unsigned int width, int pitch,
+            unsigned char* buffer);
 
+    // Copy
+    Bitmap(const Bitmap& src);
+    // Copy assigment
+    Bitmap& operator=(const Bitmap& src);
+
+    ~Bitmap() noexcept;
+
+    void print() const;
     unsigned int rows() const;
     unsigned int width() const;
     int pitch() const;
     unsigned char* buffer() const;
 
-    void print();
+private:
+    void copyBuffer(unsigned char* src);
 
 private:
     unsigned int _rows, _width;

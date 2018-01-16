@@ -33,6 +33,7 @@ int main() {
     glBindVertexArray(VAO);
 
     glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*) 0);
@@ -42,8 +43,10 @@ int main() {
 
 
     Font f;
-    Bitmap bm = f.getBitmap('a');
-    //bm.print();
+
+    const Bitmap& bm = f.getGlyph('B').bitmap;
+    bm.print();
+
     unsigned int tex;
     glGenTextures(1, &tex);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

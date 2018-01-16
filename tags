@@ -10,8 +10,8 @@ APIENTRYP	include/glad/glad.h	44;"	d
 BINDIR	Makefile	/^BINDIR=bin$/;"	m
 Bitmap	include/gui/bitmap.h	/^class Bitmap$/;"	c
 Bitmap	src/gui/bitmap.cpp	/^Bitmap::Bitmap()$/;"	f	class:Bitmap
-Bitmap	src/gui/bitmap.cpp	/^Bitmap::Bitmap(const Bitmap& b)$/;"	f	class:Bitmap
-Bitmap	src/gui/bitmap.cpp	/^Bitmap::Bitmap(unsigned int rows, unsigned int width, int pitch, unsigned char* buffer)$/;"	f	class:Bitmap
+Bitmap	src/gui/bitmap.cpp	/^Bitmap::Bitmap(const Bitmap& b):$/;"	f	class:Bitmap
+Bitmap	src/gui/bitmap.cpp	/^Bitmap::Bitmap(unsigned int rows, unsigned int width,$/;"	f	class:Bitmap
 CC	Makefile	/^CC=g++$/;"	m
 CFLAGS	Makefile	/^CFLAGS=-std=c++14 -Wall$/;"	m
 CONF_RES_ROOT	include/config.h	3;"	d
@@ -30,8 +30,8 @@ EXOBJECTS	Makefile	/^EXOBJECTS=bin\/obj\/src\/glad.o$/;"	m
 Edit	include/core/doccmd.h	/^        Edit,$/;"	m	class:Doccmd::Type
 Edit	include/core/doccmd.h	/^    struct Edit {$/;"	s	class:Doccmd
 Edit	include/core/input.h	/^    Edit,       \/\/ Backspace, enter, delete$/;"	m	class:Keytype
-FDEF_FONT	include/gui/font.h	10;"	d
-FDEF_SIZE	include/gui/font.h	9;"	d
+FDEF_FONT	include/gui/font.h	11;"	d
+FDEF_SIZE	include/gui/font.h	10;"	d
 Font	include/gui/font.h	/^class Font$/;"	c
 Font	src/gui/font.cpp	/^Font::Font()$/;"	f	class:Font
 FragColor	res/shaders/frag.s	/^    FragColor = texture(ourTexture, TexCoord);$/;"	d
@@ -947,7 +947,9 @@ GLushort	include/glad/glad.h	/^typedef unsigned short GLushort;$/;"	t
 GLvdpauSurfaceNV	include/glad/glad.h	/^typedef GLintptr GLvdpauSurfaceNV;$/;"	t
 GLvoid	include/glad/glad.h	/^typedef void GLvoid;$/;"	t
 GUI	Makefile	/^GUI=$(wildcard src\/gui\/*.cpp)$/;"	m
+Glyph	include/gui/glyph.h	/^struct Glyph$/;"	s
 INCLUDE	Makefile	/^INCLUDE=-Iinclude -I\/usr\/include\/freetype2$/;"	m
+ISFTINIT	src/gui/font.cpp	/^static bool ISFTINIT = false;$/;"	v	file:
 Input	include/core/input.h	/^class Input$/;"	c
 Input	src/core/input.cpp	/^Input::Input(Window& window, KEYCB cb):$/;"	f	class:Input
 Insert	include/core/input.h	/^    Insert,     \/\/ Alphanumeric, spacebar$/;"	m	class:Keytype
@@ -1383,7 +1385,7 @@ __gl_h_	include/glad/glad.h	28;"	d
 __glad_h_	include/glad/glad.h	23;"	d
 _buffer	include/gui/bitmap.h	/^    unsigned char* _buffer;$/;"	m	class:Bitmap
 _canvas	include/gui/window.h	/^    Canvas _canvas;$/;"	m	class:Window
-_charmap	include/gui/font.h	/^    std::map<unsigned int, unsigned int> _charmap;$/;"	m	class:Font
+_charmap	include/gui/font.h	/^    std::map<unsigned int, Glyph> _charmap;$/;"	m	class:Font
 _curline	include/core/document.h	/^    unsigned int _curline;  \/\/ Cursor line$/;"	m	class:Document
 _data	include/core/string.h	/^    char* _data;$/;"	m	class:String
 _face	include/gui/font.h	/^    FT_Face _face;$/;"	m	class:Font
@@ -1395,7 +1397,6 @@ _height	include/gui/canvas.h	/^    unsigned int _width, _height;$/;"	m	class:Can
 _id	include/gui/shader.h	/^    unsigned int _id;$/;"	m	class:Shader
 _isSizeChanged	include/gui/canvas.h	/^    bool _isSizeChanged;$/;"	m	class:Canvas
 _isactive	include/core/line.h	/^    bool _isactive;$/;"	m	class:Line
-_isinit	include/gui/font.h	/^    bool _isinit;$/;"	m	class:Font
 _len	include/core/string.h	/^    unsigned int _len;  \/\/ Length$/;"	m	class:String
 _library	include/gui/font.h	/^    FT_Library _library;$/;"	m	class:Font
 _lines	include/core/document.h	/^    Line* _lines;$/;"	m	class:Document
@@ -1412,7 +1413,10 @@ _width	include/gui/bitmap.h	/^    unsigned int _rows, _width;$/;"	m	class:Bitmap
 _width	include/gui/canvas.h	/^    unsigned int _width, _height;$/;"	m	class:Canvas
 _window	include/core/input.h	/^    Window &_window;$/;"	m	class:Input
 _window	include/gui/window.h	/^    SDL_Window* _window;$/;"	m	class:Window
+advX	include/gui/glyph.h	/^    long advX = 0;$/;"	m	struct:Glyph
+advY	include/gui/glyph.h	/^    long advY = 0;$/;"	m	struct:Glyph
 append	src/core/string.cpp	/^void String::append(char c)$/;"	f	class:String
+bitmap	include/gui/glyph.h	/^    Bitmap bitmap;$/;"	m	struct:Glyph
 buffer	src/gui/bitmap.cpp	/^unsigned char* Bitmap::buffer() const$/;"	f	class:Bitmap
 c	include/core/doccmd.h	/^        char c;$/;"	m	struct:Doccmd::Insertchar
 c	include/core/input.h	/^    char c;$/;"	m	struct:Key
@@ -1422,8 +1426,10 @@ clear	src/gui/window.cpp	/^void Window::clear()$/;"	f	class:Window
 close	src/gui/window.cpp	/^void Window::close()$/;"	f	class:Window
 close_gl	src/glad.c	/^void close_gl(void) {$/;"	f	file:
 cmd	include/core/doccmd.h	/^    Command cmd;$/;"	m	class:Doccmd
+code	include/gui/glyph.h	/^    char code = 0;$/;"	m	struct:Glyph
 codeToChar	src/core/input.cpp	/^char Input::codeToChar(int code, int mod)$/;"	f	class:Input
 compile	src/gui/shader.cpp	/^void Shader::compile(int id, const char* path)$/;"	f	class:Shader
+copyBuffer	src/gui/bitmap.cpp	/^void Bitmap::copyBuffer(unsigned char* src)$/;"	f	class:Bitmap
 count	include/core/doccmd.h	/^        int count;$/;"	m	struct:Doccmd::Move
 create	src/gui/shader.cpp	/^int Shader::create(GLuint type)$/;"	f	class:Shader
 currentLine	src/core/document.cpp	/^Line& Document::currentLine()$/;"	f	class:Document
@@ -1448,8 +1454,8 @@ find_coreGL	src/glad.c	/^static void find_coreGL(void) {$/;"	f	file:
 find_extensionsGL	src/glad.c	/^static int find_extensionsGL(void) {$/;"	f	file:
 free_exts	src/glad.c	/^static void free_exts(void) {$/;"	f	file:
 fromFile	src/core/string.cpp	/^String String::fromFile(const char* path)$/;"	f	class:String
-getBitmap	src/gui/font.cpp	/^Bitmap Font::getBitmap(unsigned int code)$/;"	f	class:Font
 getCanvas	src/gui/window.cpp	/^Canvas& Window::getCanvas()$/;"	f	class:Window
+getGlyph	src/gui/font.cpp	/^Glyph& Font::getGlyph(unsigned char c)$/;"	f	class:Font
 getLengthBytes	src/core/string.cpp	/^unsigned int String::getLengthBytes() const$/;"	f	class:String
 getSizeBytes	src/core/string.cpp	/^unsigned int String::getSizeBytes() const$/;"	f	class:String
 getType	src/core/input.cpp	/^Keytype Input::getType(int code, int mod)$/;"	f	class:Input
@@ -2584,10 +2590,12 @@ glad_glViewport	src/glad.c	/^PFNGLVIEWPORTPROC glad_glViewport;$/;"	v
 glad_glWaitSync	include/glad/glad.h	/^GLAPI PFNGLWAITSYNCPROC glad_glWaitSync;$/;"	v
 glad_glWaitSync	src/glad.c	/^PFNGLWAITSYNCPROC glad_glWaitSync;$/;"	v
 has_ext	src/glad.c	/^static int has_ext(const char *ext) {$/;"	f	file:
+height	include/gui/glyph.h	/^    long height = 0;$/;"	m	struct:Glyph
 height	src/gui/canvas.cpp	/^const unsigned int Canvas::height() const$/;"	f	class:Canvas
 in	res/shaders/frag.s	/^in vec2 TexCoord;$/;"	l
+index	include/gui/glyph.h	/^    unsigned int index = 0;$/;"	m	struct:Glyph
 initGl	src/gui/window.cpp	/^void Window::initGl()$/;"	f	class:Window
-initLib	src/gui/font.cpp	/^void Font::initLib()$/;"	f	class:Font
+initLib	src/gui/font.cpp	/^bool Font::initLib()$/;"	f	class:Font
 insertChar	src/core/line.cpp	/^void Line::insertChar(char a)$/;"	f	class:Line
 insertchar	include/core/doccmd.h	/^        Insertchar insertchar;$/;"	m	union:Doccmd::Command
 int32_t	include/glad/glad.h	/^typedef __int32 int32_t;$/;"	t
@@ -2598,7 +2606,6 @@ int64_t	include/glad/glad.h	/^typedef long long int int64_t;$/;"	t
 isDirty	src/gui/canvas.cpp	/^bool Canvas::isDirty() const$/;"	f	class:Canvas
 isactive	src/core/line.cpp	/^bool Line::isactive() const$/;"	f	class:Line
 isempty	src/core/line.cpp	/^bool Line::isempty() const$/;"	f	class:Line
-isinit	src/gui/font.cpp	/^bool Font::isinit()$/;"	f	class:Font
 keyCb	include/core/input.h	/^    KEYCB keyCb;$/;"	m	class:Input
 layout	res/shaders/vert.s	/^layout (location = 0) in vec3 aPos;$/;"	l
 layout	res/shaders/vert.s	/^layout (location = 1) in vec2 aCoord;$/;"	l
@@ -2607,8 +2614,10 @@ length	include/core/string.h	/^    inline unsigned int length() const { return _
 length	src/core/line.cpp	/^unsigned int Line::length() const$/;"	f	class:Line
 libGL	src/glad.c	/^static HMODULE libGL;$/;"	v	file:
 libGL	src/glad.c	/^static void* libGL;$/;"	v	file:
+loadBitmap	src/gui/font.cpp	/^bool Font::loadBitmap(Glyph& g)$/;"	f	class:Font
 loadCharmap	src/gui/font.cpp	/^void Font::loadCharmap()$/;"	f	class:Font
 loadFace	src/gui/font.cpp	/^void Font::loadFace(const char* path)$/;"	f	class:Font
+loadGlyphAt	src/gui/font.cpp	/^bool Font::loadGlyphAt(unsigned int index, Glyph& g)$/;"	f	class:Font
 load_GL_VERSION_1_0	src/glad.c	/^static void load_GL_VERSION_1_0(GLADloadproc load) {$/;"	f	file:
 load_GL_VERSION_1_1	src/glad.c	/^static void load_GL_VERSION_1_1(GLADloadproc load) {$/;"	f	file:
 load_GL_VERSION_1_2	src/glad.c	/^static void load_GL_VERSION_1_2(GLADloadproc load) {$/;"	f	file:
@@ -2629,6 +2638,8 @@ max_loaded_minor	src/glad.c	/^static int max_loaded_minor;$/;"	v	file:
 minor	include/glad/glad.h	/^    int minor;$/;"	m	struct:gladGLversionStruct
 move	include/core/doccmd.h	/^        Move move;$/;"	m	union:Doccmd::Command
 newline	include/core/doccmd.h	/^            newline,$/;"	e	enum:Doccmd::Edit::Type
+noexcept	include/gui/bitmap.h	/^    ~Bitmap() noexcept;$/;"	m	class:Bitmap
+noexcept	include/gui/font.h	/^    ~Font() noexcept;$/;"	m	class:Font
 num_exts_i	src/glad.c	/^static int num_exts_i = 0;$/;"	v	file:
 number	src/core/line.cpp	/^unsigned int Line::number() const$/;"	f	class:Line
 numlines	src/core/document.cpp	/^unsigned int Document::numlines() const$/;"	f	class:Document
@@ -2640,6 +2651,7 @@ onMouseMotion	src/core/input.cpp	/^void Input::onMouseMotion(SDL_MouseMotionEven
 onMouseWheel	src/core/input.cpp	/^void Input::onMouseWheel(SDL_MouseWheelEvent &event)$/;"	f	class:Input
 open_gl	src/glad.c	/^int open_gl(void) {$/;"	f	file:
 operator =	src/core/string.cpp	/^void String::operator=(const char* str)$/;"	f	class:String
+operator =	src/gui/bitmap.cpp	/^Bitmap& Bitmap::operator=(const Bitmap& b)$/;"	f	class:Bitmap
 operator []	src/core/document.cpp	/^const Line& Document::operator[](unsigned int index) const$/;"	f	class:Document
 operator []	src/core/string.cpp	/^char String::operator[](unsigned int pos) const$/;"	f	class:String
 optimize	src/core/string.cpp	/^void String::optimize()$/;"	f	class:String
@@ -2650,9 +2662,9 @@ poll	src/core/input.cpp	/^void Input::poll()$/;"	f	class:Input
 print	src/core/document.cpp	/^void Document::print()$/;"	f	class:Document
 print	src/core/line.cpp	/^void Line::print() const$/;"	f	class:Line
 print	src/core/string.cpp	/^void String::print() const$/;"	f	class:String
-print	src/gui/bitmap.cpp	/^void Bitmap::print()$/;"	f	class:Bitmap
+print	src/gui/bitmap.cpp	/^void Bitmap::print() const$/;"	f	class:Bitmap
 print	src/gui/canvas.cpp	/^void Canvas::print() const$/;"	f	class:Canvas
-print	src/gui/font.cpp	/^void Font::print()$/;"	f	class:Font
+print	src/gui/font.cpp	/^void Font::print() const$/;"	f	class:Font
 renderLine	src/gui/renderer.cpp	/^void Renderer::renderLine(Canvas& canvas, const Line& line)$/;"	f	class:Renderer
 renderdoc	src/gui/renderer.cpp	/^void Renderer::renderdoc(Canvas& canvas, Document& d)$/;"	f	class:Renderer
 replace	src/core/string.cpp	/^void String::replace(const char* str)$/;"	f	class:String
@@ -2670,7 +2682,6 @@ setSize	src/gui/canvas.cpp	/^void Canvas::setSize(unsigned int width, unsigned i
 setSize	src/gui/font.cpp	/^void Font::setSize(unsigned int val)$/;"	f	class:Font
 setTitle	src/gui/window.cpp	/^void Window::setTitle(const char* title)$/;"	f	class:Window
 setactive	src/core/line.cpp	/^void Line::setactive(bool value)$/;"	f	class:Line
-setinit	src/gui/font.cpp	/^void Font::setinit(bool val)$/;"	f	class:Font
 size	include/core/string.h	/^    inline unsigned int size() const { return _size; }$/;"	f	class:String
 slice	src/core/line.cpp	/^String Line::slice(unsigned int from, unsigned int len) const$/;"	f	class:Line
 slice	src/core/string.cpp	/^String String::slice(unsigned int from, unsigned int len) const$/;"	f	class:String
@@ -2688,6 +2699,7 @@ updateViewport	src/gui/canvas.cpp	/^void Canvas::updateViewport()$/;"	f	class:Ca
 use	src/gui/shader.cpp	/^void Shader::use()$/;"	f	class:Shader
 void	res/shaders/frag.s	/^void main()$/;"	l
 void	res/shaders/vert.s	/^void main()$/;"	l
+width	include/gui/glyph.h	/^    long width = 0;$/;"	m	struct:Glyph
 width	src/gui/bitmap.cpp	/^unsigned int Bitmap::width() const$/;"	f	class:Bitmap
 width	src/gui/canvas.cpp	/^const unsigned int Canvas::width() const$/;"	f	class:Canvas
 ~Bitmap	src/gui/bitmap.cpp	/^Bitmap::~Bitmap()$/;"	f	class:Bitmap
