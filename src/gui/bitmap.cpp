@@ -42,15 +42,19 @@ Bitmap& Bitmap::operator=(const Bitmap& b)
 
 Bitmap::~Bitmap()
 {
+    clearBuffer();
+}
+
+
+void Bitmap::clearBuffer()
+{
     if(_buffer != nullptr)
     {
-        //std::cout << "DELETING BITMAP: " << &_buffer << std::endl;
-        delete _buffer;
+        delete[] _buffer;
+        _buffer = nullptr;
     }
     else
-    {
-        std::cout << "Calling dtor on nullptr!" << std::endl;
-    }
+        std::cerr << "Error:Bitmap: Calling dtor on nullptr!" << std::endl;
 }
 
 
@@ -58,23 +62,31 @@ Bitmap::~Bitmap()
 // Note needs
 void Bitmap::copyBuffer(unsigned char* src)
 {
-    if(_buffer != nullptr)
+    // Dont allocate memory for 0 size bitmaps
+    unsigned long bufCount = _rows * _width;
+    if(bufCount == 0)
     {
-        std::cout << "Warn: Overwriting an existing buffer"
-            << std::endl;
-        delete _buffer;
-        _buffer = nullptr;
+        //std::cerr << "Warn: Bitmap: Glyph has 0 width or 0 rows!"
+            //<< std::endl;
+        return;
     }
 
-    unsigned long bufSize = sizeof(unsigned char) * _rows * _width;
-    _buffer = (unsigned char*) malloc(bufSize);
+    if(_buffer != nullptr)
+    {
+        std::cout << "Warn:Bitmap: Overwriting an existing buffer"
+            << std::endl;
+        clearBuffer();
+    }
+
+    //_buffer = (unsigned char*) malloc(bufCount);
+    _buffer = new unsigned char[bufCount];
     if(!_buffer)
     {
         std::cerr << "Error: copyBuffer - malloc failed!" << std::endl;
     }
     else
     {
-        memcpy(_buffer, src, bufSize);
+        memcpy(_buffer, src, bufCount);
     }
 }
 
@@ -87,9 +99,9 @@ void Bitmap::print() const
     }
     else
     {
-        for(int row = 0; row < _rows; ++row)
+        for(unsigned int row = 0; row < _rows; ++row)
         {
-            for(int c = 0; c < _width; ++c)
+            for(unsigned int c = 0; c < _width; ++c)
             {
                 char x = _buffer[row * _width + c] == 0 ? ' ' : '.';
                 std::cout << x;

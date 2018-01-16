@@ -177,6 +177,10 @@ bool Font::loadBitmap(Glyph& g)
     //<< " width: " << bitmap.width
     //<< " pitch: " << bitmap.pitch
     //<< " }" << std::endl;
+
+    //if(bitmap.width == 0 || bitmap.rows == 0)
+        //std::cout << "0 WIDTH: " << g.code << std::endl;
+
     g.bitmap = Bitmap(bitmap.rows, bitmap.width, bitmap.pitch, bitmap.buffer);
     return true;
 }

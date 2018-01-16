@@ -32,6 +32,8 @@ private:
     void execEdit(Doccmd::Edit cmd);
     void execSave(Doccmd::Save cmd);
 
+    void deleteLines();
+
 private:
     std::string _filename;
     unsigned int _curline;  // Cursor line

@@ -22,6 +22,7 @@ public:
 
 private:
     void copyBuffer(unsigned char* src);
+    void clearBuffer();
 
 private:
     unsigned int _rows, _width;

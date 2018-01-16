@@ -19,8 +19,8 @@ Document::Document()
 
 Document::~Document()
 {
+    deleteLines();
     std::cout << "Document closed" << std::endl;
-    delete[] _lines;
 }
 
 unsigned int Document::numlines() const
@@ -42,6 +42,21 @@ const Line& Document::operator[](unsigned int index) const
 }
 
 
+void Document::deleteLines()
+{
+    if(_lines == nullptr)
+    {
+        std::cerr << "Error: Lines: deleteLines called on nullptr!" << std::endl;
+    }
+    else
+    {
+        std::cout << "Deleting lines!" << std::endl;
+        delete[] _lines;
+        _lines = nullptr;
+    }
+}
+
+
 void Document::doubleLines()
 {
     std::cout << "Doubling lines: " << _numlines << " -> " << _numlines * 2 << std::endl;
@@ -54,9 +69,13 @@ void Document::doubleLines()
 void Document::resize()
 {
     Line* newlines = new Line[_numlines];
+    if(newlines == nullptr)
+    {
+        std::cerr << "Error:Line : Failed to resize!" << std::endl;
+    }
     memset(newlines, 0, _numlines * sizeof(_lines[0]));
     memcpy(newlines, _lines, _numlines * sizeof(_lines[0]));
-    delete[] _lines;
+    deleteLines();
     _lines = newlines;
 }
 

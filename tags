@@ -25,6 +25,7 @@ DDEF_NUMLINES	include/core/document.h	7;"	d
 Doccmd	include/core/doccmd.h	/^class Doccmd$/;"	c
 Document	include/core/document.h	/^class Document$/;"	c
 Document	src/core/document.cpp	/^Document::Document()$/;"	f	class:Document
+EBO	include/gui/renderer.h	/^    unsigned int VAO, VBO, EBO;$/;"	m	class:Renderer
 EXLINKS	Makefile	/^EXLINKS = -lGL -lX11 -lpthread -lXrandr -lXi -ldl$/;"	m
 EXOBJECTS	Makefile	/^EXOBJECTS=bin\/obj\/src\/glad.o$/;"	m
 Edit	include/core/doccmd.h	/^        Edit,$/;"	m	class:Doccmd::Type
@@ -1373,6 +1374,8 @@ TexCoord	res/shaders/vert.s	/^    TexCoord = aCoord;$/;"	d
 Type	include/core/doccmd.h	/^        enum Type {$/;"	g	struct:Doccmd::Edit
 Type	include/core/doccmd.h	/^        enum Type {$/;"	g	struct:Doccmd::Move
 Type	include/core/doccmd.h	/^    enum class Type {$/;"	c	class:Doccmd
+VAO	include/gui/renderer.h	/^    unsigned int VAO, VBO, EBO;$/;"	m	class:Renderer
+VBO	include/gui/renderer.h	/^    unsigned int VAO, VBO, EBO;$/;"	m	class:Renderer
 WDEF_HEIGHT	include/gui/window.h	7;"	d
 WDEF_TITLE	include/gui/window.h	8;"	d
 WDEF_WIDTH	include/gui/window.h	6;"	d
@@ -1390,6 +1393,7 @@ _curline	include/core/document.h	/^    unsigned int _curline;  \/\/ Cursor line$
 _data	include/core/string.h	/^    char* _data;$/;"	m	class:String
 _face	include/gui/font.h	/^    FT_Face _face;$/;"	m	class:Font
 _filename	include/core/document.h	/^    std::string _filename;$/;"	m	class:Document
+_font	include/gui/renderer.h	/^    Font _font;$/;"	m	class:Renderer
 _fontpath	include/gui/font.h	/^    const char* _fontpath;$/;"	m	class:Font
 _fragPath	include/gui/shader.h	/^    const char* _fragPath;$/;"	m	class:Shader
 _glcontext	include/gui/window.h	/^    SDL_GLContext _glcontext;$/;"	m	class:Window
@@ -1423,6 +1427,7 @@ c	include/core/input.h	/^    char c;$/;"	m	struct:Key
 checkProgramStatus	src/gui/shader.cpp	/^void Shader::checkProgramStatus()$/;"	f	class:Shader
 checkShaderStatus	src/gui/shader.cpp	/^void Shader::checkShaderStatus(unsigned int id, const char* name)$/;"	f	class:Shader
 clear	src/gui/window.cpp	/^void Window::clear()$/;"	f	class:Window
+clearBuffer	src/gui/bitmap.cpp	/^void Bitmap::clearBuffer()$/;"	f	class:Bitmap
 close	src/gui/window.cpp	/^void Window::close()$/;"	f	class:Window
 close_gl	src/glad.c	/^void close_gl(void) {$/;"	f	file:
 cmd	include/core/doccmd.h	/^    Command cmd;$/;"	m	class:Doccmd
@@ -1436,6 +1441,7 @@ currentLine	src/core/document.cpp	/^Line& Document::currentLine()$/;"	f	class:Do
 data	src/core/line.cpp	/^const char* Line::data() const$/;"	f	class:Line
 data	src/core/string.cpp	/^const char* String::data() const$/;"	f	class:String
 deleteChar	src/core/line.cpp	/^void Line::deleteChar()$/;"	f	class:Line
+deleteLines	src/core/document.cpp	/^void Document::deleteLines()$/;"	f	class:Document
 deletechar	include/core/doccmd.h	/^            deletechar,$/;"	e	enum:Doccmd::Edit::Type
 doc	src/main.cpp	/^Document doc;$/;"	v
 doubleLines	src/core/document.cpp	/^void Document::doubleLines()$/;"	f	class:Document
@@ -2594,6 +2600,7 @@ height	include/gui/glyph.h	/^    long height = 0;$/;"	m	struct:Glyph
 height	src/gui/canvas.cpp	/^const unsigned int Canvas::height() const$/;"	f	class:Canvas
 in	res/shaders/frag.s	/^in vec2 TexCoord;$/;"	l
 index	include/gui/glyph.h	/^    unsigned int index = 0;$/;"	m	struct:Glyph
+indices	src/gui/renderer.cpp	/^    const int indices[] = {$/;"	v
 initGl	src/gui/window.cpp	/^void Window::initGl()$/;"	f	class:Window
 initLib	src/gui/font.cpp	/^bool Font::initLib()$/;"	f	class:Font
 insertChar	src/core/line.cpp	/^void Line::insertChar(char a)$/;"	f	class:Line
@@ -2673,6 +2680,7 @@ resize	src/core/string.cpp	/^void String::resize()$/;"	f	class:String
 right	include/core/doccmd.h	/^            right,$/;"	e	enum:Doccmd::Move::Type
 rows	src/gui/bitmap.cpp	/^unsigned int Bitmap::rows() const$/;"	f	class:Bitmap
 running	include/gui/window.h	/^    inline bool running() const { return _running; };$/;"	f	class:Window
+s	include/gui/renderer.h	/^    Shader s;$/;"	m	class:Renderer
 s1	src/tests/test_main.cpp	/^    String* s1;$/;"	m	struct:StringTest	file:
 save	include/core/doccmd.h	/^        Save save;$/;"	m	union:Doccmd::Command
 saveas	include/core/doccmd.h	/^        bool saveas;$/;"	m	struct:Doccmd::Save
@@ -2685,6 +2693,7 @@ setactive	src/core/line.cpp	/^void Line::setactive(bool value)$/;"	f	class:Line
 size	include/core/string.h	/^    inline unsigned int size() const { return _size; }$/;"	f	class:String
 slice	src/core/line.cpp	/^String Line::slice(unsigned int from, unsigned int len) const$/;"	f	class:Line
 slice	src/core/string.cpp	/^String String::slice(unsigned int from, unsigned int len) const$/;"	f	class:String
+tex	include/gui/renderer.h	/^    unsigned int tex;$/;"	m	class:Renderer
 type	include/core/doccmd.h	/^        Type type;$/;"	m	struct:Doccmd::Edit
 type	include/core/doccmd.h	/^        Type type;$/;"	m	struct:Doccmd::Move
 type	include/core/doccmd.h	/^    Type type;$/;"	m	class:Doccmd
@@ -2697,6 +2706,7 @@ up	include/core/doccmd.h	/^            up$/;"	e	enum:Doccmd::Move::Type
 update	src/gui/window.cpp	/^void Window::update()$/;"	f	class:Window
 updateViewport	src/gui/canvas.cpp	/^void Canvas::updateViewport()$/;"	f	class:Canvas
 use	src/gui/shader.cpp	/^void Shader::use()$/;"	f	class:Shader
+vertices	src/gui/renderer.cpp	/^    const float vertices[] = {$/;"	v
 void	res/shaders/frag.s	/^void main()$/;"	l
 void	res/shaders/vert.s	/^void main()$/;"	l
 width	include/gui/glyph.h	/^    long width = 0;$/;"	m	struct:Glyph
