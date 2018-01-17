@@ -5,7 +5,6 @@
 #include "core/input.h"
 #include "core/doccmd.h"
 
-#include "gui/shader.h"
 
 
 void onKey(Key key);
@@ -22,7 +21,6 @@ int main() {
         input.poll();
         w.clear();
 
-        //glDrawArrays(GL_TRIANGLES, 0, 6);
         r.renderdoc(w.getCanvas(), doc);
 
         w.update();

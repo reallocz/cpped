@@ -1,3 +1,10 @@
+### Instructions
+# Adding files to nested dirs
+# 	- Create a new VAR in ###SRC->Vars
+# 	- Add new VAR to ###SRC->Aggregate->SRC list
+# 	- Create add dir to the `dirs` recipie
+#
+
 CC=g++
 CFLAGS=-std=c++14 -Wall
 
@@ -12,11 +19,14 @@ LINKS=-lSDL2 -lSDL2main -lfreetype
 EXLINKS = -lGL -lX11 -lpthread -lXrandr -lXi -ldl
 
 ##### SRC
+# Vars
 GUI=$(wildcard src/gui/*.cpp)
+GL=$(wildcard src/gui/gl/*.cpp)
 CORE=$(wildcard src/core/*.cpp)
 MAIN=$(wildcard src/*.cpp)
 
-SRC=$(MAIN) $(GUI) $(CORE)
+# Aggregate
+SRC=$(MAIN) $(GUI) $(CORE) $(GL)
 OBJECTS=$(addprefix $(OBJ)/, $(patsubst %.cpp, %.o, $(SRC)))
 ##### / SRC
 
@@ -40,7 +50,7 @@ $(OBJ)/%.o: %.cpp
 	$(CC) $(CFLAGS) $(INCLUDE) -c -o $@ $<
 
 dirs:
-	@mkdir -p $(OBJ)/src $(OBJ)/src/gui $(OBJ)/src/core $(OBJ)/src/tests
+	@mkdir -p $(OBJ)/src $(OBJ)/src/gui $(OBJ)/src/gui/gl $(OBJ)/src/core $(OBJ)/src/tests
 
 clean:
 	@rm -rf $(BINDIR)

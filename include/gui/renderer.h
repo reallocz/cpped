@@ -2,7 +2,8 @@
 #include "gui/canvas.h"
 #include "gui/font.h"
 #include "core/document.h"
-#include "gui/shader.h"
+#include "gui/gl/shader.h"
+#include "gui/gl/vao.h"
 
 
 
@@ -20,9 +21,9 @@ private:
 
 private:
     Font _font;
-    Shader s;
-    unsigned int VAO, VBO, EBO;
-    unsigned int tex;
+    Shader _shader;
+    Vao _vao;
+    unsigned int _tex;
     // TODO Add dpi
 };
 
