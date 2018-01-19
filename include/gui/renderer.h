@@ -4,6 +4,7 @@
 #include "core/document.h"
 #include "gui/gl/shader.h"
 #include "gui/gl/vao.h"
+#include "log.h"
 
 
 
@@ -25,5 +26,6 @@ private:
     Vao _vao;
     unsigned int _tex;
     // TODO Add dpi
+    Log _log{"Renderer"};
 };
 

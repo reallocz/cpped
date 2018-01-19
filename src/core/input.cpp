@@ -79,7 +79,8 @@ void Input::onMouseWheel(SDL_MouseWheelEvent &event)
 
 void Input::onClose()
 {
-    std::cout << "Close requested" << std::endl;
+    _log << Log::L << __func__ <<
+        ":Close requested" << std::endl;
     _window.close();
 }
 

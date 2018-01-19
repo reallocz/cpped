@@ -2,6 +2,7 @@
 #include <string>
 #include "core/line.h"
 #include "core/doccmd.h"
+#include "log.h"
 
 #define DDEF_FILENAME "document.txt"
 #define DDEF_NUMLINES 2
@@ -17,7 +18,7 @@ public:
     void print();
 
     unsigned int numlines() const;
-    const Line& operator[](unsigned int index) const;
+    const Line& operator[](unsigned int index);
 
 private:
     void doubleLines();
@@ -39,4 +40,5 @@ private:
     unsigned int _curline;  // Cursor line
     unsigned int _numlines;
     Line* _lines;
+    Log _log{"Document"};
 };

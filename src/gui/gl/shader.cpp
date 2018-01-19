@@ -41,7 +41,7 @@ int Shader::create(GLuint type)
     int id;
     id = glCreateShader(type);
     if(id == 0)
-        std::cerr << "Failed to create shader!" << std::endl;
+        _log << Log::E << __func__ << ":Failed to create shader!" << std::endl;
     return id;
 }
 
@@ -58,7 +58,7 @@ void Shader::compile(int id, const char* path)
     }
     else
     {
-        std::cerr << "Error: Shader::compile - " << path << std::endl;
+        _log << Log::E << __func__ << ": compilation failed - " << path << std::endl;
     }
 }
 
@@ -71,12 +71,12 @@ void Shader::checkShaderStatus(unsigned int id, const char* name)
     if(!success)
     {
         glGetShaderInfoLog(id, 512, NULL, infolog);
-        std::cerr << "Error: Shader compilation failed: " << infolog
+        _log << Log::E << __func__  <<":compilation failed: " << infolog
             << std::endl;
     }
     else
     {
-        std::cout << "Shader: " << name << " compiled successfully"
+        _log << Log::L << __func__ << ": " << name << " compiled successfully"
             << std::endl;
     }
 }
@@ -90,12 +90,12 @@ void Shader::checkProgramStatus()
     if(!success)
     {
         glGetProgramInfoLog(_id, 512, NULL, infolog);
-        std::cerr << "Error: Shader Program creation failed: "
+        _log << Log::E << __func__ << "Program creation failed: "
             << infolog << std::endl;
     }
     else
     {
-        std::cout << "Shader Program compiled successfully!"
+        _log << Log::L << __func__ << ":Program compiled successfully!"
             << std::endl;
     }
 }

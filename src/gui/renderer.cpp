@@ -3,7 +3,6 @@
 
 Renderer::Renderer() 
 {
-    std::cout << "init renderer!" << std::endl;
     const Bitmap& bm = _font.getGlyph('B').bitmap;
     glGenTextures(1, &_tex);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -15,6 +14,8 @@ Renderer::Renderer()
 
     _shader.use();
     _vao.bind();
+
+    _log << Log::L << "Renderer Initialized" << std::endl;
 }
 
 

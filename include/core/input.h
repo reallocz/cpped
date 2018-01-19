@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <functional>
 #include "gui/window.h"
+#include "log.h"
 
 enum class Keytype {
     Insert,     // Alphanumeric, spacebar
@@ -38,5 +39,6 @@ private:
 private:
     Window &_window;
     KEYCB keyCb;
+    Log _log{"Input"};
 };
 

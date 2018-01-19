@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstring>
 
+static Log _log{"Bitmap"};
 
 Bitmap::Bitmap()
 {
@@ -54,7 +55,7 @@ void Bitmap::clearBuffer()
         _buffer = nullptr;
     }
     else
-        std::cerr << "Error:Bitmap: Calling dtor on nullptr!" << std::endl;
+        _log << Log::E << __func__ << ":Calling dtor on nullptr!" << std::endl;
 }
 
 
@@ -73,16 +74,15 @@ void Bitmap::copyBuffer(unsigned char* src)
 
     if(_buffer != nullptr)
     {
-        std::cout << "Warn:Bitmap: Overwriting an existing buffer"
+        _log << Log::W << __func__ << ":Overwriting an existing buffer"
             << std::endl;
         clearBuffer();
     }
 
-    //_buffer = (unsigned char*) malloc(bufCount);
     _buffer = new unsigned char[bufCount];
     if(!_buffer)
     {
-        std::cerr << "Error: copyBuffer - malloc failed!" << std::endl;
+        _log << Log::E << __func__  << ":malloc failed!" << std::endl;
     }
     else
     {
@@ -95,7 +95,7 @@ void Bitmap::print() const
 {
     if(_buffer == nullptr)
     {
-        std::cout << "ERROR: printing empty bitmap!" << std::endl;
+        _log << Log::E << __func__ << ":empty bitmap!" << std::endl;
     }
     else
     {

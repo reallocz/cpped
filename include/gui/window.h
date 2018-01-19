@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <SDL2/SDL.h>
 #include "gui/canvas.h"
+#include "log.h"
 
 #define WDEF_WIDTH 400
 #define WDEF_HEIGHT 600
@@ -30,4 +31,6 @@ private:
     SDL_Window* _window;
     SDL_GLContext _glcontext;
     Canvas _canvas;
+
+    Log _log{"Window"};
 };

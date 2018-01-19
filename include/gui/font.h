@@ -6,6 +6,7 @@
 #include "config.h"
 #include "gui/bitmap.h"
 #include "gui/glyph.h"
+#include "log.h"
 
 #define FDEF_SIZE 22 
 #define FDEF_FONT CONF_RES_ROOT "fonts/ubuntu.ttf"
@@ -17,7 +18,7 @@ public:
     ~Font() noexcept;
 
     void loadFace(const char* path);
-    void print() const;
+    void print();
     void setSize(unsigned int val); // TODO
 
     Glyph& getGlyph(unsigned char c);
@@ -36,5 +37,7 @@ private:
 
     // Charcode -> glyph;
     std::map<unsigned int, Glyph> _charmap;
+
+    Log _log{"Font"};
 };
 

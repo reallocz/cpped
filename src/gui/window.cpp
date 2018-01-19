@@ -17,7 +17,8 @@ Window::Window(unsigned int width, unsigned int height,
             SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
     if(_window == NULL)
     {
-        std::cerr << "SDL window/renderer couldn't be created!" << std::endl;
+        _log << Log::E << __func__ <<
+            ":SDL window/renderer couldn't be created!" << std::endl;
         close();
     }
     else
@@ -25,14 +26,16 @@ Window::Window(unsigned int width, unsigned int height,
         initGl();
         _canvas = Canvas(width, height);
         _running = true;
-        std::cout << "Window created succesfully" << std::endl;
+        _log << Log::L << __func__ <<
+            ":Window created succesfully" << std::endl;
     }
 }
 
 Window::~Window()
 {
     SDL_DestroyWindow(_window);
-    std::cout << "Window destroyed." << std::endl;
+    _log << Log::L << __func__ <<
+        ":Window destroyed." << std::endl;
     SDL_Quit();
 }
 
@@ -48,7 +51,8 @@ void Window::initGl()
 
     if(!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress))
     {
-        std::cerr << "Failed to initialize glad!" << std::endl;
+        _log << Log::E << __func__ <<
+            ":Failed to initialize glad!" << std::endl;
         close();
     }
 }

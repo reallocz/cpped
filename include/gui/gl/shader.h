@@ -1,6 +1,7 @@
 #pragma once
 #include "config.h"
 #include "glad/glad.h"
+#include "log.h"
 
 #define SDEF_VERTPATH CONF_RES_ROOT "shaders/vert.s"
 #define SDEF_FRAGPATH CONF_RES_ROOT "shaders/frag.s"
@@ -24,5 +25,6 @@ private:
     unsigned int _id;
     const char* _vertPath;
     const char* _fragPath;
+    Log _log{"Shader"};
 };
 

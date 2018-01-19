@@ -24,13 +24,13 @@ bool Font::initLib()
     int error = FT_Init_FreeType(&_library);
     if(error)
     {
-        std::cerr << "Failed to initialize freetype library"
+        _log << Log::E << "Failed to initialize freetype library"
             << std::endl;
         return false;
     }
     else
     {
-        std::cout << "Freetype initialized successfully!"
+        _log << Log::L << "Freetype initialized successfully!"
             << std::endl;
         return true;
     }
@@ -45,17 +45,17 @@ void Font::loadFace(const char* path)
 
     if ( error == FT_Err_Unknown_File_Format )
     {
-        std::cerr << "FONT: Unknown file format: " << _fontpath
+        _log << Log::E << "FONT: Unknown file format: " << _fontpath
             << std::endl;
     }
     else if ( error || _face == NULL )
     {
-        std::cerr << "FONT: Failed to load font: " <<  _fontpath
+        _log << Log::E << "FONT: Failed to load font: " <<  _fontpath
             << std::endl;
     }
     else
     {
-        std::cout << "Font face loaded successfully: " << _fontpath
+        _log << Log::L << "Font face loaded successfully: " << _fontpath
             << std::endl;
         
         setSize(24);        
@@ -76,15 +76,15 @@ void Font::setSize(unsigned int val)
 
     if(error)
     {
-        std::cerr << "Failed to set font size: " << val << std::endl;
+        _log << Log::E << "Failed to set font size: " << val << std::endl;
     }
 }
 
 
 
-void Font::print() const
+void Font::print()
 {
-    std::cout << "Font {\n"
+    _log << Log::L << "Font {\n"
         << " path: " << _fontpath << ",\n"
         << " family: " << _face->family_name << ",\n"
         << " style: " << _face->style_name << ",\n"
@@ -97,7 +97,7 @@ void Font::print() const
 
 void Font::loadCharmap()
 {
-    std::cout << "Loading charmap...";
+    _log << Log::L << "Loading charmap...";
     int num_glyphs = _face->num_glyphs;
 
     for(wchar_t c = 0; c < 129; ++c)
@@ -113,7 +113,7 @@ void Font::loadCharmap()
         }
     }
 
-    std::cout << "done.\n"
+    _log << "done.\n"
         << "Loaded " << _charmap.size() << "/" << _face->num_glyphs
         << std::endl;
 }
@@ -132,7 +132,7 @@ bool Font::loadGlyphAt(unsigned int index, Glyph& g)
     error = FT_Load_Glyph(_face, index, FT_LOAD_DEFAULT);
     if(error)
     {
-        std::cerr << "Error: Cannot loadGlyphAt(index=" << index << ")" << std::endl;
+        _log << Log::E << "Error: Cannot loadGlyphAt(index=" << index << ")" << std::endl;
         return false;
     }
     else
@@ -156,7 +156,7 @@ bool Font::loadBitmap(Glyph& g)
     error = FT_Load_Glyph(_face, g.index, FT_LOAD_DEFAULT);
     if (error)
     {
-        std::cout << "Error: cannot loadBitmap::Cannot getGlyph: Failed to load glyph!" << std::endl;
+        _log << Log::E << __func__ << "cannot loadBitmap::Cannot getGlyph: Failed to load glyph!" << std::endl;
         return false;
     }
 

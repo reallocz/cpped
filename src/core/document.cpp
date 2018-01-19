@@ -20,7 +20,8 @@ Document::Document()
 Document::~Document()
 {
     deleteLines();
-    std::cout << "Document closed" << std::endl;
+    _log << Log::L << __func__ <<
+        ":Document closed" << std::endl;
 }
 
 unsigned int Document::numlines() const
@@ -29,11 +30,12 @@ unsigned int Document::numlines() const
 }
 
 
-const Line& Document::operator[](unsigned int index) const
+const Line& Document::operator[](unsigned int index)
 {
     if(index >= _numlines)
     {
-        std::cout << "OUTOFBOUND line access in document: "
+        _log << Log::E << __func__ <<
+            ":OUTOFBOUND line access in document: "
             << index << "/" << _numlines << std::endl;
         throw;
     }
@@ -46,11 +48,13 @@ void Document::deleteLines()
 {
     if(_lines == nullptr)
     {
-        std::cerr << "Error: Lines: deleteLines called on nullptr!" << std::endl;
+        _log << Log::E << __func__ <<
+            ":called on nullptr!" << std::endl;
     }
     else
     {
-        std::cout << "Deleting lines!" << std::endl;
+        _log << Log::L << __func__ <<
+            ":Deleting lines!" << std::endl;
         delete[] _lines;
         _lines = nullptr;
     }
@@ -59,7 +63,8 @@ void Document::deleteLines()
 
 void Document::doubleLines()
 {
-    std::cout << "Doubling lines: " << _numlines << " -> " << _numlines * 2 << std::endl;
+    _log << Log::L << __func__
+        << ":Doubling lines: " << _numlines << " -> " << _numlines * 2 << std::endl;
 
     _numlines *= 2;
     resize();
@@ -84,7 +89,7 @@ Line& Document::currentLine()
 {
     Line& curline = _lines[_curline];
     if(!curline.isactive())
-        std::cout << "WARN:Current line not active!" << std::endl;
+        _log << Log::W << __func__ << ":Current line not active!" << std::endl;
     return curline;
 }
 
@@ -113,7 +118,7 @@ void Document::exec(Doccmd dcmd)
         execSave(dcmd.cmd.save);
         break;
     default:
-        std::cout << "Default cmd" << std::endl;
+        _log << Log::T << __func__ << ":Default cmd" << std::endl;
         break;
     }
 }
