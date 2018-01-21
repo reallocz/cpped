@@ -8,8 +8,19 @@ Font::Font()
     if(!ISFTINIT) {
         ISFTINIT = initLib();
     }
-    loadFace(FDEF_FONT);
-    // TODO https://www.freetype.org/freetype2/docs/tutorial/step1.html
+    if(!loadFace(FDEF_FONT))
+    {
+        _log << Log::E << __func__ << ":Failed to create font!"
+            << std::endl;
+        throw;
+    }
+    if(!setSize(24))
+    {
+        _log << Log::E << __func__ << ":Failed to set font size!"
+            << std::endl;
+        throw;
+    }
+    createAtlas();
 }
 
 
@@ -37,7 +48,7 @@ bool Font::initLib()
 }
 
 
-void Font::loadFace(const char* path)
+bool Font::loadFace(const char* path)
 {
     _fontpath = path;
 
@@ -47,24 +58,24 @@ void Font::loadFace(const char* path)
     {
         _log << Log::E << "FONT: Unknown file format: " << _fontpath
             << std::endl;
+        return false;
     }
     else if ( error || _face == NULL )
     {
         _log << Log::E << "FONT: Failed to load font: " <<  _fontpath
             << std::endl;
+        return false;
     }
     else
     {
         _log << Log::L << "Font face loaded successfully: " << _fontpath
             << std::endl;
-        
-        setSize(24);        
-        loadCharmap();
+        return true;
     }
 }
 
 
-void Font::setSize(unsigned int val)
+bool Font::setSize(unsigned int val)
 {
     int error = FT_Set_Char_Size(
             _face, 
@@ -72,12 +83,15 @@ void Font::setSize(unsigned int val)
             val*64,         // Height
             200,            // Horizontal resolution
             200             // Vertical resolution
-    );
+            );
 
     if(error)
     {
         _log << Log::E << "Failed to set font size: " << val << std::endl;
+        return false;
     }
+    else
+        return true;
 }
 
 
@@ -95,94 +109,156 @@ void Font::print()
 }
 
 
-void Font::loadCharmap()
-{
-    _log << Log::L << "Loading charmap...";
-    int num_glyphs = _face->num_glyphs;
-
-    for(wchar_t c = 0; c < 129; ++c)
-    {
-        unsigned int index = FT_Get_Char_Index(_face, c); 
-        if(index != 0)
-        {
-            Glyph g;
-            g.code = c;
-            loadGlyphAt(index, g);
-            loadBitmap(g);
-            _charmap[c] = g;
-        }
-    }
-
-    _log << "done.\n"
-        << "Loaded " << _charmap.size() << "/" << _face->num_glyphs
-        << std::endl;
-}
-
-
-
-Glyph& Font::getGlyph(unsigned char c)
+const Glyph& Font::getGlyph(unsigned char c)
 {
     return _charmap[c];
 }
 
 
-bool Font::loadGlyphAt(unsigned int index, Glyph& g)
+const unsigned char* Font::atlasbuffer()
+{
+    return _atlasbuffer;
+}
+
+const unsigned long Font::atlassize()
+{
+    return _atlassize;
+}
+
+
+// load glyph into slot and RENDER it too
+void Font::loadGlyphInSlot(unsigned int index)
 {
     int error = 1;
     error = FT_Load_Glyph(_face, index, FT_LOAD_DEFAULT);
+
     if(error)
     {
-        _log << Log::E << "Error: Cannot loadGlyphAt(index=" << index << ")" << std::endl;
-        return false;
+        _log << Log::E << __func__ <<
+            ":FT_Load_Glyph(index=" << index << ")" << std::endl;
+        throw;
     }
-    else
-    {
-        FT_GlyphSlot slot = _face->glyph;
 
-        g.index = index;
-        g.advX = slot->advance.x;
-        g.advY = slot->advance.y;
-        g.width = slot->metrics.width;
-        g.height = slot->metrics.height;
-        return true;
+    error = FT_Render_Glyph(_face->glyph, FT_RENDER_MODE_NORMAL);
+    if (error)
+    {
+        _log << Log::E << __func__<<
+            ":FT_Render_Glyph(index=" << index << std::endl;
+        throw;
     }
 }
 
 
-// Load bitmap from glyph index
-bool Font::loadBitmap(Glyph& g)
+// Load glyph into slot and init Glyph
+void Font::initGlyph(unsigned int index, Glyph& g)
 {
-    int error = 1;
-    error = FT_Load_Glyph(_face, g.index, FT_LOAD_DEFAULT);
-    if (error)
-    {
-        _log << Log::E << __func__ << "cannot loadBitmap::Cannot getGlyph: Failed to load glyph!" << std::endl;
-        return false;
-    }
+    loadGlyphInSlot(index);
 
-    error = 1;
-    error = FT_Render_Glyph(_face->glyph, FT_RENDER_MODE_NORMAL);
-    if (error)
-    {
-        std::cout << "Error FT_Render_Glyph" << std::endl;
-        return false;
-    }
+    FT_GlyphSlot slot = _face->glyph;
+
+    // GlyphSlotRec
+    g.index = index;
+    g.advX = slot->advance.x;
+    g.advY = slot->advance.y;
+    g.width = slot->metrics.width;
+    g.height = slot->metrics.height;
 
 
+    // Bitmap
     FT_Bitmap bitmap = _face->glyph->bitmap;
+    g.bmap_rows = bitmap.rows;
+    g.bmap_width = bitmap.width;
+    g.bmap_pitch = bitmap.pitch;
+}
 
-    //std::cout << "Loaded glyph {"
-    //<< " char: " << (char)code
-    //<< " rows: " << bitmap.rows
-    //<< " width: " << bitmap.width
-    //<< " pitch: " << bitmap.pitch
-    //<< " }" << std::endl;
 
-    //if(bitmap.width == 0 || bitmap.rows == 0)
-        //std::cout << "0 WIDTH: " << g.code << std::endl;
+// Load up an atlas in a buffer!
+bool Font::createAtlas()
+{
 
-    g.bitmap = Bitmap(bitmap.rows, bitmap.width, bitmap.pitch, bitmap.buffer);
+    // load charmap and calc the size of buffer required
+    _atlassize = 0;
+
+    _log << Log::L << "Loading charmap...";
+    for(char c = FDEF_ASCIIBEGIN; c < FDEF_ASCIIEND; ++c)
+    {
+        unsigned int index = FT_Get_Char_Index(_face, c);
+        if(index != 0)
+        {
+            Glyph glyph;
+            glyph.code = c;
+            initGlyph(index, glyph);
+            glyph.bmap_atlasoffset = _atlassize;
+
+            _charmap[c] = glyph;
+
+            std::cout << glyph.code << " -> " << glyph.bmap_atlasoffset << std::endl;
+
+            _atlassize += glyph.bmap_width * glyph.bmap_rows;
+        }
+        else
+            std::cout << "TODO ERROR!:: " << c << std::endl;
+    }
+
+    _log << Log::L << "done.\n" << "Loaded " << _charmap.size()
+        << "/" << _face->num_glyphs << std::endl;
+
+    _log << Log::L << __func__ << ":Atlas size = "
+        << _atlassize << " bytes" << std::endl;
+
+    // Alloc atlasbuffer and copy bitmaps to it
+    _atlasbuffer = new unsigned char[_atlassize];
+    long writtensize = 0;
+
+    // Write bitmaps to buffer
+    for(char c = FDEF_ASCIIBEGIN; c < FDEF_ASCIIEND; ++c)
+    {
+        const Glyph& glyph = _charmap[c];
+        loadGlyphInSlot(glyph.index);
+        unsigned int gwidth = glyph.bmap_width;
+        unsigned int grows = glyph.bmap_rows;
+        unsigned char* gbuffer = _face->glyph->bitmap.buffer;
+        long goffset = glyph.bmap_atlasoffset;
+
+        for(unsigned int row = 0; row < grows; ++row)
+        {
+            for(unsigned int col = 0; col < gwidth; ++col)
+            {
+                _atlasbuffer[goffset + (row*gwidth) + col] =
+                    gbuffer[(row*gwidth) + col];
+                writtensize += 1;
+            }
+        }
+    }
+
+    std::cout << "Atlas ready: " << writtensize << " / "
+        << _atlassize << " written!" << std::endl;
+
     return true;
 }
 
 
+// Print to console
+void Font::printAtlas()
+{
+    for(char c = FDEF_ASCIIBEGIN; c < FDEF_ASCIIEND; ++c)
+    {
+        const Glyph& glyph = _charmap[c];
+        loadGlyphInSlot(glyph.index);
+        unsigned int gwidth = glyph.bmap_width;
+        unsigned int grows = glyph.bmap_rows;
+        long goffset = glyph.bmap_atlasoffset;
+
+        for(unsigned int row = 0; row < grows; ++row)
+        {
+            for(unsigned int col = 0; col < gwidth; ++col)
+            {
+
+                char cx = ((int)_atlasbuffer[goffset + (row*gwidth)+col]) > 0 ? '.': ' ' ;
+                std::cout << cx;
+            }
+            std::cout << std::endl;
+        }
+    }
+
+}

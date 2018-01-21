@@ -4,12 +4,14 @@
 #include FT_FREETYPE_H
 
 #include "config.h"
-#include "gui/bitmap.h"
 #include "gui/glyph.h"
 #include "log.h"
 
 #define FDEF_SIZE 22 
 #define FDEF_FONT CONF_RES_ROOT "fonts/ubuntu.ttf"
+
+#define FDEF_ASCIIBEGIN 32
+#define FDEF_ASCIIEND  127
 
 class Font
 {
@@ -17,18 +19,21 @@ public:
     Font();
     ~Font() noexcept;
 
-    void loadFace(const char* path);
+    bool loadFace(const char* path);
     void print();
-    void setSize(unsigned int val); // TODO
+    bool setSize(unsigned int val); // TODO
 
-    Glyph& getGlyph(unsigned char c);
+    const Glyph& getGlyph(unsigned char c);
+    const unsigned char* atlasbuffer();
+    const unsigned long atlassize();
 
 private:
-    bool loadGlyphAt(unsigned int index, Glyph& g);
-    bool loadBitmap(Glyph& g);
+    void initGlyph(unsigned int index, Glyph& g);
+    bool createAtlas();
     bool initLib();
-    void loadCharmap();
+    void loadGlyphInSlot(unsigned int index);
 
+    void printAtlas();
 private:
     FT_Library _library;
     FT_Face _face;
@@ -37,6 +42,10 @@ private:
 
     // Charcode -> glyph;
     std::map<unsigned int, Glyph> _charmap;
+
+    // Font atlas buffer
+    unsigned char* _atlasbuffer;
+    unsigned long _atlassize;
 
     Log _log{"Font"};
 };

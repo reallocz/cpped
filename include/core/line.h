@@ -22,6 +22,7 @@ public:
 
     unsigned int length() const;
     String slice(unsigned int from, unsigned int len) const;
+    const String& getString() const;
 
     void print() const;
 

@@ -20,6 +20,8 @@ public:
 private:
     void renderLine(Canvas& canvas, const Line& line);
 
+    void renderchar(); // TODO Temp
+
 private:
     Font _font;
     Shader _shader;

@@ -7,6 +7,7 @@ Shader::Shader()
     _vertPath = SDEF_VERTPATH;
     _fragPath = SDEF_FRAGPATH;
 
+
     int vid, fid;
     vid = create(GL_VERTEX_SHADER);
     fid = create(GL_FRAGMENT_SHADER);
@@ -21,6 +22,10 @@ Shader::Shader()
     checkProgramStatus();
     glDeleteShader(vid);
     glDeleteShader(fid);
+
+    // Map attribs
+    use();
+    mapUniform("xoff");
 }
 
 
@@ -32,6 +37,25 @@ Shader::~Shader()
 void Shader::use()
 {
     glUseProgram(_id);
+}
+
+
+void Shader::mapUniform(const char* name)
+{
+    int loc;
+    loc = glGetUniformLocation(_id, name);
+    if(loc == -1)
+    {
+        _log << Log::E << __func__ <<
+            ":Failed to getUniformLocation: " << name << std::endl;
+        throw;
+    }
+    else
+    {
+        _log << Log::L << __func__ <<
+            ":Uniform location mapped: " << name << std::endl;
+        _unimap[name] = loc;
+    }
 }
 
 
@@ -98,5 +122,24 @@ void Shader::checkProgramStatus()
         _log << Log::L << __func__ << ":Program compiled successfully!"
             << std::endl;
     }
+}
+
+
+void Shader::setUniform(const char* name, int val)
+{
+    glUniform1i(_unimap[name], val);
+    // TODO
+    //auto loc = _unimap.find(name);
+
+    //if(loc == _unimap.end())
+    //{
+        //_log << Log::E << __func__ << ":Unmapped uniform: " << name
+            //<< std::endl;
+        //throw;
+    //}
+    //else
+    //{
+        //glUniform1i(loc->second, val);
+    //}
 }
 

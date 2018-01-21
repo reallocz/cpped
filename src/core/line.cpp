@@ -85,3 +85,9 @@ const char* Line::data() const
     return _str.data();
 }
 
+
+const String& Line::getString() const
+{
+    return _str;
+}
+
