@@ -108,10 +108,29 @@ void Font::print()
         << "}" << std::endl;
 }
 
+void Font::printarb(unsigned char* buffer)
+{
+    for(unsigned int row = 0; row < _atlascharheight; ++row)
+    {
+        for(unsigned int col = 0; col < _atlascharwidth; ++col)
+        {
+            char c = ((int)buffer[(row*_atlascharwidth) + col]) > 0 ? '.': ' ' ;
+            std::cout << c;
+        }
+        std::cout << std::endl;
+    }
+}
+
+
+int Font::glyphcount()
+{
+    return _charmap.size();
+}
+
 
 const Glyph& Font::getGlyph(unsigned char c)
 {
-    return _charmap[c];
+    return _charmap.at(c);
 }
 
 
@@ -120,10 +139,35 @@ const unsigned char* Font::atlasbuffer()
     return _atlasbuffer;
 }
 
+
 const unsigned long Font::atlassize()
 {
     return _atlassize;
 }
+
+
+const unsigned long Font::atlascharwidth()
+{
+    return _atlascharwidth;
+}
+
+
+const unsigned long Font::atlascharheight()
+{
+    return _atlascharheight;
+}
+
+const unsigned long Font::atlaswidth()
+{
+    return _atlascharwidth * _charmap.size();
+}
+
+const unsigned long Font::atlasheight()
+{
+    return _atlascharheight;
+}
+
+
 
 
 // load glyph into slot and RENDER it too
@@ -149,60 +193,66 @@ void Font::loadGlyphInSlot(unsigned int index)
 }
 
 
-// Load glyph into slot and init Glyph
-void Font::initGlyph(unsigned int index, Glyph& g)
-{
-    loadGlyphInSlot(index);
-
-    FT_GlyphSlot slot = _face->glyph;
-
-    // GlyphSlotRec
-    g.index = index;
-    g.advX = slot->advance.x;
-    g.advY = slot->advance.y;
-    g.width = slot->metrics.width;
-    g.height = slot->metrics.height;
-
-
-    // Bitmap
-    FT_Bitmap bitmap = _face->glyph->bitmap;
-    g.bmap_rows = bitmap.rows;
-    g.bmap_width = bitmap.width;
-    g.bmap_pitch = bitmap.pitch;
-}
-
-
 // Load up an atlas in a buffer!
 bool Font::createAtlas()
 {
+    _log << Log::L << "Loading charmap..." << std::endl;
 
     // load charmap and calc the size of buffer required
     _atlassize = 0;
+    _atlascharwidth = 0;
+    _atlascharheight = 0;
 
-    _log << Log::L << "Loading charmap...";
+    unsigned int max_width = 0;
+    unsigned int max_height = 0;
+
+    // First pass to map available glyphs into _charmap
     for(char c = FDEF_ASCIIBEGIN; c < FDEF_ASCIIEND; ++c)
     {
         unsigned int index = FT_Get_Char_Index(_face, c);
         if(index != 0)
         {
             Glyph glyph;
-            glyph.code = c;
-            initGlyph(index, glyph);
-            glyph.bmap_atlasoffset = _atlassize;
 
+            loadGlyphInSlot(index);
+            // Aliases
+            FT_GlyphSlot slot = _face->glyph;
+            FT_Bitmap bitmap = slot->bitmap;
+
+            /// Init glyph
+            // GlyphSlotRec
+            glyph.index = index;
+            glyph.code = c;
+            glyph.advX = slot->advance.x;
+            glyph.advY = slot->advance.y;
+            glyph.width = slot->metrics.width;
+            glyph.height = slot->metrics.height;
+            // Bitmap
+            glyph.bmap_width = bitmap.width;
+            glyph.bmap_height = bitmap.rows;
+            glyph.atlas_index = _charmap.size();
+            //std::cout << "PITCH!!!!: " << (bitmap.pitch>0 ? "+ve!" : "-ve!" )<< std::endl;
+
+            // Insert into charmap
             _charmap[c] = glyph;
 
-            std::cout << glyph.code << " -> " << glyph.bmap_atlasoffset << std::endl;
 
-            _atlassize += glyph.bmap_width * glyph.bmap_rows;
+            // Update maxheight
+            max_width = std::max(glyph.bmap_width, max_width);
+            max_height = std::max(glyph.bmap_height, max_height);
         }
         else
             std::cout << "TODO ERROR!:: " << c << std::endl;
     }
 
+    _atlascharwidth = max_width;
+    _atlascharheight = max_height;
+    _atlassize = _charmap.size() * _atlascharheight * _atlascharwidth;
+
     _log << Log::L << "done.\n" << "Loaded " << _charmap.size()
         << "/" << _face->num_glyphs << std::endl;
-
+    _log << Log::L << __func__ << ":Atlas maxw, maxh = "
+        << _atlascharheight << ", " << _atlascharwidth << std::endl;
     _log << Log::L << __func__ << ":Atlas size = "
         << _atlassize << " bytes" << std::endl;
 
@@ -211,24 +261,30 @@ bool Font::createAtlas()
     long writtensize = 0;
 
     // Write bitmaps to buffer
-    for(char c = FDEF_ASCIIBEGIN; c < FDEF_ASCIIEND; ++c)
+    for(auto c = _charmap.begin(); c != _charmap.end(); ++c)
     {
-        const Glyph& glyph = _charmap[c];
+        const Glyph& glyph = c->second;
+
         loadGlyphInSlot(glyph.index);
         unsigned int gwidth = glyph.bmap_width;
-        unsigned int grows = glyph.bmap_rows;
+        unsigned int gheight = glyph.bmap_height;
         unsigned char* gbuffer = _face->glyph->bitmap.buffer;
-        long goffset = glyph.bmap_atlasoffset;
 
-        for(unsigned int row = 0; row < grows; ++row)
+        long goffset = glyph.atlas_index * _atlascharwidth * _atlascharheight;
+
+        for(unsigned int row = 0; row < gheight; ++row)
         {
             for(unsigned int col = 0; col < gwidth; ++col)
             {
-                _atlasbuffer[goffset + (row*gwidth) + col] =
-                    gbuffer[(row*gwidth) + col];
+                _atlasbuffer[goffset + (row*_atlascharwidth) + col] 
+                    = gbuffer[(row*gwidth) + col];
                 writtensize += 1;
             }
         }
+
+        //glyph.print(_atlasbuffer, _atlascharwidth, _atlascharheight);
+        //printarb(&_atlasbuffer[goffset]);
+        //std::cout <<  "______________" << std::endl;
     }
 
     std::cout << "Atlas ready: " << writtensize << " / "
@@ -241,13 +297,13 @@ bool Font::createAtlas()
 // Print to console
 void Font::printAtlas()
 {
-    for(char c = FDEF_ASCIIBEGIN; c < FDEF_ASCIIEND; ++c)
+    for(auto c = _charmap.begin(); c != _charmap.end(); ++c)
     {
-        const Glyph& glyph = _charmap[c];
+        const Glyph& glyph = c->second;
         loadGlyphInSlot(glyph.index);
         unsigned int gwidth = glyph.bmap_width;
-        unsigned int grows = glyph.bmap_rows;
-        long goffset = glyph.bmap_atlasoffset;
+        unsigned int grows = glyph.bmap_height;
+        long goffset = glyph.atlas_index * _atlascharwidth * _atlascharheight;
 
         for(unsigned int row = 0; row < grows; ++row)
         {

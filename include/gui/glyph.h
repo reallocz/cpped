@@ -25,20 +25,23 @@ struct Glyph
     // NOT BITMAP HEIGHT!
     long height = 0;
 
-    unsigned int bmap_rows = 0;
     unsigned int bmap_width = 0;
-    unsigned int bmap_pitch = 0;
-    // Offet of bitmap in the atlasbuffer
-    unsigned long bmap_atlasoffset = 0;
+    unsigned int bmap_height = 0;
+
+    // Index in the atlas
+    unsigned int atlas_index = 0;
 
 
-    void print(const unsigned char* atlas) const
+    // Note *atlas must point to the start of the atlasbuffer!
+    void print(const unsigned char* atlas, int mwidth, int mheight) const
     {
-        for(unsigned int row = 0; row < bmap_rows; ++row)
+        long goffset = atlas_index * mwidth * mheight;
+
+        for(unsigned int row = 0; row < bmap_height; ++row)
         {
             for(unsigned int col = 0; col < bmap_width; ++col)
             {
-                char c = ((int)atlas[bmap_atlasoffset + (row*bmap_width+col)]) > 0 ? '.': ' ' ;
+                char c = ((int)atlas[goffset + (row*mwidth+col)]) > 0 ? '.': ' ' ;
                 std::cout << c;
             }
             std::cout << std::endl;

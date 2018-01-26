@@ -8,7 +8,7 @@
 #include "log.h"
 
 #define FDEF_SIZE 22 
-#define FDEF_FONT CONF_RES_ROOT "fonts/ubuntu.ttf"
+#define FDEF_FONT CONF_RES_ROOT "fonts/DejaVuSans.ttf"
 
 #define FDEF_ASCIIBEGIN 32
 #define FDEF_ASCIIEND  127
@@ -26,9 +26,14 @@ public:
     const Glyph& getGlyph(unsigned char c);
     const unsigned char* atlasbuffer();
     const unsigned long atlassize();
+    const unsigned long atlascharwidth();
+    const unsigned long atlascharheight();
+    const unsigned long atlaswidth();
+    const unsigned long atlasheight();
+    int glyphcount();
+    void printarb(unsigned char* buffer);
 
 private:
-    void initGlyph(unsigned int index, Glyph& g);
     bool createAtlas();
     bool initLib();
     void loadGlyphInSlot(unsigned int index);
@@ -46,6 +51,8 @@ private:
     // Font atlas buffer
     unsigned char* _atlasbuffer;
     unsigned long _atlassize;
+    unsigned long _atlascharwidth;
+    unsigned long _atlascharheight;
 
     Log _log{"Font"};
 };

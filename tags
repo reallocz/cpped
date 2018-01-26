@@ -34,7 +34,7 @@ FDEF_FONT	include/gui/font.h	11;"	d
 FDEF_SIZE	include/gui/font.h	10;"	d
 Font	include/gui/font.h	/^class Font$/;"	c
 Font	src/gui/font.cpp	/^Font::Font()$/;"	f	class:Font
-FragColor	res/shaders/frag.s	/^    FragColor = texture(ourTexture, TexCoord).rrrr * vec4(0, 1, 0, 1); \/\/ rrrr = white$/;"	d
+FragColor	res/shaders/frag.s	/^    FragColor = texture(ourTexture, TexCoord).rrrr * vec4(0, 0, 1, 1); \/\/ rrrr = white * green$/;"	d
 GL	Makefile	/^GL=$(wildcard src\/gui\/gl\/*.cpp)$/;"	m
 GLAD_GL_VERSION_1_0	include/glad/glad.h	/^GLAPI int GLAD_GL_VERSION_1_0;$/;"	v
 GLAD_GL_VERSION_1_0	src/glad.c	/^int GLAD_GL_VERSION_1_0;$/;"	v
@@ -1382,7 +1382,7 @@ Type	include/core/doccmd.h	/^        enum Type {$/;"	g	struct:Doccmd::Move
 Type	include/core/doccmd.h	/^    enum class Type {$/;"	c	class:Doccmd
 U	include/log.h	/^        U,$/;"	m	class:Log::channel
 U	include/log.h	/^    static const auto U = channel::U;$/;"	m	class:Log
-VDEF_VAL	include/gui/gl/vao.h	4;"	d
+VDEF_VAL	include/gui/gl/vao.h	5;"	d
 Vao	include/gui/gl/vao.h	/^class Vao$/;"	c
 Vao	src/gui/gl/vao.cpp	/^Vao::Vao():$/;"	f	class:Vao
 W	include/log.h	/^        W,$/;"	m	class:Log::channel
@@ -1398,6 +1398,8 @@ _GLAD_IS_SOME_NEW_VERSION	src/glad.c	138;"	d	file:
 __gl_h_	include/glad/glad.h	28;"	d
 __glad_h_	include/glad/glad.h	23;"	d
 _atlasbuffer	include/gui/font.h	/^    unsigned char* _atlasbuffer;$/;"	m	class:Font
+_atlascharheight	include/gui/font.h	/^    unsigned long _atlascharheight;$/;"	m	class:Font
+_atlascharwidth	include/gui/font.h	/^    unsigned long _atlascharwidth;$/;"	m	class:Font
 _atlassize	include/gui/font.h	/^    unsigned long _atlassize;$/;"	m	class:Font
 _canvas	include/gui/window.h	/^    Canvas _canvas;$/;"	m	class:Window
 _channel	include/log.h	/^    channel _channel;$/;"	m	class:Log
@@ -1417,6 +1419,7 @@ _height	include/gui/canvas.h	/^    unsigned int _width, _height;$/;"	m	class:Can
 _id	include/gui/gl/shader.h	/^    unsigned int _id;$/;"	m	class:Shader
 _isSizeChanged	include/gui/canvas.h	/^    bool _isSizeChanged;$/;"	m	class:Canvas
 _isactive	include/core/line.h	/^    bool _isactive;$/;"	m	class:Line
+_isbound	include/gui/gl/vao.h	/^    bool _isbound;$/;"	m	class:Vao
 _len	include/core/string.h	/^    unsigned int _len;  \/\/ Length$/;"	m	class:String
 _library	include/gui/font.h	/^    FT_Library _library;$/;"	m	class:Font
 _lines	include/core/document.h	/^    Line* _lines;$/;"	m	class:Document
@@ -1439,13 +1442,18 @@ _window	include/gui/window.h	/^    SDL_Window* _window;$/;"	m	class:Window
 advX	include/gui/glyph.h	/^    long advX = 0;$/;"	m	struct:Glyph
 advY	include/gui/glyph.h	/^    long advY = 0;$/;"	m	struct:Glyph
 append	src/core/string.cpp	/^void String::append(char c)$/;"	f	class:String
+atlas_index	include/gui/glyph.h	/^    unsigned int atlas_index = 0;$/;"	m	struct:Glyph
 atlasbuffer	src/gui/font.cpp	/^const unsigned char* Font::atlasbuffer()$/;"	f	class:Font
+atlascharheight	src/gui/font.cpp	/^const unsigned long Font::atlascharheight()$/;"	f	class:Font
+atlascharwidth	src/gui/font.cpp	/^const unsigned long Font::atlascharwidth()$/;"	f	class:Font
+atlasheight	src/gui/font.cpp	/^const unsigned long Font::atlasheight()$/;"	f	class:Font
 atlassize	src/gui/font.cpp	/^const unsigned long Font::atlassize()$/;"	f	class:Font
+atlaswidth	src/gui/font.cpp	/^const unsigned long Font::atlaswidth()$/;"	f	class:Font
 bind	src/gui/gl/vao.cpp	/^void Vao::bind()$/;"	f	class:Vao
-bmap_atlasoffset	include/gui/glyph.h	/^    unsigned long bmap_atlasoffset = 0;$/;"	m	struct:Glyph
-bmap_pitch	include/gui/glyph.h	/^    unsigned int bmap_pitch = 0;    $/;"	m	struct:Glyph
-bmap_rows	include/gui/glyph.h	/^    unsigned int bmap_rows = 0;    $/;"	m	struct:Glyph
-bmap_width	include/gui/glyph.h	/^    unsigned int bmap_width = 0;    $/;"	m	struct:Glyph
+bmap_height	include/gui/glyph.h	/^    unsigned int bmap_height = 0;$/;"	m	struct:Glyph
+bmap_width	include/gui/glyph.h	/^    unsigned int bmap_width = 0;$/;"	m	struct:Glyph
+bufferIndices	src/gui/gl/vao.cpp	/^void Vao::bufferIndices(long size, int* indices)$/;"	f	class:Vao
+bufferVertices	src/gui/gl/vao.cpp	/^void Vao::bufferVertices(long size, float* vertices)$/;"	f	class:Vao
 c	include/core/doccmd.h	/^        char c;$/;"	m	struct:Doccmd::Insertchar
 c	include/core/input.h	/^    char c;$/;"	m	struct:Key
 channel	include/log.h	/^    enum class channel {$/;"	c	class:Log
@@ -1869,7 +1877,7 @@ glVertexP4ui	include/glad/glad.h	2103;"	d
 glVertexP4uiv	include/glad/glad.h	2106;"	d
 glViewport	include/glad/glad.h	1156;"	d
 glWaitSync	include/glad/glad.h	1973;"	d
-gl_Position	res/shaders/vert.s	/^    gl_Position = vec4(aPos.x, aPos.y - (xoff\/64.0f), aPos.z, 1.0);$/;"	d
+gl_Position	res/shaders/vert.s	/^    gl_Position = vec4(aPos.x, aPos.y - (xoff\/64.0f), 0 , 1.0);$/;"	d
 gladGLversionStruct	include/glad/glad.h	/^struct gladGLversionStruct {$/;"	s
 gladGetProcAddressPtr	src/glad.c	/^static PFNGLXGETPROCADDRESSPROC_PRIVATE gladGetProcAddressPtr;$/;"	v	file:
 gladGetProcAddressPtr	src/glad.c	/^static PFNWGLGETPROCADDRESSPROC_PRIVATE gladGetProcAddressPtr;$/;"	v	file:
@@ -2623,6 +2631,7 @@ glad_glViewport	include/glad/glad.h	/^GLAPI PFNGLVIEWPORTPROC glad_glViewport;$/
 glad_glViewport	src/glad.c	/^PFNGLVIEWPORTPROC glad_glViewport;$/;"	v
 glad_glWaitSync	include/glad/glad.h	/^GLAPI PFNGLWAITSYNCPROC glad_glWaitSync;$/;"	v
 glad_glWaitSync	src/glad.c	/^PFNGLWAITSYNCPROC glad_glWaitSync;$/;"	v
+glyphcount	src/gui/font.cpp	/^int Font::glyphcount()$/;"	f	class:Font
 has_ext	src/glad.c	/^static int has_ext(const char *ext) {$/;"	f	file:
 height	include/gui/glyph.h	/^    long height = 0;$/;"	m	struct:Glyph
 height	src/gui/canvas.cpp	/^const unsigned int Canvas::height() const$/;"	f	class:Canvas
@@ -2630,7 +2639,6 @@ in	res/shaders/frag.s	/^in vec2 TexCoord;$/;"	l
 index	include/gui/glyph.h	/^    unsigned int index = 0;$/;"	m	struct:Glyph
 indices	src/gui/gl/vao.cpp	/^const int indices[] = {$/;"	v	file:
 initGl	src/gui/window.cpp	/^void Window::initGl()$/;"	f	class:Window
-initGlyph	src/gui/font.cpp	/^void Font::initGlyph(unsigned int index, Glyph& g)$/;"	f	class:Font
 initLib	src/gui/font.cpp	/^bool Font::initLib()$/;"	f	class:Font
 insertChar	src/core/line.cpp	/^void Line::insertChar(char a)$/;"	f	class:Line
 insertchar	include/core/doccmd.h	/^        Insertchar insertchar;$/;"	m	union:Doccmd::Command
@@ -2643,7 +2651,7 @@ isDirty	src/gui/canvas.cpp	/^bool Canvas::isDirty() const$/;"	f	class:Canvas
 isactive	src/core/line.cpp	/^bool Line::isactive() const$/;"	f	class:Line
 isempty	src/core/line.cpp	/^bool Line::isempty() const$/;"	f	class:Line
 keyCb	include/core/input.h	/^    KEYCB keyCb;$/;"	m	class:Input
-layout	res/shaders/vert.s	/^layout (location = 0) in vec3 aPos;$/;"	l
+layout	res/shaders/vert.s	/^layout (location = 0) in vec2 aPos;$/;"	l
 layout	res/shaders/vert.s	/^layout (location = 1) in vec2 aCoord;$/;"	l
 left	include/core/doccmd.h	/^            left,$/;"	e	enum:Doccmd::Move::Type
 length	include/core/string.h	/^    inline unsigned int length() const { return _len; }$/;"	f	class:String
@@ -2676,6 +2684,7 @@ newline	include/core/doccmd.h	/^            newline,$/;"	e	enum:Doccmd::Edit::Ty
 noexcept	include/gui/font.h	/^    ~Font() noexcept;$/;"	m	class:Font
 num_exts_i	src/glad.c	/^static int num_exts_i = 0;$/;"	v	file:
 number	src/core/line.cpp	/^unsigned int Line::number() const$/;"	f	class:Line
+numglyphs	src/gui/renderer.cpp	/^const int numglyphs = 6;$/;"	v	file:
 numlines	src/core/document.cpp	/^unsigned int Document::numlines() const$/;"	f	class:Document
 onClose	src/core/input.cpp	/^void Input::onClose()$/;"	f	class:Input
 onKey	src/core/input.cpp	/^void Input::onKey(SDL_KeyboardEvent &event)$/;"	f	class:Input
@@ -2694,16 +2703,18 @@ optimize	src/core/string.cpp	/^void String::optimize()$/;"	f	class:String
 out	res/shaders/frag.s	/^out vec4 FragColor;$/;"	l
 out	res/shaders/vert.s	/^out vec2 TexCoord;$/;"	l
 poll	src/core/input.cpp	/^void Input::poll()$/;"	f	class:Input
-print	include/gui/glyph.h	/^    void print(const unsigned char* atlas) const$/;"	f	struct:Glyph
+print	include/gui/glyph.h	/^    void print(const unsigned char* atlas, int mwidth, int mheight) const$/;"	f	struct:Glyph
 print	src/core/document.cpp	/^void Document::print()$/;"	f	class:Document
 print	src/core/line.cpp	/^void Line::print() const$/;"	f	class:Line
 print	src/core/string.cpp	/^void String::print() const$/;"	f	class:String
 print	src/gui/canvas.cpp	/^void Canvas::print() const$/;"	f	class:Canvas
 print	src/gui/font.cpp	/^void Font::print()$/;"	f	class:Font
 printAtlas	src/gui/font.cpp	/^void Font::printAtlas()$/;"	f	class:Font
+printarb	src/gui/font.cpp	/^void Font::printarb(unsigned char* buffer)$/;"	f	class:Font
 renderLine	src/gui/renderer.cpp	/^void Renderer::renderLine(Canvas& canvas, const Line& line)$/;"	f	class:Renderer
 renderchar	src/gui/renderer.cpp	/^void Renderer::renderchar()$/;"	f	class:Renderer
 renderdoc	src/gui/renderer.cpp	/^void Renderer::renderdoc(Canvas& canvas, Document& d)$/;"	f	class:Renderer
+renderline	src/gui/renderer.cpp	/^void Renderer::renderline()$/;"	f	class:Renderer
 replace	src/core/string.cpp	/^void String::replace(const char* str)$/;"	f	class:String
 resize	src/core/document.cpp	/^void Document::resize()$/;"	f	class:Document
 resize	src/core/string.cpp	/^void String::resize()$/;"	f	class:String
@@ -2736,7 +2747,6 @@ up	include/core/doccmd.h	/^            up$/;"	e	enum:Doccmd::Move::Type
 update	src/gui/window.cpp	/^void Window::update()$/;"	f	class:Window
 updateViewport	src/gui/canvas.cpp	/^void Canvas::updateViewport()$/;"	f	class:Canvas
 use	src/gui/gl/shader.cpp	/^void Shader::use()$/;"	f	class:Shader
-vertices	src/gui/gl/vao.cpp	/^const float vertices[] = {$/;"	v	file:
 void	res/shaders/frag.s	/^void main()$/;"	l
 void	res/shaders/vert.s	/^void main()$/;"	l
 width	include/gui/glyph.h	/^    long width = 0;$/;"	m	struct:Glyph

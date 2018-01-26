@@ -2,22 +2,15 @@
 #include "glad/glad.h"
 #include <iostream>
 
-static
-const float vertices[] = {
-    0, 0, 0, 0, 1,
-    1, 0, 0, 1, 1,
-    1, 1, 0, 1, 0,
-    0, 1, 0, 0, 0,
-};
 
 static
 const int indices[] = {
     0, 1, 2,
-    0, 3, 2
+    0, 2, 3
 };
 
 Vao::Vao():
-    _vao(VDEF_VAL), _vbo(VDEF_VAL), _ebo(VDEF_VAL)
+    _vao(VDEF_VAL), _vbo(VDEF_VAL), _ebo(VDEF_VAL), _isbound(false)
 {
     glGenVertexArrays(1, &_vao);
     checkVal(_vao, "_vao");
@@ -27,24 +20,20 @@ Vao::Vao():
     glGenBuffers(1, &_vbo);
     checkVal(_vbo, "_vbo");
     glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices,
-            GL_STATIC_DRAW);
 
     // Ebo
     glGenBuffers(1, &_ebo);
     checkVal(_ebo, "_ebo");
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices,
-            GL_STATIC_DRAW);
 
     ///  Attribs
     // quad verts
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float),
             (void*) 0);
     glEnableVertexAttribArray(0);
     // tex coords
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
-            (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float),
+            (void*)(2 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
     // Unbind!
@@ -53,20 +42,42 @@ Vao::Vao():
 
 
 Vao::~Vao()
-{
-    unbind();
-}
+{}
 
 
 void Vao::bind()
 {
-    glBindVertexArray(_vao);
+    if(_isbound)
+    {
+        std::cout << "VAO: Binding an already bound buffer!"
+            << std::endl;
+    }
+    else
+    {
+        glBindVertexArray(_vao);
+        _isbound = true;
+    }
 }
 
 
 void Vao::unbind()
 {
-    glBindVertexArray(0);
+    if(_isbound)
+        glBindVertexArray(0);
+    else
+        std::cerr << "VAO: Unbinding unbound buffer!" << std::endl;
+}
+
+
+// NOTE: Vao must be bound before buffering data!
+void Vao::bufferVertices(long size, float* vertices)
+{
+    glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+}
+
+void Vao::bufferIndices(long size, int* indices)
+{
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
 }
 
 

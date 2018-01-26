@@ -21,6 +21,7 @@ private:
     void renderLine(Canvas& canvas, const Line& line);
 
     void renderchar(); // TODO Temp
+    void renderline(); // TODO Temp
 
 private:
     Font _font;
