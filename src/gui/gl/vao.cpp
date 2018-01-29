@@ -47,16 +47,8 @@ Vao::~Vao()
 
 void Vao::bind()
 {
-    if(_isbound)
-    {
-        std::cout << "VAO: Binding an already bound buffer!"
-            << std::endl;
-    }
-    else
-    {
-        glBindVertexArray(_vao);
-        _isbound = true;
-    }
+    glBindVertexArray(_vao);
+    _isbound = true;
 }
 
 
