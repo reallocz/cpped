@@ -7,7 +7,8 @@
 #include "gui/glyph.h"
 #include "log.h"
 
-#define FDEF_SIZE 22 
+#define FDEF_SIZE 24
+#define FDEF_RESOLUTION 300
 #define FDEF_FONT CONF_RES_ROOT "fonts/DejaVuSans.ttf"
 
 #define FDEF_ASCIIBEGIN 32
@@ -32,6 +33,7 @@ public:
     const unsigned long atlasheight();
     int glyphcount();
     void printarb(unsigned char* buffer);
+    float sizepx();
 
 private:
     bool createAtlas();
@@ -42,6 +44,8 @@ private:
 private:
     FT_Library _library;
     FT_Face _face;
+    unsigned int _fontsize;
+    unsigned int _fontresolution;
 
     const char* _fontpath;
 

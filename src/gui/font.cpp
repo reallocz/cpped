@@ -14,7 +14,9 @@ Font::Font()
             << std::endl;
         throw;
     }
-    if(!setSize(24))
+
+    _fontresolution = FDEF_RESOLUTION;
+    if(!setSize(FDEF_SIZE))
     {
         _log << Log::E << __func__ << ":Failed to set font size!"
             << std::endl;
@@ -77,23 +79,30 @@ bool Font::loadFace(const char* path)
 
 bool Font::setSize(unsigned int val)
 {
+    _fontsize = val;
     int error = FT_Set_Char_Size(
             _face, 
-            0,              // Width 0 means same as height
-            val*64,         // Height
-            200,            // Horizontal resolution
-            200             // Vertical resolution
+            0,              // Width. 0 = same as height
+            _fontsize*64,   // Height
+            0,              // Horizontal resolution 0 = same as V
+            _fontresolution             // Vertical resolution
             );
 
     if(error)
     {
-        _log << Log::E << "Failed to set font size: " << val << std::endl;
+        _log << Log::E << "Failed to set font size: " << _fontsize << std::endl;
         return false;
     }
     else
         return true;
 }
 
+
+// Font size in px
+float Font::sizepx()
+{
+    return (1. * _fontsize * _fontresolution / 72);
+}
 
 
 void Font::print()

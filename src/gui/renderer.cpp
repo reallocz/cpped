@@ -1,6 +1,11 @@
 #include "gui/renderer.h"
 
 
+// TODO create a texture class.
+// TODO add getTextureId in Shader.h
+// TODO Calculate vwidth and vheight from canvas size and font size
+
+
 Renderer::Renderer() 
 {
     int numchars = _font.glyphcount();
@@ -71,7 +76,7 @@ void Renderer::renderLine(Canvas& canvas, const Line& line)
     for(int i = 0; i < numglyphs; ++i)
     {
         Glyph glyph = _font.getGlyph(str[i]);
-        calcVerts(glyph, 0, i, &verts[i*16]); 
+        calcVerts(glyph, canvas, 0, i, &verts[i*16]);
     }
 
 
@@ -97,14 +102,17 @@ void Renderer::renderLine(Canvas& canvas, const Line& line)
  * variables prefixed with 'v' are vert related in range [0, 1]
  * variables prefixed with 't' are texture related in range [0, 1]
  */
-void Renderer::calcVerts(Glyph& glyph, int row, int col, float* verts)
+void Renderer::calcVerts(Glyph& glyph, Canvas& canvas, int row, int col, float* verts)
 {
     int numchars = _font.glyphcount();
     int gindex = glyph.atlas_index; // For calculating texcoords
 
+    float fontsizepx = _font.sizepx();
+    float vheight = fontsizepx / canvas.height();
+    float vwidth = fontsizepx / canvas.width();
 
-    float vwidth = 0.08;
-    float vheight = 0.16;
+    //float vwidth = 0.08;
+    //float vheight = 0.16;
     float vtopedge = 1 - (vheight * row);
     float vleftedge = 1.* col * vwidth - 1;
 

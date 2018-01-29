@@ -19,7 +19,7 @@ public:
 
 private:
     void renderLine(Canvas& canvas, const Line& line);
-    void calcVerts(Glyph& glyph, int row, int col, float* verts);
+    void calcVerts(Glyph& glyph, Canvas& canvas, int row, int col, float* verts);
 
 private:
     Font _font;
