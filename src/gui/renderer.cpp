@@ -3,6 +3,19 @@
 
 Renderer::Renderer() 
 {
+    int numchars = _font.glyphcount();
+    glGenTextures(1, &_tex);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, _tex);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1); /* What is this???? */
+
+    unsigned char* texture = (unsigned char*)_font.atlasbuffer();
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
+            _font.atlascharwidth(),_font.atlascharheight()*numchars,
+            0, GL_RED, GL_UNSIGNED_BYTE,
+            texture);
+    glGenerateMipmap(GL_TEXTURE_2D);
 }
 
 
@@ -35,22 +48,7 @@ void Renderer::renderLine(Canvas& canvas, const Line& line)
     //std::cout << "len: " << line.length() << std::endl;;
     const String& str = line.getString();
     int numglyphs = str.length();
-    Glyph* glyphs = new Glyph[numglyphs];
-    for(int i = 0; i < numglyphs; ++i)
-        glyphs[i] = _font.getGlyph(str[i]);
-    renderline(glyphs, numglyphs);
 
-    _shader.setUniform("xoff", 1);
-    glDrawElements(GL_TRIANGLES, 6 * numglyphs, GL_UNSIGNED_INT, 0);
-    delete[] glyphs;
-}
-
-
-void Renderer::renderline(Glyph* glyphs, int numglyphs)
-{
-    //Glyph glyphs[] = {_font.getGlyph('8')};
-
-    // Init indices
     int numindices = numglyphs * 6;
     int* indices = new int[numindices];
     int vertrows = 4;
@@ -69,55 +67,28 @@ void Renderer::renderline(Glyph* glyphs, int numglyphs)
     int vertsperbuf = 4 * 4; // rows * cols
     int numverts = numglyphs * vertsperbuf;
     float* verts = new float[numverts];
-    int numchars = _font.glyphcount();
 
     for(int i = 0; i < numglyphs; ++i)
     {
-        Glyph glyph = glyphs[i];
+        Glyph glyph = _font.getGlyph(str[i]);
         calcVerts(glyph, 0, i, &verts[i*16]); 
     }
 
-    for(int i = 0; i < numglyphs; ++i)
-    {
-        std::cout << "Vertices: \n";
-        for(int j = 0; j < 4; ++j)
-        {
-            std::cout
-                << "\t" << verts[i*vertsperbuf + j*4 +0] << ", "
-                << "\t" << verts[i*vertsperbuf + j*4 +1] << ", "
-                << "\t" << verts[i*vertsperbuf + j*4 +2] << ", "
-                << "\t" << verts[i*vertsperbuf + j*4 +3] << ", "
-                << std::endl;
-        }
 
-        std::cout << "Indices \n"
-            << indices[i*6+0] << ", "
-            << indices[i*6+1] << ", "
-            << indices[i*6+2] << ", \n"
-            << indices[i*6+3] << ", "
-            << indices[i*6+4] << ", "
-            << indices[i*6+5] << ", \n"
-            << std::endl;
-    }
 
-    // YOLO!!
-    glGenTextures(1, &_tex);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glBindTexture(GL_TEXTURE_2D, _tex);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1); /* What is this???? */
-
-    unsigned char* texture = (unsigned char*)_font.atlasbuffer();
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
-            _font.atlascharwidth(),_font.atlascharheight()*numchars,
-            0, GL_RED, GL_UNSIGNED_BYTE,
-            texture);
-    glGenerateMipmap(GL_TEXTURE_2D);
-
+    /// Rendering!!!
     _shader.use();
     _vao.bind();
     _vao.bufferIndices(sizeof(int) * numindices, &indices[0]);
     _vao.bufferVertices(sizeof(float) * numverts, &verts[0]);
+    _shader.setUniform("xoff", 1);
+
+    // the next two calls enable transparency and blending.
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Draw calls
+    glDrawElements(GL_TRIANGLES, 6 * numglyphs, GL_UNSIGNED_INT, 0);
 }
 
 
@@ -132,8 +103,8 @@ void Renderer::calcVerts(Glyph& glyph, int row, int col, float* verts)
     int gindex = glyph.atlas_index; // For calculating texcoords
 
 
-    float vwidth = 0.2;
-    float vheight = 0.4;
+    float vwidth = 0.08;
+    float vheight = 0.16;
     float vtopedge = 1 - (vheight * row);
     float vleftedge = 1.* col * vwidth - 1;
 
@@ -167,16 +138,17 @@ void Renderer::calcVerts(Glyph& glyph, int row, int col, float* verts)
     verts[14] = tleftedge + twidth;
     verts[15] = ttopedge + theight;
 
-    std::cout << "Vertices: \n";
-    for(int j = 0; j < 4; ++j)
-    {
-        std::cout
-            << "\t" << verts[j*4 +0] << ", "
-            << "\t" << verts[j*4 +1] << ", "
-            << "\t" << verts[j*4 +2] << ", "
-            << "\t" << verts[j*4 +3] << ", "
-            << std::endl;
-    }
+    //// Debug info
+    //std::cout << "Vertices: \n";
+    //for(int j = 0; j < 4; ++j)
+    //{
+        //std::cout
+            //<< "\t" << verts[j*4 +0] << ", "
+            //<< "\t" << verts[j*4 +1] << ", "
+            //<< "\t" << verts[j*4 +2] << ", "
+            //<< "\t" << verts[j*4 +3] << ", "
+            //<< std::endl;
+    //}
 }
 
 

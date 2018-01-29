@@ -19,8 +19,6 @@ public:
 
 private:
     void renderLine(Canvas& canvas, const Line& line);
-
-    void renderline(Glyph* glyphs,int numglyphs); // TODO Temp
     void calcVerts(Glyph& glyph, int row, int col, float* verts);
 
 private:
