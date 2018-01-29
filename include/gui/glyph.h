@@ -47,4 +47,17 @@ struct Glyph
             std::cout << std::endl;
         }
     }
+
+
+    void printInfo()
+    {
+        std::cout << "Glyph {"
+            << "\n width: " << (width>>6)
+            << "\n height: " << (height>>6)
+            << "\n advX: " << (advX>>6)
+            << "\n bmap_width: " << bmap_width
+            << "\n bmap_height: " << bmap_height
+            << "\n}" << std::endl;
+    }
+
 };

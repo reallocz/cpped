@@ -1,12 +1,8 @@
 #include "gui/renderer.h"
-// TODO
-// * Generate proper texcoords for each glyph!!!
 
 
 Renderer::Renderer() 
 {
-    //renderchar();
-    renderline();
 }
 
 
@@ -15,86 +11,43 @@ Renderer::~Renderer()
 }
 
 
-
-// TODO TEMPORARY!
-void Renderer::renderchar()
+// Draws the document to canvas
+void Renderer::renderdoc(Canvas& canvas, Document& d)
 {
-    const Glyph& glyph = _font.getGlyph('G');
+    renderLine(canvas, d[0]);
 
+#if 0
+    for(unsigned int i = 0; i < numlines; ++i)
+    {
+        const Line& line = d[i];
+        if(!line.isempty())
+        {
+            renderLine(canvas, line);
+        }
+    }
+#endif
 
-    glGenTextures(1, &_tex);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glBindTexture(GL_TEXTURE_2D, _tex);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1); /* What is this???? */
-
-    unsigned char* offset = (unsigned char*)_font.atlasbuffer();
-    //_font.printarb(offset);
-
-
-    int numchars = _font.atlaswidth() / _font.atlascharwidth();
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
-            _font.atlascharwidth(), _font.atlascharheight()*numchars,
-            0, GL_RED, GL_UNSIGNED_BYTE,
-            offset);
-
-    glGenerateMipmap(GL_TEXTURE_2D);
-
-    int id = glyph.atlas_index;
-    float vertices[] = {
-        0, 1, 0,   id* 1./numchars,
-        1, 1, 1,   id* 1./numchars,
-        0, 0, 0,   id* 1./numchars + 1./numchars,
-        1, 0, 1,   id* 1./numchars + 1./numchars,
-    };
-
-    int indices[] = {
-        0, 1, 2,
-        2, 3, 1
-    };
-
-    _shader.use();
-    _vao.bind();
-
-    _vao.bufferIndices(sizeof(int) * 6, &indices[0]);
-    _vao.bufferVertices(sizeof(vertices), &vertices[0]);
-    _log << Log::L << "Renderer Initialized" << std::endl;
 }
 
 
-/*
- * SRC(Bitmap buffer)
- *
- * (0,0)      (w, 0)
- *  *----------*
- *  |          |
- *  |          |
- *  *----------*
- * (0,h)      (w, h)
- *
- *
- *  DST(GL)
- * (0,1)      (1, 1)
- *  *----------*
- *  |          |
- *  |          |
- *  *----------*
- * (0,0)      (1, 0)
- *
- * verts : x, y, tx, ty * 4rows
- */
-
-static
-const int numglyphs = 6;
-void Renderer::renderline()
+void Renderer::renderLine(Canvas& canvas, const Line& line)
 {
-    Glyph glyphs[] = {
-        _font.getGlyph('e'),
-        _font.getGlyph('d'),
-        _font.getGlyph('i'),
-        _font.getGlyph('t'),
-        _font.getGlyph('o'),
-        _font.getGlyph('r')};
+    //std::cout << "len: " << line.length() << std::endl;;
+    const String& str = line.getString();
+    int numglyphs = str.length();
+    Glyph* glyphs = new Glyph[numglyphs];
+    for(int i = 0; i < numglyphs; ++i)
+        glyphs[i] = _font.getGlyph(str[i]);
+    renderline(glyphs, numglyphs);
+
+    _shader.setUniform("xoff", 1);
+    glDrawElements(GL_TRIANGLES, 6 * numglyphs, GL_UNSIGNED_INT, 0);
+    delete[] glyphs;
+}
+
+
+void Renderer::renderline(Glyph* glyphs, int numglyphs)
+{
     //Glyph glyphs[] = {_font.getGlyph('8')};
 
     // Init indices
@@ -113,8 +66,6 @@ void Renderer::renderline()
 
 
     // Init verts
-    float vwidth = 0.1;
-    float vheight = 0.5;
     int vertsperbuf = 4 * 4; // rows * cols
     int numverts = numglyphs * vertsperbuf;
     float* verts = new float[numverts];
@@ -123,37 +74,7 @@ void Renderer::renderline()
     for(int i = 0; i < numglyphs; ++i)
     {
         Glyph glyph = glyphs[i];
-        int gindex = glyph.atlas_index;
-
-        float vleftedge = 1. * i * vwidth;
-        float texleftedge = 0.;
-        float textopedge = gindex * 1./numchars;
-        float texwidth = 1.0;
-        float texheight = 1.0/numchars;
-
-        // Topleft
-        verts[(i*vertsperbuf)+0] = vleftedge;
-        verts[(i*vertsperbuf)+1] = vheight;
-        verts[(i*vertsperbuf)+2] = texleftedge;
-        verts[(i*vertsperbuf)+3] = textopedge;
-
-        // topright
-        verts[(i*vertsperbuf)+4] = vleftedge + vwidth;
-        verts[(i*vertsperbuf)+5] = vheight;
-        verts[(i*vertsperbuf)+6] = texleftedge + texwidth;
-        verts[(i*vertsperbuf)+7] = textopedge;
-
-        // bottom left
-        verts[(i*vertsperbuf) + 8] = vleftedge;
-        verts[(i*vertsperbuf) + 9] = 0;
-        verts[(i*vertsperbuf) + 10] = texleftedge;
-        verts[(i*vertsperbuf) + 11] = textopedge + texheight;
-
-        // bottom right 
-        verts[(i*vertsperbuf) + 12] = vleftedge + vwidth;
-        verts[(i*vertsperbuf) + 13] = 0;
-        verts[(i*vertsperbuf) + 14] = texleftedge + texwidth;
-        verts[(i*vertsperbuf) + 15] = textopedge + texheight;
+        calcVerts(glyph, 0, i, &verts[i*16]); 
     }
 
     for(int i = 0; i < numglyphs; ++i)
@@ -200,48 +121,138 @@ void Renderer::renderline()
 }
 
 
-// Draws the document to canvas
-void Renderer::renderdoc(Canvas& canvas, Document& d)
+/**
+ * Calculate the verts for the glyph
+ * variables prefixed with 'v' are vert related in range [0, 1]
+ * variables prefixed with 't' are texture related in range [0, 1]
+ */
+void Renderer::calcVerts(Glyph& glyph, int row, int col, float* verts)
 {
-    renderLine(canvas, d[0]);
+    int numchars = _font.glyphcount();
+    int gindex = glyph.atlas_index; // For calculating texcoords
 
-#if 0
-    for(unsigned int i = 0; i < numlines; ++i)
+
+    float vwidth = 0.2;
+    float vheight = 0.4;
+    float vtopedge = 1 - (vheight * row);
+    float vleftedge = 1.* col * vwidth - 1;
+
+    float twidth = 1.0;
+    float theight = 1.0/numchars;
+    float ttopedge = gindex * 1./numchars;
+    float tleftedge = 0.;
+
+    // YOLOSDLKF
+    // Topleft
+    verts[0] = vleftedge;
+    verts[1] = vtopedge;
+    verts[2] = tleftedge;
+    verts[3] = ttopedge;
+
+    // topright
+    verts[4] = vleftedge + vwidth;
+    verts[5] = vtopedge;
+    verts[6] = tleftedge + twidth;
+    verts[7] = ttopedge;
+
+    // bottom left
+    verts[8] = vleftedge;
+    verts[9] = vtopedge - vheight;
+    verts[10] = tleftedge;
+    verts[11] = ttopedge + theight;
+
+    // bottom right 
+    verts[12] = vleftedge + vwidth;
+    verts[13] = vtopedge - vheight;
+    verts[14] = tleftedge + twidth;
+    verts[15] = ttopedge + theight;
+
+    std::cout << "Vertices: \n";
+    for(int j = 0; j < 4; ++j)
     {
-        const Line& line = d[i];
-        if(!line.isempty())
-        {
-            renderLine(canvas, line);
-        }
+        std::cout
+            << "\t" << verts[j*4 +0] << ", "
+            << "\t" << verts[j*4 +1] << ", "
+            << "\t" << verts[j*4 +2] << ", "
+            << "\t" << verts[j*4 +3] << ", "
+            << std::endl;
     }
-#endif
-
 }
 
 
-void Renderer::renderLine(Canvas& canvas, const Line& line)
-{
-    //std::cout << "len: " << line.length() << std::endl;;
-    const String& str = line.getString();
-    int penX = 0;
-    int linewidth = 0;
-
-    // Main calc
-    for(unsigned int i = 0; i < line.length(); ++i) {
-        // Build a texture
-        char ch = str[i];
-        const Glyph& glyph = _font.getGlyph(ch);
-        penX += glyph.advX >> 6; // 1/64th
 
 
-        linewidth += glyph.width;
+
+
+/* Notes:
+ *
+ * SRC(Bitmap buffer)
+ *
+ * (0,0)      (w, 0)
+ *  *----------*
+ *  |          |
+ *  |          |
+ *  *----------*
+ * (0,h)      (w, h)
+ *
+ *
+ *  DST(GL)
+ * (0,1)      (1, 1)
+ *  *----------*
+ *  |          |
+ *  |          |
+ *  *----------*
+ * (0,0)      (1, 0)
+ *
+ * verts : x, y, tx, ty * 4rows
+ */
+
+// Previous Verts calc
+/*
+    // Init verts
+    float vwidth = 0.1;
+    float vheight = 0.5;
+    int vertsperbuf = 4 * 4; // rows * cols
+    int numverts = numglyphs * vertsperbuf;
+    float* verts = new float[numverts];
+    int numchars = _font.glyphcount();
+
+    for(int i = 0; i < numglyphs; ++i)
+    {
+        Glyph glyph = glyphs[i];
+        glyph.printInfo();
+        int gindex = glyph.atlas_index;
+
+        float vleftedge = 1. * i * vwidth;
+        float texleftedge = 0.;
+        float textopedge = gindex * 1./numchars;
+        float texwidth = 1.0;
+        float texheight = 1.0/numchars;
+
+        // Topleft
+        verts[(i*vertsperbuf)+0] = vleftedge;
+        verts[(i*vertsperbuf)+1] = vheight;
+        verts[(i*vertsperbuf)+2] = texleftedge;
+        verts[(i*vertsperbuf)+3] = textopedge;
+
+        // topright
+        verts[(i*vertsperbuf)+4] = vleftedge + vwidth;
+        verts[(i*vertsperbuf)+5] = vheight;
+        verts[(i*vertsperbuf)+6] = texleftedge + texwidth;
+        verts[(i*vertsperbuf)+7] = textopedge;
+
+        // bottom left
+        verts[(i*vertsperbuf) + 8] = vleftedge;
+        verts[(i*vertsperbuf) + 9] = 0;
+        verts[(i*vertsperbuf) + 10] = texleftedge;
+        verts[(i*vertsperbuf) + 11] = textopedge + texheight;
+
+        // bottom right 
+        verts[(i*vertsperbuf) + 12] = vleftedge + vwidth;
+        verts[(i*vertsperbuf) + 13] = 0;
+        verts[(i*vertsperbuf) + 14] = texleftedge + texwidth;
+        verts[(i*vertsperbuf) + 15] = textopedge + texheight;
     }
-
-    _shader.setUniform("xoff", 1);
-    // TODO build line bitmap
-
-    //std::cout << "Lw: " << linewidth << std::endl;
-    glDrawElements(GL_TRIANGLES, 6 * numglyphs, GL_UNSIGNED_INT, 0);
-}
+*/
 
 

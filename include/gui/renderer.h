@@ -20,8 +20,8 @@ public:
 private:
     void renderLine(Canvas& canvas, const Line& line);
 
-    void renderchar(); // TODO Temp
-    void renderline(); // TODO Temp
+    void renderline(Glyph* glyphs,int numglyphs); // TODO Temp
+    void calcVerts(Glyph& glyph, int row, int col, float* verts);
 
 private:
     Font _font;
