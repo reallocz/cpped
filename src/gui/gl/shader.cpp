@@ -2,6 +2,8 @@
 #include "core/string.h"
 #include <iostream>
 
+// TODO add an empty constructor, and an init method
+
 Shader::Shader()
 {
     _vertPath = SDEF_VERTPATH;
@@ -22,10 +24,6 @@ Shader::Shader()
     checkProgramStatus();
     glDeleteShader(vid);
     glDeleteShader(fid);
-
-    // Map attribs
-    use();
-    mapUniform("xoff");
 }
 
 

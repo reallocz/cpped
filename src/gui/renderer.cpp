@@ -8,6 +8,11 @@
 
 Renderer::Renderer() 
 {
+    // Map shader uniforms
+    _shader.mapUniform("xoff");
+    _shader.mapUniform("fontAtlasTexture");
+
+    // create font atlas tex
     int numchars = _font.glyphcount();
     glGenTextures(1, &_tex);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -20,6 +25,7 @@ Renderer::Renderer()
             _font.atlascharwidth(),_font.atlascharheight()*numchars,
             0, GL_RED, GL_UNSIGNED_BYTE,
             texture);
+    // TODO delete[] atlasbuffer after glTexImage2D()
     glGenerateMipmap(GL_TEXTURE_2D);
 }
 
