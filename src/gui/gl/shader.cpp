@@ -45,13 +45,13 @@ void Shader::mapUniform(const char* name)
     if(loc == -1)
     {
         _log << Log::E << __func__ <<
-            ":Failed to getUniformLocation: " << name << std::endl;
+            ": Error getUniformLocation: " << name << std::endl;
         throw;
     }
     else
     {
         _log << Log::L << __func__ <<
-            ":Uniform location mapped: " << name << std::endl;
+            ": Success: " << name << " -> " << loc << std::endl;
         _unimap[name] = loc;
     }
 }
@@ -125,19 +125,20 @@ void Shader::checkProgramStatus()
 
 void Shader::setUniform(const char* name, int val)
 {
-    glUniform1i(_unimap[name], val);
+    //glUniform1i(_unimap[name], val);
     // TODO
-    //auto loc = _unimap.find(name);
+    auto loc = _unimap.find(name);
 
-    //if(loc == _unimap.end())
-    //{
-        //_log << Log::E << __func__ << ":Unmapped uniform: " << name
-            //<< std::endl;
-        //throw;
-    //}
-    //else
-    //{
-        //glUniform1i(loc->second, val);
-    //}
+    if(loc == _unimap.end())
+    {
+        _log << Log::E << __func__ << ":Unmapped uniform: " << name
+            << std::endl;
+        throw;
+    }
+    else
+    {
+        _log << Log::L << __func__ << ": Uniform set: " << name << " -> " << val << std::endl;
+        glUniform1i(loc->second, val);
+    }
 }
 

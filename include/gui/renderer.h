@@ -4,6 +4,7 @@
 #include "core/document.h"
 #include "gui/gl/shader.h"
 #include "gui/gl/vao.h"
+#include "gui/gl/texture.h"
 #include "log.h"
 
 
@@ -25,7 +26,7 @@ private:
     Font _font;
     Shader _shader;
     Vao _vao;
-    unsigned int _tex;
+    Texture _atlasTex{0};
     // TODO Add dpi
     Log _log{"Renderer"};
 };

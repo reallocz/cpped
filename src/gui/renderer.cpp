@@ -8,25 +8,17 @@
 
 Renderer::Renderer() 
 {
+    _atlasTex.setImage2D(_font.atlascharwidth(),
+            _font.atlascharheight() * _font.glyphcount(),
+            (unsigned char*)_font.atlasbuffer());
+    // TODO delete[] atlasbuffer after glTexImage2D()
+
     // Map shader uniforms
     _shader.mapUniform("xoff");
     _shader.mapUniform("fontAtlasTexture");
+    _shader.setUniform("xoff", 1);
+    _shader.setUniform("fontAtlasTexture", _atlasTex.unit());
 
-    // create font atlas tex
-    int numchars = _font.glyphcount();
-    glGenTextures(1, &_tex);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glBindTexture(GL_TEXTURE_2D, _tex);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1); /* What is this???? */
-
-    unsigned char* texture = (unsigned char*)_font.atlasbuffer();
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
-            _font.atlascharwidth(),_font.atlascharheight()*numchars,
-            0, GL_RED, GL_UNSIGNED_BYTE,
-            texture);
-    // TODO delete[] atlasbuffer after glTexImage2D()
-    glGenerateMipmap(GL_TEXTURE_2D);
 }
 
 
@@ -92,7 +84,6 @@ void Renderer::renderLine(Canvas& canvas, const Line& line)
     _vao.bind();
     _vao.bufferIndices(sizeof(int) * numindices, &indices[0]);
     _vao.bufferVertices(sizeof(float) * numverts, &verts[0]);
-    _shader.setUniform("xoff", 1);
 
     // the next two calls enable transparency and blending.
     glEnable(GL_BLEND);
